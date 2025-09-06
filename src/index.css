@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: iransans;
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/fonts/IRANSansX-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: iransans;
+  font-style: normal;
+  font-weight: 500;
+  src: url("./assets/fonts/IRANSansX-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: iransans;
+  font-style: normal;
+  font-weight: 600;
+  src: url("./assets/fonts/IRANSansX-DemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: iransans;
+  font-style: normal;
+  font-weight: 700;
+  src: url("./assets/fonts/IRANSansX-Bold.woff2") format("woff2");
+}
+
+:root {
+  font-family: iransans, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss02";
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  cursor: pointer;
+}
