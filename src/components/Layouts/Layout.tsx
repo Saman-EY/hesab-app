@@ -1,19 +1,33 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import { useEffect, useState } from "react";
+import ProtectedRoute from "../ProtectedRoot";
+import { Toaster } from "react-hot-toast";
 
 function Layout() {
+  const { pathname } = useLocation();
+
+  const [DashDrawer, setDashDrawer] = useState(false);
+
+  useEffect(() => {
+    setDashDrawer(false);
+  }, [pathname]);
+
   return (
-    <div className="flex flex-col h-[100dvh]">
-      <Header />
-      <div className="flex h-full ">
-        <Sidebar />
-        <main className="flex w-full md:p-6">
-          <Outlet />
-        </main>
+    <ProtectedRoute>
+      <div className="flex flex-col h-[100dvh]">
+        <Header setDashDrawer={setDashDrawer} />
+        <div className="flex h-full ">
+          <Sidebar DashDrawer={DashDrawer} />
+          <main className="flex w-full p-5 ">
+            <Outlet />
+          </main>
+        </div>
+        {/* <BottomNav /> */}
       </div>
-      {/* <BottomNav /> */}
-    </div>
+      <Toaster />
+    </ProtectedRoute>
   );
 }
 

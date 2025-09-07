@@ -3,6 +3,7 @@
   themes: light --default; /* Only light theme, no dark fallback */
   exclude: rootscrollgutter, rootcolor;
 }
+
 @font-face {
   font-family: iransans;
   font-style: normal;
@@ -38,6 +39,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss02";
+}
+
+@theme {
+  --color-CGreen: #46a046;
+  --color-CBlue: #296293;
+  --color-CRed: #d9534f;
 }
 
 body {
