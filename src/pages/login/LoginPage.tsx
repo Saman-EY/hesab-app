@@ -43,7 +43,12 @@ function LoginPage() {
 
   return (
     <section className="p-5">
+
+
       <section className="bg-gray-100 shadow-lg mt-20 p-5 w-full max-w-100 rounded-lg flex flex-col justify-center items-center mx-auto gap-5">
+    <div>
+      <img className="w-full" src="/login-cover.jpg" alt="" />
+    </div>
         <div className="w-full flex flex-col">
           <span className="text-sm mb-2 text-gray-700">نام کاربری</span>
           <label className="input input-ghost !border border-gray-300 w-full bg-white">
