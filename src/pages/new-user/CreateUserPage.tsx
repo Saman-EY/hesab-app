@@ -65,7 +65,7 @@ function CreateUserPage() {
         <TxtInput formik={formik} name="last_name" label="نام خانوادگی" />
         <TxtInput formik={formik} name="title" label="عنوان" />
         <TxtInput formik={formik} name="company" label="شرکت" />
-        <SelectInput formik={formik} name="kindofbusiness" label="نوع" />
+        <SelectInput options={kindofbusinessList} formik={formik} name="kindofbusiness" label="نوع" />
 
         <div className="w-full  mx-auto col-span-2 flex flex-col ">
           <span className="text-sm mb-2 text-gray-700">آدرس</span>
@@ -84,9 +84,21 @@ function CreateUserPage() {
           <input type="radio" name="my_tabs" className="tab" aria-label="عمومی" defaultChecked />
           <div className="tab-content border-base-300 bg-base-100 p-5 rounded-lg ">
             <section className="grid grid-cols-3 gap-5">
-              <TxtInput className="col-span-3" type="number" formik={formik} name="money_ineventory" label="اعتبار مالی" />
-              <SelectInput className="col-span-3" options={priceList} formik={formik} name="price_list" label="لیست قیمت" />
-              <SelectInput className="col-span-3" formik={formik} name="tax_type" label="نوع مالیات" />
+              <TxtInput
+                className="col-span-3"
+                type="number"
+                formik={formik}
+                name="money_ineventory"
+                label="اعتبار مالی"
+              />
+              <SelectInput
+                className="col-span-3"
+                options={priceList}
+                formik={formik}
+                name="price_list"
+                label="لیست قیمت"
+              />
+              <SelectInput options={taxTypeList} className="col-span-3" formik={formik} name="tax_type" label="نوع مالیات" />
               <TxtInput className="col-span-3" formik={formik} name="national_code" label="شناسه ملی" />
               <TxtInput className="col-span-3" formik={formik} name="economic_code" label="کد اقتصادی" />
               <TxtInput className="col-span-3" formik={formik} name="branch_code" label="شماره ثبت" />
@@ -229,6 +241,42 @@ const priceList = [
   {
     title: "پرسنل",
     value: "پرسنل",
+  },
+];
+const kindofbusinessList = [
+  {
+    title: "مشتری",
+    value: "مشتری",
+  },
+  {
+    title: "تامین کننده",
+    value: "تامین کننده",
+  },
+  {
+    title: "سهامدار",
+    value: "سهامدار",
+  },
+  {
+    title: "کارمند",
+    value: "کارمند",
+  },
+];
+const taxTypeList = [
+  {
+    title: "مودی مشمول ثبت نام در نظام مالیاتی",
+    value: "مودی مشمول ثبت نام در نظام مالیاتی",
+  },
+  {
+    title: "مشمولین حقیقی ماده 81",
+    value: "مشمولین حقیقی ماده 81",
+  },
+  {
+    title: "افرادی که مسمول ثبت نام در نظام مالیاتی ندارند",
+    value: "افرادی که مسمول ثبت نام در نظام مالیاتی ندارند",
+  },
+  {
+    title: "مصرف کننده نهایی",
+    value: "مصرف کننده نهایی",
   },
 ];
 
