@@ -67,7 +67,7 @@ function CreateUserPage() {
         <TxtInput formik={formik} name="company" label="شرکت" />
         <SelectInput formik={formik} name="kindofbusiness" label="نوع" />
 
-        <div className="w-full  max-w-80 mx-auto md:max-w-none flex flex-col md:col-span-2 ">
+        <div className="w-full  mx-auto col-span-2 flex flex-col ">
           <span className="text-sm mb-2 text-gray-700">آدرس</span>
           <textarea
             name="address"
@@ -84,14 +84,14 @@ function CreateUserPage() {
           <input type="radio" name="my_tabs" className="tab" aria-label="عمومی" defaultChecked />
           <div className="tab-content border-base-300 bg-base-100 p-5 rounded-lg ">
             <section className="grid grid-cols-3 gap-5">
-              <TxtInput type="number" formik={formik} name="money_ineventory" label="اعتبار مالی" />
-              <SelectInput options={priceList} formik={formik} name="price_list" label="لیست قیمت" />
-              <SelectInput formik={formik} name="tax_type" label="نوع مالیات" />
-              <TxtInput formik={formik} name="national_code" label="شناسه ملی" />
-              <TxtInput formik={formik} name="economic_code" label="کد اقتصادی" />
-              <TxtInput formik={formik} name="branch_code" label="شماره ثبت" />
-              <TxtInput formik={formik} name="register_number" label="کد شعبه" />
-              <div className="w-full  max-w-80 mx-auto md:max-w-none flex flex-col md:col-span-3 ">
+              <TxtInput className="col-span-3" type="number" formik={formik} name="money_ineventory" label="اعتبار مالی" />
+              <SelectInput className="col-span-3" options={priceList} formik={formik} name="price_list" label="لیست قیمت" />
+              <SelectInput className="col-span-3" formik={formik} name="tax_type" label="نوع مالیات" />
+              <TxtInput className="col-span-3" formik={formik} name="national_code" label="شناسه ملی" />
+              <TxtInput className="col-span-3" formik={formik} name="economic_code" label="کد اقتصادی" />
+              <TxtInput className="col-span-3" formik={formik} name="branch_code" label="شماره ثبت" />
+              <TxtInput className="col-span-3" formik={formik} name="register_number" label="کد شعبه" />
+              <div className="w-full   mx-auto  flex flex-col col-span-3 ">
                 <span className="text-sm mb-2 text-gray-700">توضیحات</span>
                 <textarea
                   name="description"
@@ -108,21 +108,21 @@ function CreateUserPage() {
           <input type="radio" name="my_tabs" className="tab" aria-label="تماس" />
           <div className="tab-content border-base-300 bg-base-100 p-5 rounded-lg ">
             <section className="grid grid-cols-3 gap-5">
-              <TxtInput formik={formik} type="number" name="telphone" label="تلفن" />
-              <TxtInput formik={formik} type="number" name="phone" label="موبایل" />
-              <TxtInput formik={formik} type="number" name="fax" label="فکس" />
-              <TxtInput formik={formik} name="email" label="ایمیل" />
-              <TxtInput formik={formik} name="site" label="وب سایت" />
+              <TxtInput className="col-span-3" formik={formik} type="number" name="telphone" label="تلفن" />
+              <TxtInput className="col-span-3" formik={formik} type="number" name="phone" label="موبایل" />
+              <TxtInput className="col-span-3" formik={formik} type="number" name="fax" label="فکس" />
+              <TxtInput className="col-span-3" formik={formik} name="email" label="ایمیل" />
+              <TxtInput className="col-span-3" formik={formik} name="site" label="وب سایت" />
             </section>
           </div>
 
           <input type="radio" name="my_tabs" className="tab" aria-label="حساب بانکی" />
           <div className="tab-content border-base-300 bg-base-100 p-5 rounded-lg ">
             <section className="grid grid-cols-3 gap-5">
-              <TxtInput formik={formik} name="bank" label="بانک" />
-              <TxtInput formik={formik} name="bank_number" label="شماره حساب" />
-              <TxtInput type="number" formik={formik} name="cart_number" label="شماره کارت" />
-              <TxtInput formik={formik} name="ir_code" label="شبا" />
+              <TxtInput className="col-span-3" formik={formik} name="bank" label="بانک" />
+              <TxtInput className="col-span-3" formik={formik} name="bank_number" label="شماره حساب" />
+              <TxtInput className="col-span-3" type="number" formik={formik} name="cart_number" label="شماره کارت" />
+              <TxtInput className="col-span-3" formik={formik} name="ir_code" label="شبا" />
             </section>
           </div>
 
@@ -149,14 +149,16 @@ const TxtInput = ({
   name,
   formik,
   type = "text",
+  className,
 }: {
   label: string;
   formik: any;
   name: string;
   type?: string;
+  className?: string;
 }) => {
   return (
-    <div className="w-full max-w-80 mx-auto flex flex-col">
+    <div className={`w-full  mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
       <span className="text-sm mb-2 text-gray-700">{label}</span>
       <label className="input input-ghost !border border-gray-300 w-full bg-gray-100">
         <input
@@ -178,14 +180,16 @@ const SelectInput = ({
   name,
   formik,
   options = testArray,
+  className,
 }: {
   label: string;
   formik: any;
   name: string;
   options?: { title: string; value: string }[];
+  className?: string;
 }) => {
   return (
-    <div className="w-full max-w-80 md:max-w-none mx-auto flex flex-col">
+    <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
       <span className="text-sm mb-2 text-gray-700">{label}</span>
       <select
         value={formik.values[name]}
