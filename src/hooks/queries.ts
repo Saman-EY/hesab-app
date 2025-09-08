@@ -24,13 +24,24 @@ export const useGetUser = () => {
   });
 };
 
-// export const useLandingPngsQry = (params?: Record<string, any>) => {
-//   return useQuery({
-//     queryKey: ["landingSlider", params],
-//     queryFn: async () => {
-//       const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/slider/getSliders`, { params });
-//       return data;
-//     },
-//     staleTime: 1000 * 60 * 1, // 1 minute
-//   });
-// };
+export const useGetAllCustomersQry = (params?: Record<string, any>) => {
+  return useQuery({
+    queryKey: ["customers-list", params],
+    queryFn: async () => {
+      const { data } = await api.get(`/customer/all`, { params });
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+
+export const useGetAllReceivesQry = () => {
+  return useQuery({
+    queryKey: ["receives-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/receipt/getlist`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};

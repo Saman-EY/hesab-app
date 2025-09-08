@@ -1,8 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+
+const queryClient = new QueryClient();
 
 export const useCreateUser = () => {
   const navigate = useNavigate();
@@ -27,15 +29,33 @@ export const useCreateUser = () => {
     },
   });
 };
+
 export const useCreateCustomer = () => {
   return useMutation({
     mutationFn: async (body: any) => {
       const response = await api.post("/customer/create", body);
       return response.data;
     },
-    onSuccess: (data) => {
-      // queryClient.invalidateQueries({ queryKey: ["users"] });
-      console.log(data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["customers-list"] });
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateReceive = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/receipt/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["receives-list"] });
       toast.success("ثبت شد");
     },
     onError: (error: any) => {

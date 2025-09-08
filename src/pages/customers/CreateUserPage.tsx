@@ -1,7 +1,9 @@
 import { useFormik } from "formik";
-import { useEffect } from "react";
 import * as Yup from "yup";
 import { useCreateCustomer } from "../../hooks/mutation";
+import TxtInput from "../../components/TxtInput";
+import SelectInput from "../../components/SelectInput";
+import { kindofbusinessList, priceList, taxTypeList } from "../../localDatas";
 
 const validationSchema = Yup.object({
   first_name: Yup.string().required("الزامی است"),
@@ -40,7 +42,7 @@ function CreateUserPage() {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log("Submitted:", values);
+      // console.log("Submitted:", values);
       mutate(values, {
         onSuccess: () => {
           formik.resetForm(); // clears all fields
@@ -50,12 +52,8 @@ function CreateUserPage() {
     },
   });
 
-  useEffect(() => {
-    console.log("*test", formik);
-  }, [formik.values]);
-
   return (
-    <section className="h-[86dvh] my-auto w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
+    <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
       <form
         onSubmit={formik.handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto"
@@ -153,7 +151,7 @@ function CreateUserPage() {
           type="submit"
           className="btn md:col-span-2 bg-sky-600 text-white w-full max-w-80 md:max-w-none mx-auto"
         >
-          ثبت اطلاعات
+          ثبت
         </button>
       </form>
     </section>
@@ -161,154 +159,3 @@ function CreateUserPage() {
 }
 
 export default CreateUserPage;
-
-const TxtInput = ({
-  label,
-  name,
-  formik,
-  type = "text",
-  className,
-}: {
-  label: string;
-  formik: any;
-  name: string;
-  type?: string;
-  className?: string;
-}) => {
-  return (
-    <div className={`w-full  mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
-      <span className="text-sm mb-2 text-gray-700">{label}</span>
-      <label className="input input-ghost !border border-gray-300 w-full bg-gray-100">
-        <input
-          onInput={type === "number" ? onlyGetsNumbers : noSpaces}
-          name={name}
-          value={formik.values[name]}
-          onChange={formik.handleChange}
-          type="text"
-        />
-      </label>
-      {formik.errors[name] && formik.touched[name] && (
-        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
-      )}
-    </div>
-  );
-};
-const SelectInput = ({
-  label,
-  name,
-  formik,
-  options = testArray,
-  className,
-}: {
-  label: string;
-  formik: any;
-  name: string;
-  options?: { title: string; value: string }[];
-  className?: string;
-}) => {
-  return (
-    <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
-      <span className="text-sm mb-2 text-gray-700">{label}</span>
-      <select
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        name={name}
-        className="select !outline-0 !border border-gray-300 w-full bg-gray-100"
-      >
-        <option value={""} disabled={true}>
-          یک مورد انتخاب کنید
-        </option>
-        {options.map((item, idx) => (
-          <option value={item.value} key={idx}>
-            {item.title}
-          </option>
-        ))}
-      </select>
-      {formik.errors[name] && formik.touched[name] && (
-        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
-      )}
-    </div>
-  );
-};
-
-const priceList = [
-  {
-    title: "همکار",
-    value: "همکار",
-  },
-  {
-    title: "عمده",
-    value: "عمده",
-  },
-  {
-    title: "دلاری",
-    value: "دلاری",
-  },
-  {
-    title: "پرسنل",
-    value: "پرسنل",
-  },
-];
-const kindofbusinessList = [
-  {
-    title: "مشتری",
-    value: "مشتری",
-  },
-  {
-    title: "تامین کننده",
-    value: "تامین کننده",
-  },
-  {
-    title: "سهامدار",
-    value: "سهامدار",
-  },
-  {
-    title: "کارمند",
-    value: "کارمند",
-  },
-];
-const taxTypeList = [
-  {
-    title: "مودی مشمول ثبت نام در نظام مالیاتی",
-    value: "مودی مشمول ثبت نام در نظام مالیاتی",
-  },
-  {
-    title: "مشمولین حقیقی ماده 81",
-    value: "مشمولین حقیقی ماده 81",
-  },
-  {
-    title: "افرادی که مسمول ثبت نام در نظام مالیاتی ندارند",
-    value: "افرادی که مسمول ثبت نام در نظام مالیاتی ندارند",
-  },
-  {
-    title: "مصرف کننده نهایی",
-    value: "مصرف کننده نهایی",
-  },
-];
-
-const testArray = [
-  {
-    title: "تست1",
-    value: "تست1",
-  },
-  {
-    title: "تست2",
-    value: "تست2",
-  },
-  {
-    title: "تست3",
-    value: "تست3",
-  },
-  {
-    title: "تست4",
-    value: "تست4",
-  },
-];
-
-const onlyGetsNumbers = (e: any) => {
-  e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, "");
-};
-
-const noSpaces = (e: any) => {
-  e.currentTarget.value = e.currentTarget.value.replace(/^\s+/, "");
-};

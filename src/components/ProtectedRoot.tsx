@@ -10,13 +10,12 @@ const ProtectedRoute: React.FC<IProtectedRouteProps> = ({ children }) => {
   const { pathname } = useLocation();
   const { logout } = useLogout();
 
-  console.log("**", data);
 
   useEffect(() => {
-    if (isPending) return; 
+    if (isPending) return;
 
     if (isError) {
-      logout(); 
+      logout();
     }
   }, [pathname, isPending, isError, logout]);
 

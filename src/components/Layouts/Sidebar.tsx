@@ -28,25 +28,33 @@ const Links = [
         title: "اشخاص",
         path: "/users",
       },
+      {
+        key: "create-receive",
+        title: "دریافت",
+        path: "/new-receive",
+      },
+      {
+        key: "all-receive",
+        title: "لیست دریافت ها",
+        path: "/receives",
+      },
     ],
   },
-  {
-    key: "documents",
-    title: "اسناد",
-    path: "/docs",
-
-    // icon: <img className="size-8" src={"/users-icon.png"} alt="" />,
-  },
-  {
-    key: "requests",
-    title: "درخواست ها",
-    path: "/requests",
-  },
-  {
-    key: "base-info",
-    title: "اطلاعات پایه",
-    path: "/baseInfo",
-  },
+  // {
+  //   key: "documents",
+  //   title: "اسناد",
+  //   path: "/docs",
+  // },
+  // {
+  //   key: "requests",
+  //   title: "درخواست ها",
+  //   path: "/requests",
+  // },
+  // {
+  //   key: "base-info",
+  //   title: "اطلاعات پایه",
+  //   path: "/baseInfo",
+  // },
 ];
 
 const Sidebar = ({ DashDrawer }: { DashDrawer: boolean }) => {
