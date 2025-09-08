@@ -6,7 +6,7 @@ function Header({ setDashDrawer }: { setDashDrawer: React.Dispatch<React.SetStat
     <div className="bg-[#455C76] w-full py-3 px-5 text-white flex items-center justify-between font-semibold">
       {/* drawer btn */}
       <div>
-        <button onClick={() => setDashDrawer((prev) => !prev)} className="md:hidden">
+        <button onClick={() => setDashDrawer((prev) => !prev)} className="lg:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

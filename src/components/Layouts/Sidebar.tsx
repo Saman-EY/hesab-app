@@ -35,9 +35,39 @@ const Links = [
       },
       {
         key: "all-receive",
-        title: "لیست دریافت ها",
+        title: "لیست دریافت",
         path: "/receives",
       },
+      {
+        key: "create-payment",
+        title: "پرداخت",
+        path: "/new-payment",
+      },
+      {
+        key: "all-payments",
+        title: "لیست پرداخت",
+        path: "/payments",
+      },
+    ],
+  },
+  {
+    key: "goods-services",
+    title: "کالا ها و خدمات",
+    // path: "/users",
+
+    icon: <img className="size-7" src={"/product-icon.png"} alt="" />,
+    sublinks: [
+      {
+        key: "create-product",
+        title: "کالای جدید",
+        path: "/new-product",
+      },
+      {
+        key: "create-service",
+        title: "خدمات جدید",
+        path: "/new-service",
+      },
+      
     ],
   },
   // {
@@ -74,7 +104,7 @@ const Sidebar = ({ DashDrawer }: { DashDrawer: boolean }) => {
     <div
       className={` ${
         DashDrawer ? "translate-x-0" : "translate-x-[100%]"
-      }  z-20 h-full overflow-auto transition-all  absolute md:static md:!translate-x-0  flex flex-col w-55 text-white shadow-md`}
+      }  z-20 h-full overflow-auto transition-all  absolute lg:static lg:!translate-x-0  flex flex-col w-50 shrink-0 text-white shadow-md`}
     >
       <div className="flex flex-col w-full h-full text-black bg-[#F4F5F8] border-l border-gray-200">
         {Links.map((link) => {
