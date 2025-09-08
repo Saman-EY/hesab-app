@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useCreateUser } from "../../hooks/mutation";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 const validationSchema = Yup.object({
   username: Yup.string().required("نام کاربری الزامی است").min(4, "حداقل ۴ کاراکتر باشد"),
@@ -35,7 +36,9 @@ function LoginPage() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
+
     if (token) {
       navigate("/dashboard");
     }

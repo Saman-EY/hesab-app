@@ -98,7 +98,13 @@ function CreateUserPage() {
                 name="price_list"
                 label="لیست قیمت"
               />
-              <SelectInput options={taxTypeList} className="col-span-3" formik={formik} name="tax_type" label="نوع مالیات" />
+              <SelectInput
+                options={taxTypeList}
+                className="col-span-3"
+                formik={formik}
+                name="tax_type"
+                label="نوع مالیات"
+              />
               <TxtInput className="col-span-3" formik={formik} name="national_code" label="شناسه ملی" />
               <TxtInput className="col-span-3" formik={formik} name="economic_code" label="کد اقتصادی" />
               <TxtInput className="col-span-3" formik={formik} name="branch_code" label="شماره ثبت" />

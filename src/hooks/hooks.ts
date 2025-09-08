@@ -1,5 +1,6 @@
 import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux";
 import type { AppDispatch } from "../redux/store";
+import Cookies from "js-cookie";
 import type { RootState } from "../redux/store";
 
 export const useAppdispatch = () => useDispatch<AppDispatch>();
@@ -13,7 +14,8 @@ export const useLogout = () => {
 
   const logout = () => {
     // 1. Remove token from localStorage
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
+    Cookies.remove("token");
 
     // 2. Remove token from axios default headers
     // delete api.defaults.headers.common["Authorization"];
