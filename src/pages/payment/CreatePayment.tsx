@@ -1,16 +1,19 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useCreateReceive } from "../../hooks/mutation";
+import { useCreatePayment } from "../../hooks/mutation";
 import TxtInput from "../../components/TxtInput";
 import SelectInput from "../../components/SelectInput";
-import { kindofbusinessList, receiveTypeList } from "../../localDatas";
+import { receiveTypeList } from "../../localDatas";
 
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { useGetAllCustomersQry } from "../../hooks/queries";
+import { SelectUsers } from "../receive/CreateReceive";
+import { jalaliToGregorian } from "../../tools";
+import { useQueryClient } from "@tanstack/react-query";
 
 const validationSchema = Yup.object({
-  code: Yup.number().required("الزامی است"),
   date: Yup.string().required("الزامی است"),
   project: Yup.string().required("الزامی است"),
   payment_kind: Yup.string().required("الزامی است"),
@@ -21,23 +24,35 @@ const validationSchema = Yup.object({
 });
 
 function CreatePayment() {
-  const { mutate, isPending } = useCreateReceive();
+  const { mutate, isPending } = useCreatePayment();
+  const { data } = useGetAllCustomersQry();
+
+  const queryClient = useQueryClient();
+
+  const peopleList = data?.customers;
 
   const formik = useFormik({
     initialValues: {
-      code: "", //number
       date: "",
       project: "",
       payment_kind: "",
       price: null, //number
       reference: "",
       fee: null, // number
-      description: '',
+      description: "",
+      customer: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      mutate(values, {
+      const body = {
+        ...values,
+        date: jalaliToGregorian(values.date),
+      };
+
+      mutate(body, {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["payments-list"] });
+
           formik.resetForm(); // clears all fields
         },
       });
@@ -52,7 +67,7 @@ function CreatePayment() {
         onSubmit={formik.handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto"
       >
-        <TxtInput formik={formik} type="number" name="code" label="شماره" />
+        <SelectUsers className="md:col-span-2" data={peopleList} formik={formik} name="customer" />
         <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1`}>
           <span className="text-sm mb-2 text-gray-700">تاریخ</span>
 
@@ -81,25 +96,13 @@ function CreatePayment() {
           )}
         </div>
         <TxtInput formik={formik} name="project" label="پروژه" />
-        <SelectUsers formik={formik} name="customer" />
+
         <TxtInput className="!col-span-2" formik={formik} name="description" label="شرح" />
 
-        <SelectInput options={receiveTypeList} formik={formik} name="payment_kind" label="نوع دریافت" />
+        <SelectInput options={receiveTypeList} formik={formik} name="payment_kind" label="نوع پرداخت" />
         <TxtInput placeholder="تومان" type="number" formik={formik} name="price" label="مبلغ" />
         <TxtInput formik={formik} name="reference" label="ارجاع" />
         <TxtInput placeholder="تومان" type="number" formik={formik} name="fee" label="کارمزد خدمات بانکی" />
-
-        {/* <div className="w-full  mx-auto col-span-2 flex flex-col ">
-          <span className="text-sm mb-2 text-gray-700">آدرس</span>
-          <textarea
-            name="address"
-            id="address"
-            cols={5}
-            className="resize-none textarea-ghost textarea w-full !border border-gray-300 bg-gray-100"
-            value={formik.values.address}
-            onChange={formik.handleChange}
-          ></textarea>
-        </div> */}
 
         <button
           disabled={isPending}
@@ -114,29 +117,3 @@ function CreatePayment() {
 }
 
 export default CreatePayment;
-
-const SelectUsers = ({ formik, name }: { formik: any; name: string }) => {
-  return (
-    <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1`}>
-      <span className="text-sm mb-2 text-gray-700">شخص</span>
-      <select
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        name={name}
-        className="select !outline-0 !border border-gray-300 w-full bg-gray-100"
-      >
-        <option value={""} disabled={true}>
-          یک مورد انتخاب کنید
-        </option>
-        {/* {options.map((item, idx) => (
-        <option value={item.value} key={idx}>
-        {item.title}
-        </option>
-        ))} */}
-      </select>
-      {formik.errors[name] && formik.touched[name] && (
-        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
-      )}
-    </div>
-  );
-};

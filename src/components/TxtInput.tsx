@@ -7,6 +7,7 @@ const TxtInput = ({
   placeholder,
   type = "text",
   className,
+  numberFormat,
 }: {
   label: string;
   formik: any;
@@ -14,6 +15,7 @@ const TxtInput = ({
   type?: string;
   placeholder?: string;
   className?: string;
+  numberFormat?: boolean;
 }) => {
   return (
     <div className={`w-full  mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
@@ -25,7 +27,7 @@ const TxtInput = ({
           value={formik.values[name]}
           onChange={formik.handleChange}
           placeholder={placeholder}
-          type="text"
+          type={numberFormat ? "number" : "text"}
         />
       </label>
       {formik.errors[name] && formik.touched[name] && (

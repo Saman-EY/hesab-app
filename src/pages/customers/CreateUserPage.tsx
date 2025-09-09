@@ -4,11 +4,12 @@ import { useCreateCustomer } from "../../hooks/mutation";
 import TxtInput from "../../components/TxtInput";
 import SelectInput from "../../components/SelectInput";
 import { kindofbusinessList, priceList, taxTypeList } from "../../localDatas";
+import { useQueryClient } from "@tanstack/react-query";
 
 const validationSchema = Yup.object({
   first_name: Yup.string().required("الزامی است"),
   last_name: Yup.string().required("الزامی است"),
-  accountant_code: Yup.number().required("الزامی است"),
+  // accountant_code: Yup.number().required("الزامی است"),
   title: Yup.string().required("الزامی است"),
   company: Yup.string().required("الزامی است"),
   kindofbusiness: Yup.string().required("الزامی است"),
@@ -18,9 +19,11 @@ const validationSchema = Yup.object({
 function CreateUserPage() {
   const { mutate, isPending } = useCreateCustomer();
 
+  const queryClient = useQueryClient();
+
   const formik = useFormik({
     initialValues: {
-      accountant_code: "",
+      // accountant_code: "",
       company: "",
       title: "",
       first_name: "",
@@ -50,6 +53,7 @@ function CreateUserPage() {
       // console.log("Submitted:", values);
       mutate(values, {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["customers-list"] });
           formik.resetForm(); // clears all fields
         },
       });
@@ -57,7 +61,6 @@ function CreateUserPage() {
     },
   });
 
-  console.log(formik.errors);
 
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
@@ -65,7 +68,7 @@ function CreateUserPage() {
         onSubmit={formik.handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto"
       >
-        <TxtInput formik={formik} type="number" name="accountant_code" label="کد حسابداری" />
+        {/* <TxtInput formik={formik} type="number" numberFormat name="accountant_code" label="کد حسابداری" /> */}
         <TxtInput formik={formik} name="first_name" label="نام" />
         <TxtInput formik={formik} name="last_name" label="نام خانوادگی" />
         <TxtInput formik={formik} name="title" label="عنوان" />

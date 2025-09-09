@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 
-const queryClient = new QueryClient();
-
 export const useCreateUser = () => {
   const navigate = useNavigate();
 
@@ -35,7 +33,7 @@ export const useCreateUser = () => {
 
 export const useCreateCustomer = () => {
   return useMutation({
-    mutationFn: async (body:any) => {
+    mutationFn: async (body: any) => {
       const token = Cookies.get("token");
 
       const response = await api.post("/customer/create", body, {
@@ -46,7 +44,7 @@ export const useCreateCustomer = () => {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customers-list"] });
+      // queryClient.invalidateQueries({ queryKey: ["customers-list"] });
       toast.success("ثبت شد");
     },
     onError: (error: any) => {
@@ -59,12 +57,11 @@ export const useCreateCustomer = () => {
 };
 export const useCreateReceive = () => {
   return useMutation({
-    mutationFn: async (body:any) => {
+    mutationFn: async (body: any) => {
       const response = await api.post("/receipt/create", body);
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["receives-list"] });
       toast.success("ثبت شد");
     },
     onError: (error: any) => {
@@ -77,12 +74,49 @@ export const useCreateReceive = () => {
 };
 export const useCreatePayment = () => {
   return useMutation({
-    mutationFn: async (body:any) => {
+    mutationFn: async (body: any) => {
       const response = await api.post("/payment/create", body);
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["payments-list"] });
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateProduct = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/product", body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateService = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/service", body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response.data;
+    },
+    onSuccess: () => {
       toast.success("ثبت شد");
     },
     onError: (error: any) => {

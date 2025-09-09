@@ -26,14 +26,13 @@ export const useGetUser = () => {
 };
 
 // get all customers
-export const useGetAllCustomersQry = (params?: Record<string, any>) => {
+export const useGetAllCustomersQry = () => {
   return useQuery({
-    queryKey: ["customers-list", params],
+    queryKey: ["customers-list"],
     queryFn: async () => {
       const token = Cookies.get("token");
 
       const { data } = await api.get(`/customer/all`, {
-        params,
         headers: {
           Authorization: `Bearer ${token}`,
         },

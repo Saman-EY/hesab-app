@@ -1,12 +1,12 @@
 import type { IReceive } from "../../allTypes";
 import LoadingList from "../../components/LoadingList";
-import { useGetAllReceivesQry } from "../../hooks/queries";
+import { useGetAllPaymentsQry } from "../../hooks/queries";
 import { convertToJalali } from "../../tools";
 
 function AllPayments() {
-  const { data, isPending } = useGetAllReceivesQry();
+  const { data, isPending } = useGetAllPaymentsQry();
 
-  const finalData: IReceive[] = data?.receipts;
+  const finalData: IReceive[] = data?.payments;
 
   if (isPending) {
     return <LoadingList />;
