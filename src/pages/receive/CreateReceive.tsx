@@ -8,6 +8,7 @@ import { receiveTypeList } from "../../localDatas";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { useGetAllCustomersQry } from "../../hooks/queries";
 
 const validationSchema = Yup.object({
   code: Yup.number().required("الزامی است"),
@@ -17,10 +18,12 @@ const validationSchema = Yup.object({
   price: Yup.number().required("الزامی است"),
   reference: Yup.string().required("الزامی است"),
   fee: Yup.number().required("الزامی است"),
+  description: Yup.string().required("الزامی است"),
 });
 
 function CreateReceive() {
   const { mutate, isPending } = useCreateReceive();
+  const { data } = useGetAllCustomersQry();
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +47,7 @@ function CreateReceive() {
     },
   });
 
-  console.log(formik.values);
+  console.log(data);
 
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">

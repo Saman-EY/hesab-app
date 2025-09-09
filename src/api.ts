@@ -7,3 +7,12 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// auto set token in header
+// api.interceptors.request.use((config) => {
+//   const token = Cookies.get("token");
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });

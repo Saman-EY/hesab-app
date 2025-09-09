@@ -67,7 +67,12 @@ const Links = [
         title: "خدمات جدید",
         path: "/new-service",
       },
-      
+
+      {
+        key: "product-service-list",
+        title: "کالا ها و خدمات",
+        path: "/product-service-list",
+      },
     ],
   },
   // {

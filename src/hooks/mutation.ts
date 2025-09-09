@@ -24,16 +24,25 @@ export const useCreateUser = () => {
       });
       navigate("/dashboard");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
     },
   });
 };
 
 export const useCreateCustomer = () => {
   return useMutation({
-    mutationFn: async (body: any) => {
-      const response = await api.post("/customer/create", body);
+    mutationFn: async (body:any) => {
+      const token = Cookies.get("token");
+
+      const response = await api.post("/customer/create", body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     },
     onSuccess: () => {
@@ -50,12 +59,30 @@ export const useCreateCustomer = () => {
 };
 export const useCreateReceive = () => {
   return useMutation({
-    mutationFn: async (body: any) => {
+    mutationFn: async (body:any) => {
       const response = await api.post("/receipt/create", body);
       return response.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreatePayment = () => {
+  return useMutation({
+    mutationFn: async (body:any) => {
+      const response = await api.post("/payment/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["payments-list"] });
       toast.success("ثبت شد");
     },
     onError: (error: any) => {

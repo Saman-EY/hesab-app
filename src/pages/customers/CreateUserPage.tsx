@@ -8,6 +8,11 @@ import { kindofbusinessList, priceList, taxTypeList } from "../../localDatas";
 const validationSchema = Yup.object({
   first_name: Yup.string().required("الزامی است"),
   last_name: Yup.string().required("الزامی است"),
+  accountant_code: Yup.number().required("الزامی است"),
+  title: Yup.string().required("الزامی است"),
+  company: Yup.string().required("الزامی است"),
+  kindofbusiness: Yup.string().required("الزامی است"),
+  address: Yup.string().required("الزامی است"),
 });
 
 function CreateUserPage() {
@@ -52,6 +57,8 @@ function CreateUserPage() {
     },
   });
 
+  console.log(formik.errors);
+
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
       <form
@@ -75,6 +82,9 @@ function CreateUserPage() {
             value={formik.values.address}
             onChange={formik.handleChange}
           ></textarea>
+          {formik.errors.address && formik.touched.address && (
+            <span className="text-red-500 text-sm mt-2">{formik.errors.address}</span>
+          )}
         </div>
 
         {/* tabs */}
