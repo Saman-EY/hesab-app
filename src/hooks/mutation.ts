@@ -24,8 +24,13 @@ export const useCreateUser = () => {
     },
     onError: (error: any) => {
       console.error("Error creating user:", error);
+
       if (error.response.data.message) {
-        toast.error(error.response.data.message);
+        if (error.response.data.message === "Invalid Password") {
+          toast.error("رمز عبور اشتباه است");
+        } else {
+          toast.error(error.response.data.message);
+        }
       }
     },
   });
@@ -114,6 +119,74 @@ export const useCreateService = () => {
       const response = await api.post("/service", body, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateBank = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/bank/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateImprest = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateVault = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/vault/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateFund = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/fund/create", body);
       return response.data;
     },
     onSuccess: () => {

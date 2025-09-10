@@ -65,3 +65,34 @@ export const useGetAllPaymentsQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+
+export const useGetAllBanksQry = () => {
+  return useQuery({
+    queryKey: ["banks-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/bank/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+export const useGetAllVaultsQry = () => {
+  return useQuery({
+    queryKey: ["vault-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/vault/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+export const useGetAllFundsQry = () => {
+  return useQuery({
+    queryKey: ["funds-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/fund/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};

@@ -10,6 +10,15 @@ import CreatePayment from "./pages/payment/CreatePayment";
 import AllPayments from "./pages/payment/AllPayments";
 import CreateProduct from "./pages/product-services/CreateProduct";
 import CreateService from "./pages/product-services/CreateService";
+import AllProAndService from "./pages/product-services/AllProAndService";
+import CreateBank from "./pages/bank/CreateBank";
+import AllBanks from "./pages/bank/AllBanks";
+import AllVault from "./pages/vault/AllVault";
+import CreateVault from "./pages/vault/CreateVault";
+import CreateTransfer from "./pages/transfer/CreateTransfer";
+import AllTransfer from "./pages/transfer/AllTransfer";
+import AllFund from "./pages/fund/AllFund";
+import CreateFund from "./pages/fund/CreateFund";
 
 function App() {
   return (
@@ -25,6 +34,15 @@ function App() {
         <Route path="/payments" element={<AllPayments />} />
         <Route path="/new-product" element={<CreateProduct />} />
         <Route path="/new-service" element={<CreateService />} />
+        <Route path="/product-service-list" element={<AllProAndService />} />
+        <Route path="/new-bank" element={<CreateBank />} />
+        <Route path="/banks" element={<AllBanks />} />
+        <Route path="/new-fund" element={<CreateVault />} />
+        <Route path="/funds" element={<AllVault />} />
+        <Route path="/new-imprest" element={<CreateFund />} />
+        <Route path="/imprests" element={<AllFund />} />
+        <Route path="/new-transfer" element={<CreateTransfer />} />
+        <Route path="/transfers" element={<AllTransfer />} />
       </Route>
     </Routes>
   );

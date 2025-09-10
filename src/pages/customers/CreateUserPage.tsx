@@ -80,7 +80,7 @@ function CreateUserPage() {
           <textarea
             name="address"
             id="address"
-            cols={5}
+            rows={4}
             className="resize-none textarea-ghost textarea w-full !border border-gray-300 bg-gray-100"
             value={formik.values.address}
             onChange={formik.handleChange}
@@ -125,7 +125,7 @@ function CreateUserPage() {
                 <textarea
                   name="description"
                   id="description"
-                  cols={5}
+                  rows={4}
                   className="resize-none textarea-ghost textarea w-full !border border-gray-300 bg-gray-100"
                   value={formik.values.description}
                   onChange={formik.handleChange}
