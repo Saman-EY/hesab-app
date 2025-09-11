@@ -121,21 +121,24 @@ const Links = [
       },
     ],
   },
-  // {
-  //   key: "documents",
-  //   title: "اسناد",
-  //   path: "/docs",
-  // },
-  // {
-  //   key: "requests",
-  //   title: "درخواست ها",
-  //   path: "/requests",
-  // },
-  // {
-  //   key: "base-info",
-  //   title: "اطلاعات پایه",
-  //   path: "/baseInfo",
-  // },
+  {
+    key: "storage",
+    title: "انبارداری",
+
+    icon: <img className="size-7" src={"/storage-icon.png"} alt="" />,
+    sublinks: [
+      {
+        key: "create-storage",
+        title: "انبار جدید",
+        path: "/new-storage",
+      },
+      {
+        key: "all-storage",
+        title: "لیست انبار",
+        path: "/storages",
+      },
+    ],
+  },
 ];
 
 const Sidebar = ({ DashDrawer }: { DashDrawer: boolean }) => {

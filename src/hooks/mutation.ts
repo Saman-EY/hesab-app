@@ -217,4 +217,21 @@ export const useCreateTransfer = () => {
     },
   });
 };
+export const useCreateStorage = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/storage/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
 

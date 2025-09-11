@@ -81,3 +81,13 @@ export interface IVault {
   branch?: never;
   __v: number;
 }
+
+export interface IStorage {
+  _id: string;
+  code: string;
+  title: string;
+  storage_keeper: string;
+  phone: number;
+  address: string;
+  __v: number;
+}

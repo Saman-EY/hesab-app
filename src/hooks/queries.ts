@@ -116,3 +116,13 @@ export const useGetAllTransfersQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+export const useGetAllStorageQry = () => {
+  return useQuery({
+    queryKey: ["storages-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/storage/getlist`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
