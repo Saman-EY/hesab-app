@@ -38,8 +38,6 @@ function CreateVault() {
     },
   });
 
-  // console.log(formik.values);
-
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
       <form

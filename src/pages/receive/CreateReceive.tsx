@@ -50,15 +50,13 @@ function CreateReceive() {
       };
 
       mutate(body, {
-        onSuccess:  () => {
-           queryClient.invalidateQueries({ queryKey: ["payments-list"] });
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["payments-list"] });
           formik.resetForm(); // clears all fields
         },
       });
     },
   });
-
-  console.log("*", jalaliToGregorian(formik.values.date));
 
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
@@ -127,8 +125,6 @@ export const SelectUsers = ({
   data: ICustomer[];
   className?: string;
 }) => {
-  console.log(data);
-
   return (
     <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
       <span className="text-sm mb-2 text-gray-700">شخص</span>

@@ -96,3 +96,23 @@ export const useGetAllFundsQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+export const useGetAllProAndServiceQry = () => {
+  return useQuery({
+    queryKey: ["product-service-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+export const useGetAllTransfersQry = () => {
+  return useQuery({
+    queryKey: ["transfers-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/transfer/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};

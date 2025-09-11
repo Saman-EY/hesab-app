@@ -18,7 +18,7 @@ function CustomDatePicker({
       <span className="text-sm mb-2 text-gray-700">{label}</span>
 
       <DatePicker
-        value={formik.values.date}
+        value={formik.values[name]}
         onChange={(date: any) => {
           const formatted = date?.isValid ? date.format("YYYY/MM/DD") : "";
           formik.setFieldValue(name, formatted);
@@ -36,8 +36,8 @@ function CustomDatePicker({
         locale={persian_fa}
         calendarPosition="bottom-right"
       />
-      {formik.errors.date && formik.touched.date && (
-        <span className="text-red-500 text-sm mt-2">{formik.errors.date}</span>
+      {formik.errors[name] && formik.touched[name] && (
+        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
       )}
     </div>
   );

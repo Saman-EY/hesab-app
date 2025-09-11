@@ -42,3 +42,42 @@ export interface IReceive {
   updatedAt: string; // or Date if parsed
   __v: number;
 }
+
+export interface IBank {
+  _id: string;
+  account_code: string;
+  title: string;
+  account_number: string;
+  branch: string;
+  cart_number: string;
+  shaba_number: string;
+  account_user_name: string;
+  pos_number: string;
+  description: string;
+  phone_number_inbank: string;
+  switch_number_payment: string;
+  terrminal_number_payment: string; // typo? maybe "terminal_number_payment"
+  shop_number: string;
+  __v: number;
+}
+
+export interface IFund {
+  _id: string;
+  account_code: string;
+  title: string;
+  description: string;
+  branch?: never;
+  __v: number;
+}
+
+export interface IVault {
+  _id: string;
+  account_code: string;
+  title: string;
+  description: string;
+  switch_number_payment: string;
+  terrminal_number_payment: string;
+  shop_number: string;
+  branch?: never;
+  __v: number;
+}

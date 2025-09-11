@@ -8,7 +8,6 @@ function CustomersPage() {
 
   const finalData: ICustomer[] = data?.customers;
 
-  console.log("*", finalData);
 
   if (isPending) {
     return <LoadingList />;

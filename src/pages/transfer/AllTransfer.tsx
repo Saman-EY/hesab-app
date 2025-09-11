@@ -6,7 +6,6 @@ function AllTransfer() {
 
   // const finalData = data?.vaults;
 
-  // console.log("*", finalData);
 
   // if (isPending) {
   //   return <LoadingList />;

@@ -1,12 +1,12 @@
+import type { IFund } from "../../allTypes";
 import LoadingList from "../../components/LoadingList";
 import { useGetAllFundsQry } from "../../hooks/queries";
 
 function AllFund() {
   const { data, isPending } = useGetAllFundsQry();
 
-  const finalData = data?.funds;
+  const finalData: IFund[] = data?.funds;
 
-  console.log("*", finalData);
 
   if (isPending) {
     return <LoadingList />;
@@ -15,32 +15,26 @@ function AllFund() {
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
       <div className="overflow-x-auto min-w-[800px] border rounded-lg border-gray-300 p-4">
-        {/* <table className="table table-xs ">
+        <table className="table table-xs ">
           <thead>
             <tr>
-              <th></th>
-              <th>نام</th>
-              <th>نام خانوادگی</th>
-              <th>موبایل</th>
-              <th>شرکت</th>
-              <th>کد ملی</th>
-              <th>تاریخ ساخت</th>
+              <th className="px-8 truncate"></th>
+              <th className="px-8 truncate">کد</th>
+              <th className="px-8 truncate">اسم</th>
+              <th className="px-8 truncate">توضیحات</th>
             </tr>
           </thead>
           <tbody>
             {finalData?.map((item, idx) => (
               <tr className="odd:bg-gray-100" key={idx}>
                 <th>{idx + 1}</th>
-                <td>{item?.first_name}</td>
-                <td>{item?.last_name}</td>
-                <td>{item?.phone}</td>
-                <td>{item?.company}</td>
-                <td>{item?.national_code}</td>
-                <td>{item.createdAt ? convertToJalali(item.createdAt) : "-"}</td>
+                <td className="px-8 truncate">{item?.account_code || "-"}</td>
+                <td className="px-8 truncate">{item?.title || "-"}</td>
+                <td className="px-8 truncate">{item?.description || "-"}</td>
               </tr>
             ))}
           </tbody>
-        </table> */}
+        </table>
       </div>
     </section>
   );

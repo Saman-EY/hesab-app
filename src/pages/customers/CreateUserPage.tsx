@@ -50,14 +50,12 @@ function CreateUserPage() {
     },
     validationSchema,
     onSubmit: (values) => {
-      // console.log("Submitted:", values);
       mutate(values, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["customers-list"] });
           formik.resetForm(); // clears all fields
         },
       });
-      // navigate("/dashboard");
     },
   });
 

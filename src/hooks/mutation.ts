@@ -200,6 +200,21 @@ export const useCreateFund = () => {
     },
   });
 };
+export const useCreateTransfer = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/transfer/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
 
-// examples:
-// const { mutate, isPending } = useCreateUser();

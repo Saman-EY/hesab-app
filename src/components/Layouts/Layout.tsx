@@ -20,7 +20,7 @@ function Layout() {
         <Header setDashDrawer={setDashDrawer} />
         <div className="flex h-full ">
           <Sidebar DashDrawer={DashDrawer} />
-          <main className="flex w-full p-5 ">
+          <main className="flex-1 p-5 overflow-auto">
             <Outlet />
           </main>
         </div>

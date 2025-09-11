@@ -29,7 +29,6 @@ function LoginPage() {
     },
     validationSchema,
     onSubmit: (values) => {
-      // console.log("Submitted:", values);
       mutate(values);
     },
   });

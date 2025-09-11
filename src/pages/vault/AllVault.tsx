@@ -1,12 +1,11 @@
+import type { IVault } from "../../allTypes";
 import LoadingList from "../../components/LoadingList";
 import { useGetAllVaultsQry } from "../../hooks/queries";
 
 function AllVault() {
   const { data, isPending } = useGetAllVaultsQry();
 
-  const finalData = data?.vaults;
-
-  console.log("*", finalData);
+  const finalData: IVault[] = data?.vaults;
 
   if (isPending) {
     return <LoadingList />;
@@ -15,32 +14,33 @@ function AllVault() {
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
       <div className="overflow-x-auto min-w-[800px] border rounded-lg border-gray-300 p-4">
-        {/* <table className="table table-xs ">
+        <table className="table table-xs ">
           <thead>
             <tr>
-              <th></th>
-              <th>نام</th>
-              <th>نام خانوادگی</th>
-              <th>موبایل</th>
-              <th>شرکت</th>
-              <th>کد ملی</th>
-              <th>تاریخ ساخت</th>
+              <th className="px-8 truncate"></th>
+              <th className="px-8 truncate">کد</th>
+              <th className="px-8 truncate">اسم صندوق</th>
+              <th className="px-8 truncate">توضیحات</th>
+              <th className="px-8 truncate">شماره سوییچ پرداخت</th>
+              <th className="px-8 truncate">شماره ترمینال پرداخت</th>
+              <th className="px-8 truncate">شماره پذیرنده فروشگاهی</th>
             </tr>
           </thead>
           <tbody>
             {finalData?.map((item, idx) => (
               <tr className="odd:bg-gray-100" key={idx}>
                 <th>{idx + 1}</th>
-                <td>{item?.first_name}</td>
-                <td>{item?.last_name}</td>
-                <td>{item?.phone}</td>
-                <td>{item?.company}</td>
-                <td>{item?.national_code}</td>
-                <td>{item.createdAt ? convertToJalali(item.createdAt) : "-"}</td>
+                <td className="px-8 truncate">{item?.account_code || "-"}</td>
+                <td className="px-8 truncate">{item?.title || "-"}</td>
+                <td className="px-8 truncate">{item?.description || "-"}</td>
+
+                <td className="px-8 truncate">{item?.switch_number_payment || "-"}</td>
+                <td className="px-8 truncate">{item?.terrminal_number_payment || "-"}</td>
+                <td className="px-8 truncate">{item?.shop_number || "-"}</td>
               </tr>
             ))}
           </tbody>
-        </table> */}
+        </table>
       </div>
     </section>
   );

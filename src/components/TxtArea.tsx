@@ -21,8 +21,8 @@ function TxtArea({ label, name, formik, placeholder, className, rows = 4 }: Prop
         value={formik.values[name]}
         onChange={formik.handleChange}
       ></textarea>
-      {formik.errors.address && formik.touched.address && (
-        <span className="text-red-500 text-sm mt-2">{formik.errors.address}</span>
+      {formik.errors[name] && formik.touched[name] && (
+        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
       )}
     </div>
   );
