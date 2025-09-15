@@ -100,7 +100,7 @@ export const useGetAllProAndServiceQry = () => {
   return useQuery({
     queryKey: ["product-service-list"],
     queryFn: async () => {
-      const { data } = await api.get(`/`);
+      const { data } = await api.get(`/service/getlist`);
       return data;
     },
     staleTime: 1000 * 60 * 1, // 1 minute

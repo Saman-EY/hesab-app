@@ -1,48 +1,126 @@
-import React from "react";
+import React, { useState, type SetStateAction } from "react";
 import LoadingList from "../../components/LoadingList";
+import { useGetAllTransfersQry } from "../../hooks/queries";
+import type { ITransaction } from "../../allTypes";
+import { convertToJalali } from "../../tools";
+import CustomModal from "../../components/CustomModal";
+import CustomDeleteModal from "../../components/CustomDeleteModal";
+import TransferForm from "./TransferForm";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCreateTransfer, useDeleteTransfer, useUpdateTransfer } from "../../hooks/mutation";
 
 function AllTransfer() {
-  // const { data, isPending } = useGetAllVaultsQry();
+  const { data, isPending } = useGetAllTransfersQry();
 
-  // const finalData = data?.vaults;
+  const finalData: ITransaction[] = data?.transfers;
 
-
-  // if (isPending) {
-  //   return <LoadingList />;
-  // }
+  if (isPending) {
+    return <LoadingList />;
+  }
 
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
       <div className="overflow-x-auto min-w-[800px] border rounded-lg border-gray-300 p-4">
-        {/* <table className="table table-xs ">
+        <table className="table table-xs ">
           <thead>
             <tr>
               <th></th>
-              <th>نام</th>
-              <th>نام خانوادگی</th>
-              <th>موبایل</th>
-              <th>شرکت</th>
-              <th>کد ملی</th>
-              <th>تاریخ ساخت</th>
+              <th>شماره</th>
+              <th>پروژه</th>
+              <th>تاریخ</th>
+              <th>از بانک/تنخواه گردان/صندوق</th>
+              <th>به بانک/تنخواه گردان/صندوق</th>
+              <th>کارمزد</th>
+              <th>شرح</th>
             </tr>
           </thead>
           <tbody>
             {finalData?.map((item, idx) => (
-              <tr className="odd:bg-gray-100" key={idx}>
-                <th>{idx + 1}</th>
-                <td>{item?.first_name}</td>
-                <td>{item?.last_name}</td>
-                <td>{item?.phone}</td>
-                <td>{item?.company}</td>
-                <td>{item?.national_code}</td>
-                <td>{item.createdAt ? convertToJalali(item.createdAt) : "-"}</td>
-              </tr>
+              <Row key={idx} idx={idx} item={item} />
             ))}
           </tbody>
-        </table> */}
+        </table>
       </div>
     </section>
   );
 }
 
 export default AllTransfer;
+
+const Row = ({ item, idx }: { item: ITransaction; idx: number }) => {
+  const [editModal, setEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const { mutate } = useDeleteTransfer();
+  const queryClient = useQueryClient();
+
+  return (
+    <>
+      <tr className="odd:bg-gray-100" key={idx}>
+        <th>{idx + 1}</th>
+        <td>{item?.number || "-"}</td>
+        <td>{item?.project || "-"}</td>
+        <td>{item.date ? convertToJalali(item.date) : "-"}</td>
+        <td>
+          {item?.from_bank?.title + "-" + item?.from_bank?.account_code ||
+            item?.from_fund?.title + "-" + item?.from_fund?.account_code ||
+            item?.from_vault?.title + "-" + item?.from_vault?.account_code ||
+            "-"}
+        </td>
+        <td>
+          {item?.to_bank?.title + "-" + item?.to_bank?.account_code ||
+            item?.to_fund?.title + "-" + item?.to_fund?.account_code ||
+            item?.to_vault?.title + "-" + item?.to_vault?.account_code ||
+            "-"}
+        </td>
+        <td>{item?.fee || "-"}</td>
+        <td>{item?.description || "-"}</td>
+        <td className="flex items-center gap-3">
+          <button onClick={() => setEditModal(true)} className="size-5">
+            <img src="/edit-icon.png" alt="" />
+          </button>
+          <button onClick={() => setDeleteModal(true)} className="size-5">
+            <img src="/trash-icon.png" alt="" />
+          </button>
+        </td>
+      </tr>
+
+      <CustomModal containerClass="!max-w-6xl" title="ویرایش" modal={editModal} setModal={setEditModal}>
+        <EditForm setModal={setEditModal} item={item} />
+      </CustomModal>
+      <CustomDeleteModal
+        onSubmit={() =>
+          mutate(item._id, {
+            onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ["transfers-list"] });
+              setDeleteModal(false);
+            },
+          })
+        }
+        modal={deleteModal}
+        setModal={setDeleteModal}
+      />
+    </>
+  );
+};
+
+const EditForm = ({ item, setModal }: { item: ITransaction; setModal: React.Dispatch<SetStateAction<boolean>> }) => {
+  const { mutate, isPending } = useUpdateTransfer();
+  const queryClient = useQueryClient();
+  return (
+    <TransferForm
+      initialData={item}
+      onSubmit={(body) =>
+        mutate(
+          { id: item._id, body },
+          {
+            onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ["transfers-list"] });
+              setModal(false);
+            },
+          }
+        )
+      }
+      isPending={isPending}
+    />
+  );
+};

@@ -217,6 +217,44 @@ export const useCreateTransfer = () => {
     },
   });
 };
+export const useUpdateTransfer = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/transfer/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+
+export const useDeleteTransfer = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/transfer/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateStorage = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -234,4 +272,3 @@ export const useCreateStorage = () => {
     },
   });
 };
-

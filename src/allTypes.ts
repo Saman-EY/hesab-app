@@ -91,3 +91,39 @@ export interface IStorage {
   address: string;
   __v: number;
 }
+
+export interface IProductAndService {
+  category: "product";
+  _id: string;
+  accountant_code: string;
+  title: string;
+  product_code: string;
+  barcode: string;
+  sell_price: number;
+  sell_description: string;
+  buy_price: number;
+  buy_description: string;
+  stock: number;
+  img: string;
+  __v: number;
+}
+
+export interface ITransaction {
+  _id: string;
+  number: string;
+  date: string;
+  project: string;
+  description: string;
+  from_kind: "bank" | "vault" | "fund" | string;
+  to_kind: "bank" | "vault" | "fund" | string;
+  from_bank: any;
+  to_bank: any;
+  from_vault: any;
+  to_vault: any;
+  from_fund: any;
+  to_fund: any;
+  price: number;
+  fee: number;
+  referral: string;
+  __v: number;
+}
