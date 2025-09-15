@@ -1,34 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import TxtInput from "../../components/TxtInput";
-import CustomDatePicker from "../../components/CustomDatePicker";
-import { jalaliToGregorian, removeEmptyStrings } from "../../tools";
-import { useEffect, useState } from "react";
 import { useCreateTransfer } from "../../hooks/mutation";
-import { useGetAllBanksQry, useGetAllFundsQry, useGetAllVaultsQry } from "../../hooks/queries";
 import type { IBank, IFund, IVault } from "../../allTypes";
 import TransferForm from "./TransferForm";
-
-const validationSchema = Yup.object({
-  date: Yup.string().required("الزامی است"),
-  project: Yup.string().required("الزامی است"),
-  description: Yup.string().required("الزامی است"),
-
-  from_kind: Yup.string(),
-  to_kind: Yup.string(),
-
-  from_bank: Yup.string(),
-  from_vault: Yup.string(),
-  from_fund: Yup.string(),
-  to_bank: Yup.string(),
-  to_vault: Yup.string(),
-  to_fund: Yup.string(),
-
-  price: Yup.number().required("الزامی است"),
-  fee: Yup.number().required("الزامی است"),
-  referral: Yup.string().required("الزامی است"),
-});
 
 function CreateTransfer() {
   const { mutate, isPending } = useCreateTransfer();

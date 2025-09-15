@@ -74,12 +74,19 @@ const Row = ({ item, idx }: { item: ITransaction; idx: number }) => {
         </td>
         <td>{item?.fee || "-"}</td>
         <td>{item?.description || "-"}</td>
-        <td className="flex items-center gap-3">
-          <button onClick={() => setEditModal(true)} className="size-5">
-            <img src="/edit-icon.png" alt="" />
+        <td className="flex flex-wrap gap-2 justify-center md:justify-start">
+          <button
+            onClick={() => setEditModal(true)}
+            className="size-8 flex items-center justify-center rounded bg-blue-100 hover:bg-blue-200"
+          >
+            <img src="/edit-icon.png" alt="ویرایش" className="size-5" />
           </button>
-          <button onClick={() => setDeleteModal(true)} className="size-5">
-            <img src="/trash-icon.png" alt="" />
+
+          <button
+            onClick={() => setDeleteModal(true)}
+            className="size-8 flex items-center justify-center rounded bg-red-100 hover:bg-red-200"
+          >
+            <img src="/trash-icon.png" alt="حذف" className="size-5" />
           </button>
         </td>
       </tr>

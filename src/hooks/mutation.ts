@@ -1,4 +1,4 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -60,6 +60,43 @@ export const useCreateCustomer = () => {
     },
   });
 };
+export const useUpdateCustomer = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/customer/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteCustomer = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/customer/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateReceive = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -77,6 +114,43 @@ export const useCreateReceive = () => {
     },
   });
 };
+export const useUpdateReceive = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/receipt/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteReceive = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/receipt/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreatePayment = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -94,6 +168,43 @@ export const useCreatePayment = () => {
     },
   });
 };
+export const useUpdatePayment = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/payment/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeletePayment = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/payment/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateProduct = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -113,6 +224,43 @@ export const useCreateProduct = () => {
     },
   });
 };
+export const useUpdateProduct = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/product/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteProduct = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/product/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateService = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -132,6 +280,43 @@ export const useCreateService = () => {
     },
   });
 };
+export const useUpdateService = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/service/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteService = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/service/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateBank = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -149,14 +334,14 @@ export const useCreateBank = () => {
     },
   });
 };
-export const useCreateImprest = () => {
+export const useUpdateBank = () => {
   return useMutation({
-    mutationFn: async (body: any) => {
-      const response = await api.post("/", body);
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/bank/update/${id}`, body);
       return response.data;
     },
     onSuccess: () => {
-      toast.success("ثبت شد");
+      toast.success("ویرایش شد");
     },
     onError: (error: any) => {
       console.error("Error creating user:", error);
@@ -166,6 +351,26 @@ export const useCreateImprest = () => {
     },
   });
 };
+export const useDeleteBank = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/bank/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateVault = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -183,6 +388,43 @@ export const useCreateVault = () => {
     },
   });
 };
+export const useUpdateVault = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/vault/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteVault = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/vault/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateFund = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -200,6 +442,43 @@ export const useCreateFund = () => {
     },
   });
 };
+export const useUpdateFund = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/fund/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteFund = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/fund/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateTransfer = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -234,7 +513,6 @@ export const useUpdateTransfer = () => {
     },
   });
 };
-
 export const useDeleteTransfer = () => {
   return useMutation({
     mutationFn: async (id: string) => {
@@ -268,6 +546,42 @@ export const useCreateStorage = () => {
       console.error("Error creating user:", error);
       if (error.response.data.message) {
         toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useUpdateStorage = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/storage/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteStorage = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/storage/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
       }
     },
   });

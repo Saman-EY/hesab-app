@@ -41,6 +41,23 @@ export interface IReceive {
   createdAt: string; // or Date if parsed
   updatedAt: string; // or Date if parsed
   __v: number;
+  description?: string;
+  customer?: any;
+}
+export interface IPayment {
+  _id: string;
+  code: string;
+  date: string; // ISO date string
+  project: string;
+  payment_kind: string;
+  price: number;
+  reference: string;
+  fee: number;
+  customer?: any;
+  description?: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
 }
 
 export interface IBank {
