@@ -47,7 +47,7 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
       buy_price: initialData?.buy_price || "", //number
       buy_description: initialData?.buy_description || "",
       stock: initialData?.stock || "", // number
-      //   img: initialData?.img || null,
+      img: initialData?.img || null,
       //   img: initialData?.img || null,
     },
     validationSchema,
