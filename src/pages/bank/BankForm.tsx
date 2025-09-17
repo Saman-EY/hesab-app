@@ -5,6 +5,8 @@ import TxtInput from "../../components/TxtInput";
 import TxtArea from "../../components/TxtArea";
 import { useCreateBank } from "../../hooks/mutation";
 import type { IBank } from "../../allTypes";
+import { currencyList } from "../../localDatas";
+import SelectInput from "../../components/SelectInput";
 
 interface FormProps {
   initialData?: IBank; // your type from earlier
@@ -60,13 +62,14 @@ function BankForm({ initialData, onSubmit, isPending }: FormProps) {
       <TxtInput formik={formik} name="account_number" label="شماره حساب" />
       <TxtInput formik={formik} type="number" name="cart_number" label="شماره کارت" />
       <TxtInput formik={formik} name="shaba_number" label="شبا" />
+      <SelectInput options={currencyList} formik={formik} name="" label="واحد پول" />
       <TxtInput formik={formik} name="account_user_name" label="نام صاحب حساب" />
-      <TxtInput formik={formik} name="pos_number" label="شماره POS" />
+      {/* <TxtInput formik={formik} name="pos_number" label="شماره POS" /> */}
       <TxtArea className="!col-span-2" formik={formik} name="description" label="توضیحات" />
       <TxtInput type="number" formik={formik} name="phone_number_inbank" label="شماره موبایل ثبت شده در اینترنت بانک" />
-      <TxtInput formik={formik} name="switch_number_payment" label="شماره سوییچ پرداخت" />
-      <TxtInput formik={formik} name="terrminal_number_payment" label="شماره ترمینال پرداخت" />
-      <TxtInput formik={formik} name="shop_number" label="شماره پذیرنده فروشگاهی" />
+      {/* <TxtInput formik={formik} name="switch_number_payment" label="شماره سوییچ پرداخت" /> */}
+      {/* <TxtInput formik={formik} name="terrminal_number_payment" label="شماره ترمینال پرداخت" /> */}
+      {/* <TxtInput formik={formik} name="shop_number" label="شماره پذیرنده فروشگاهی" /> */}
 
       <button
         disabled={isPending}

@@ -3,6 +3,8 @@ import TxtInput from "../../components/TxtInput";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import type { IFund } from "../../allTypes";
+import { currencyList } from "../../localDatas";
+import SelectInput from "../../components/SelectInput";
 
 interface FormProps {
   initialData?: IFund; // your type from earlier
@@ -34,6 +36,7 @@ function FundForm({ initialData, onSubmit, isPending }: FormProps) {
       className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto"
     >
       <TxtInput className="!col-span-2" formik={formik} name="title" label="نام" />
+      <SelectInput className="!col-span-2" options={currencyList} formik={formik} name="" label="واحد پول" />
       <TxtArea className="!col-span-2" formik={formik} name="description" label="توضیحات" />
 
       <button

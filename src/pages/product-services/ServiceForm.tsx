@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import TxtInput from "../../components/TxtInput";
 import { useRef } from "react";
 import type { IProductAndService } from "../../allTypes";
+import SelectInput from "../../components/SelectInput";
+import { taxTypeList } from "../../localDatas";
 
 interface FormProps {
   initialData?: IProductAndService; // your type from earlier
@@ -15,9 +17,9 @@ const validationSchema = Yup.object({
   product_code: Yup.string().required("الزامی است"),
   barcode: Yup.string().required("الزامی است"),
   sell_price: Yup.string().required("الزامی است"),
-  sell_description: Yup.string().required("الزامی است"),
-  buy_price: Yup.string().required("الزامی است"),
-  buy_description: Yup.string().required("الزامی است"),
+  sell_description: Yup.string(),
+  // buy_price: Yup.string().required("الزامی است"),
+  // buy_description: Yup.string(),
   // img: Yup.mixed().required("تصویر الزامی است"),
 });
 
@@ -103,8 +105,17 @@ function ServiceForm({ initialData, onSubmit, isPending }: FormProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
           <TxtInput formik={formik} name="sell_price" numberFormat placeholder="تومان" label="قیمت فروش" />
           <TxtInput className="!col-span-2" formik={formik} name="sell_description" label="توضیحات فروش" />
-          <TxtInput formik={formik} name="buy_price" numberFormat placeholder="تومان" label="قیمت خرید" />
-          <TxtInput className="!col-span-2" formik={formik} name="buy_description" label="توضیحات خرید" />
+          {/* <TxtInput formik={formik} name="buy_price" numberFormat placeholder="تومان" label="قیمت خرید" /> */}
+          {/* <TxtInput className="!col-span-2" formik={formik} name="buy_description" label="توضیحات خرید" /> */}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
+          <TxtInput formik={formik} numberFormat name="" label="مالیات فروش" />
+          <TxtInput formik={formik} numberFormat name="" label="مالیات خرید" />
+          <SelectInput options={taxTypeList} formik={formik} name="" label="نوع مالیات" />
+
+          <TxtInput formik={formik} numberFormat name="" label="کد مالیاتی" />
+          <TxtInput formik={formik} name="" label="واحد مالیاتی" />
         </div>
 
         <button

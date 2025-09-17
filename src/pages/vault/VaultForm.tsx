@@ -4,6 +4,8 @@ import TxtArea from "../../components/TxtArea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { IVault } from "../../allTypes";
+import { currencyList } from "../../localDatas";
+import SelectInput from "../../components/SelectInput";
 
 interface FormProps {
   initialData?: IVault; // your type from earlier
@@ -41,10 +43,11 @@ function VaultForm({ initialData, onSubmit, isPending }: FormProps) {
       className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto"
     >
       <TxtInput className="!col-span-2" formik={formik} name="title" label="نام" />
+      <SelectInput className="!col-span-2" options={currencyList} formik={formik} name="" label="واحد پول" />
       <TxtArea className="!col-span-2" formik={formik} name="description" label="توضیحات" />
-      <TxtInput type="number" formik={formik} name="switch_number_payment" label="شماره سوییچ پرداخت" />
-      <TxtInput formik={formik} name="terrminal_number_payment" label="شماره ترمینال پرداخت" />
-      <TxtInput formik={formik} name="shop_number" label="شماره پذیرنده فروشگاهی" />
+      {/* <TxtInput type="number" formik={formik} name="switch_number_payment" label="شماره سوییچ پرداخت" /> */}
+      {/* <TxtInput formik={formik} name="terrminal_number_payment" label="شماره ترمینال پرداخت" /> */}
+      {/* <TxtInput formik={formik} name="shop_number" label="شماره پذیرنده فروشگاهی" /> */}
 
       <button
         disabled={isPending}

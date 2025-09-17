@@ -26,6 +26,14 @@ export const kindofbusinessList = [
     value: "تامین کننده",
   },
   {
+    title: "همکار",
+    value: "همکار",
+  },
+  {
+    title: "بازاریاب",
+    value: "بازاریاب",
+  },
+  {
     title: "سهامدار",
     value: "سهامدار",
   },
@@ -34,7 +42,7 @@ export const kindofbusinessList = [
     value: "کارمند",
   },
 ];
-export const taxTypeList = [
+export const taxTypeCustomerList = [
   {
     title: "مودی مشمول ثبت نام در نظام مالیاتی",
     value: "مودی مشمول ثبت نام در نظام مالیاتی",
@@ -97,4 +105,46 @@ export const receiveTypeList = [
     title: "حساب",
     value: "حساب",
   },
+];
+
+export const currencyList = [
+  {
+    title: "AED - درهم امارات متحده عربی",
+    value: "AED",
+  },
+  {
+    title: "CAD - دلار کانادا",
+    value: "CAD",
+  },
+  {
+    title: "EUR - یورو",
+    value: "EUR",
+  },
+  {
+    title: "IRR - ریال ایران",
+    value: "IRR",
+  },
+  {
+    title: "OMR - ریال عمان",
+    value: "OMR",
+  },
+  {
+    title: "USD - دلار آمریکا",
+    value: "USD",
+  },
+];
+
+export const taxTypeList = [
+  { title: "دارو", value: "medicine" },
+  { title: "دخانیات", value: "tobacco" },
+  { title: "موبایل", value: "mobile" },
+  { title: "لوازم خانگی برقی", value: "home_appliances" },
+  { title: "قطعات مصرفی و یدکی وسایل نقلیه", value: "vehicle_parts" },
+  { title: "فراورده ها و مشتقات نفتی و گازی و پتروشیمی", value: "petrochemical" },
+  { title: "طلا اعم از شمش مسکوکات و مصنوعات زینتی", value: "gold" },
+  { title: "منسوجات و پوشاک", value: "textiles" },
+  { title: "اسباب بازی", value: "toys" },
+  { title: "دام زنده، گوشت سفید و قرمز", value: "livestock" },
+  { title: "محصولات اساسی کشاورزی", value: "agriculture" },
+  { title: "سایر کالا ها", value: "others" },
 ];

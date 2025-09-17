@@ -21,6 +21,8 @@ import AllFund from "./pages/fund/AllFund";
 import CreateFund from "./pages/fund/CreateFund";
 import AllStorage from "./pages/storage/AllStorage";
 import CreateStorage from "./pages/storage/CreateStorage";
+import CreateSeller from "./pages/sellers/CreateSeller";
+import AllSellers from "./pages/sellers/AllSellers";
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
         <Route path="/transfers" element={<AllTransfer />} />
         <Route path="/storages" element={<AllStorage />} />
         <Route path="/new-storage" element={<CreateStorage />} />
+        <Route path="/new-seller" element={<CreateSeller />} />
+        <Route path="/sellers" element={<AllSellers />} />
       </Route>
     </Routes>
   );

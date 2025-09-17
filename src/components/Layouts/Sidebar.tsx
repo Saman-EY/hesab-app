@@ -47,6 +47,16 @@ const Links = [
         title: "لیست پرداخت",
         path: "/payments",
       },
+      {
+        key: "seller",
+        title: "فروشنده",
+        path: "/new-seller",
+      },
+      {
+        key: "all-sellers",
+        title: "لیست فروشندگان",
+        path: "/sellers",
+      },
     ],
   },
   {
@@ -137,6 +147,20 @@ const Links = [
         title: "لیست انبار",
         path: "/storages",
       },
+    ],
+  },
+  {
+    key: "saleAndIncome",
+    title: "فروش و درآمد",
+
+    icon: <img className="size-7" src={"/income-Icon.png"} alt="" />,
+    sublinks: [
+      {
+        key: "create-sell",
+        title: "فروش جدید",
+        path: "/new-sell",
+      },
+     
     ],
   },
 ];

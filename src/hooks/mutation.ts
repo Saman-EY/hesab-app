@@ -227,7 +227,9 @@ export const useCreateProduct = () => {
 export const useUpdateProduct = () => {
   return useMutation({
     mutationFn: async ({ id, body }: { id: string; body: any }) => {
-      const response = await api.patch(`/product/update/${id}`, body);
+      const response = await api.patch(`/product/update/${id}`, body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return response.data;
     },
     onSuccess: () => {

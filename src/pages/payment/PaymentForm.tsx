@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import TxtInput from "../../components/TxtInput";
 import SelectInput from "../../components/SelectInput";
-import { receiveTypeList } from "../../localDatas";
+import { currencyList, receiveTypeList } from "../../localDatas";
 
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
@@ -95,6 +95,8 @@ function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
       <TxtInput className="!col-span-2" formik={formik} name="description" label="شرح" />
 
       <SelectInput options={receiveTypeList} formik={formik} name="payment_kind" label="نوع پرداخت" />
+      <SelectInput options={currencyList} formik={formik} name="" label="واحد پول" />
+
       <TxtInput placeholder="تومان" type="number" formik={formik} name="price" label="مبلغ" />
       <TxtInput formik={formik} name="reference" label="ارجاع" />
       <TxtInput placeholder="تومان" type="number" formik={formik} name="fee" label="کارمزد خدمات بانکی" />

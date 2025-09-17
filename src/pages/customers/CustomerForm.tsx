@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { useCreateCustomer } from "../../hooks/mutation";
 import TxtInput from "../../components/TxtInput";
 import SelectInput from "../../components/SelectInput";
-import { kindofbusinessList, priceList, taxTypeList } from "../../localDatas";
+import { kindofbusinessList, priceList, taxTypeCustomerList } from "../../localDatas";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ICustomer } from "../../allTypes";
 
@@ -65,6 +65,7 @@ function CustomerForm({ initialData, onSubmit, isPending }: FormProps) {
       {/* <TxtInput formik={formik} type="number" numberFormat name="accountant_code" label="کد حسابداری" /> */}
       <TxtInput formik={formik} name="first_name" label="نام" />
       <TxtInput formik={formik} name="last_name" label="نام خانوادگی" />
+      <TxtInput formik={formik} name="" label="نام مستعار" />
       <TxtInput formik={formik} name="title" label="عنوان" />
       <TxtInput formik={formik} name="company" label="شرکت" />
       <SelectInput options={kindofbusinessList} formik={formik} name="kindofbusiness" label="نوع" />
@@ -104,7 +105,7 @@ function CustomerForm({ initialData, onSubmit, isPending }: FormProps) {
               label="لیست قیمت"
             />
             <SelectInput
-              options={taxTypeList}
+              options={taxTypeCustomerList}
               className="col-span-3"
               formik={formik}
               name="tax_type"
