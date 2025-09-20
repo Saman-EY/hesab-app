@@ -58,9 +58,9 @@ const Row = ({ item, idx }: { item: ITransaction; idx: number }) => {
       <tr className="odd:bg-gray-100" key={idx}>
         <th>{idx + 1}</th>
         <td>{item?.number || "-"}</td>
-        <td>{item?.project || "-"}</td>
+        <td>{item?.project?.title || "-"}</td>
         <td>{item.date ? convertToJalali(item.date) : "-"}</td>
-        <td>
+        {/* <td>
           {item?.from_bank?.title + "-" + item?.from_bank?.account_code ||
             item?.from_fund?.title + "-" + item?.from_fund?.account_code ||
             item?.from_vault?.title + "-" + item?.from_vault?.account_code ||
@@ -71,7 +71,7 @@ const Row = ({ item, idx }: { item: ITransaction; idx: number }) => {
             item?.to_fund?.title + "-" + item?.to_fund?.account_code ||
             item?.to_vault?.title + "-" + item?.to_vault?.account_code ||
             "-"}
-        </td>
+        </td> */}
         <td>{item?.fee || "-"}</td>
         <td>{item?.description || "-"}</td>
         <td className="flex flex-wrap gap-2 justify-center md:justify-start">

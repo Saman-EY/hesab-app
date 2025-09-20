@@ -10,7 +10,7 @@ import { currencyList, receiveTypeList } from "../../localDatas";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { useGetAllCustomersQry } from "../../hooks/queries";
+import { useGetAllCustomersQry, useGetAllProjectsQry } from "../../hooks/queries";
 
 interface FormProps {
   initialData?: IReceive; // your type from earlier
@@ -26,10 +26,12 @@ const validationSchema = Yup.object({
   reference: Yup.string().required("الزامی است"),
   fee: Yup.number().required("الزامی است"),
   description: Yup.string().required("الزامی است"),
+  money: Yup.string().required("الزامی است"),
 });
 
 function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
   const { data } = useGetAllCustomersQry();
+  const { data: projectsList } = useGetAllProjectsQry();
 
   const queryClient = useQueryClient();
   const peopleList = data?.customers;
@@ -44,6 +46,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
       customer: initialData?.customer || "",
       description: initialData?.description || "",
       fee: initialData?.fee || "", // number
+      money: initialData?.money || "", // number
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -89,11 +92,11 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
           <span className="text-red-500 text-sm mt-2">{formik.errors.date}</span>
         )}
       </div>
-      <TxtInput formik={formik} name="project" label="پروژه" />
+      <SelectInput withId options={projectsList} formik={formik} name="project" label="پروژه" />
       <TxtInput className="!col-span-2" formik={formik} name="description" label="شرح" />
 
       <SelectInput options={receiveTypeList} formik={formik} name="receipt_kind" label="نوع دریافت" />
-      <SelectInput options={currencyList} formik={formik} name="" label="واحد پول" />
+      <SelectInput options={currencyList} formik={formik} name="money" label="واحد پول" />
       <TxtInput placeholder="تومان" type="number" formik={formik} name="price" label="مبلغ" />
       <TxtInput formik={formik} name="reference" label="ارجاع" />
       <TxtInput placeholder="تومان" type="number" formik={formik} name="fee" label="کارمزد خدمات بانکی" />
@@ -124,7 +127,7 @@ export const SelectUsers = ({
 }) => {
   return (
     <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
-      <span className="text-sm mb-2 text-gray-700">شخص</span>
+      <span className="text-sm mb-2 text-gray-700">مشتری</span>
       <select
         value={formik.values[name]}
         onChange={formik.handleChange}

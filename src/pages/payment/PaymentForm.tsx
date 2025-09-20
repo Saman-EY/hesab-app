@@ -7,7 +7,7 @@ import { currencyList, receiveTypeList } from "../../localDatas";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { useGetAllCustomersQry } from "../../hooks/queries";
+import { useGetAllCustomersQry, useGetAllProjectsQry } from "../../hooks/queries";
 import { jalaliToGregorian } from "../../tools";
 import { useQueryClient } from "@tanstack/react-query";
 import { SelectUsers } from "../receive/ReceiveForm";
@@ -27,10 +27,12 @@ const validationSchema = Yup.object({
   reference: Yup.string().required("الزامی است"),
   fee: Yup.number().required("الزامی است"),
   description: Yup.string().required("الزامی است"),
+  money: Yup.string().required("الزامی است"),
 });
 
 function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
   const { data } = useGetAllCustomersQry();
+  const { data: projectsList } = useGetAllProjectsQry();
 
   const peopleList = data?.customers;
 
@@ -44,6 +46,7 @@ function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
       fee: initialData?.fee || null, // number
       description: initialData?.description || "",
       customer: initialData?.customer || "",
+      money: initialData?.money || "", // number
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -90,12 +93,12 @@ function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
           <span className="text-red-500 text-sm mt-2">{formik.errors.date}</span>
         )}
       </div>
-      <TxtInput formik={formik} name="project" label="پروژه" />
+      <SelectInput withId options={projectsList} formik={formik} name="project" label="پروژه" />
 
       <TxtInput className="!col-span-2" formik={formik} name="description" label="شرح" />
 
       <SelectInput options={receiveTypeList} formik={formik} name="payment_kind" label="نوع پرداخت" />
-      <SelectInput options={currencyList} formik={formik} name="" label="واحد پول" />
+      <SelectInput options={currencyList} formik={formik} name="money" label="واحد پول" />
 
       <TxtInput placeholder="تومان" type="number" formik={formik} name="price" label="مبلغ" />
       <TxtInput formik={formik} name="reference" label="ارجاع" />

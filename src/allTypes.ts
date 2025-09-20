@@ -5,6 +5,7 @@ export interface ICustomer {
   title: string;
   first_name: string;
   last_name: string;
+  nickname: string;
   kindofbusiness: string;
   address: string;
   telphone: string;
@@ -33,7 +34,8 @@ export interface IReceive {
   _id: string;
   code: string;
   date: string; // or Date if you parse it
-  project: string;
+  project: any;
+  money: string;
   receipt_kind: string;
   price: number;
   reference: string;
@@ -48,7 +50,7 @@ export interface IPayment {
   _id: string;
   code: string;
   date: string; // ISO date string
-  project: string;
+  project: any;
   payment_kind: string;
   price: number;
   reference: string;
@@ -58,6 +60,7 @@ export interface IPayment {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   __v: number;
+  money?: string;
 }
 
 export interface IBank {
@@ -76,6 +79,7 @@ export interface IBank {
   terrminal_number_payment: string; // typo? maybe "terminal_number_payment"
   shop_number: string;
   __v: number;
+  money?: string;
 }
 
 export interface IFund {
@@ -85,6 +89,7 @@ export interface IFund {
   description: string;
   branch?: never;
   __v: number;
+  money?: string;
 }
 
 export interface IVault {
@@ -97,6 +102,7 @@ export interface IVault {
   shop_number: string;
   branch?: never;
   __v: number;
+  money?: string;
 }
 
 export interface IStorage {
@@ -123,13 +129,19 @@ export interface IProductAndService {
   stock: number;
   img: string;
   __v: number;
+
+  sell_tax: string;
+  buy_tax: string;
+  tax_type: string;
+  tax_code: number;
+  tax_unit: string;
 }
 
 export interface ITransaction {
   _id: string;
   number: string;
   date: string;
-  project: string;
+  project: any;
   description: string;
   from_kind: "bank" | "vault" | "fund" | string;
   to_kind: "bank" | "vault" | "fund" | string;
@@ -142,5 +154,22 @@ export interface ITransaction {
   price: number;
   fee: number;
   referral: string;
+  __v: number;
+}
+
+export interface ISeller {
+  _id: string;
+  accountant_code: string;
+  name: string;
+  refund_price: number;
+  refund_percentage: number;
+  sell_price: number;
+  description: string;
+  __v: number;
+}
+
+export interface IProject {
+  _id: string;
+  title: string;
   __v: number;
 }

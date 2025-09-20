@@ -20,13 +20,10 @@ const validationSchema = Yup.object({
   cart_number: Yup.string().required("الزامی است"),
   shaba_number: Yup.string().required("الزامی است"),
   account_user_name: Yup.string().required("الزامی است"),
-  pos_number: Yup.string().required("الزامی است"),
   description: Yup.string(),
   phone_number_inbank: Yup.string().required("الزامی است"),
-  switch_number_payment: Yup.string().required("الزامی است"),
-  shop_number: Yup.string().required("الزامی است"),
-  terrminal_number_payment: Yup.string().required("الزامی است"),
   branch: Yup.string().required("الزامی است"),
+  money: Yup.string().required("الزامی است"),
 });
 
 function BankForm({ initialData, onSubmit, isPending }: FormProps) {
@@ -37,13 +34,10 @@ function BankForm({ initialData, onSubmit, isPending }: FormProps) {
       cart_number: initialData?.cart_number || "",
       shaba_number: initialData?.shaba_number || "",
       account_user_name: initialData?.account_user_name || "",
-      pos_number: initialData?.pos_number || "",
       description: initialData?.description || "",
       phone_number_inbank: initialData?.phone_number_inbank || "",
-      switch_number_payment: initialData?.switch_number_payment || "",
-      shop_number: initialData?.shop_number || "",
-      terrminal_number_payment: initialData?.terrminal_number_payment || "",
       branch: initialData?.branch || "",
+      money: initialData?.money || "", // number
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -62,14 +56,10 @@ function BankForm({ initialData, onSubmit, isPending }: FormProps) {
       <TxtInput formik={formik} name="account_number" label="شماره حساب" />
       <TxtInput formik={formik} type="number" name="cart_number" label="شماره کارت" />
       <TxtInput formik={formik} name="shaba_number" label="شبا" />
-      <SelectInput options={currencyList} formik={formik} name="" label="واحد پول" />
+      <SelectInput options={currencyList} formik={formik} name="money" label="واحد پول" />
       <TxtInput formik={formik} name="account_user_name" label="نام صاحب حساب" />
-      {/* <TxtInput formik={formik} name="pos_number" label="شماره POS" /> */}
       <TxtArea className="!col-span-2" formik={formik} name="description" label="توضیحات" />
       <TxtInput type="number" formik={formik} name="phone_number_inbank" label="شماره موبایل ثبت شده در اینترنت بانک" />
-      {/* <TxtInput formik={formik} name="switch_number_payment" label="شماره سوییچ پرداخت" /> */}
-      {/* <TxtInput formik={formik} name="terrminal_number_payment" label="شماره ترمینال پرداخت" /> */}
-      {/* <TxtInput formik={formik} name="shop_number" label="شماره پذیرنده فروشگاهی" /> */}
 
       <button
         disabled={isPending}

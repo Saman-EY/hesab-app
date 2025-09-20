@@ -1,10 +1,11 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import TxtInput from "../../components/TxtInput";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { IProductAndService } from "../../allTypes";
 import SelectInput from "../../components/SelectInput";
 import { taxTypeList } from "../../localDatas";
+import { urlToFile } from "../../tools";
 
 interface FormProps {
   initialData?: IProductAndService; // your type from earlier
@@ -44,12 +45,13 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
       title: initialData?.title || "",
       product_code: initialData?.product_code || "",
       barcode: initialData?.barcode || "",
-      sell_price: initialData?.sell_price || "", //number
-      sell_description: initialData?.sell_description || "",
-      buy_price: initialData?.buy_price || "", //number
-      buy_description: initialData?.buy_description || "",
       stock: initialData?.stock || "", // number
-      img: initialData?.img || null,
+      sell_tax: initialData?.sell_tax || "", // number
+      buy_tax: initialData?.buy_tax || "", // number
+      tax_type: initialData?.tax_type || "", // number
+      tax_code: initialData?.tax_code || "", // number
+      tax_unit: initialData?.tax_unit || "", // number
+      img: null,
       //   img: initialData?.img || null,
     },
     validationSchema,
@@ -64,19 +66,31 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
 
       onSubmit(formData);
       resetForm();
-
-      // Log all formData entries for debugging
-      // for (const [key, value] of formData.entries()) {
-      //   console.log(key, value);
-      // }
     },
   });
+
+  useEffect(() => {
+    if (initialData?.img && typeof initialData.img === "string") {
+      const imageUrl = `${import.meta.env.VITE_BASE_URL}/${initialData.img}`;
+      urlToFile(imageUrl, "current-image.jpg", "image/jpeg").then((file) => {
+        formik.setFieldValue("img", file); // now it's a File, same as user upload
+        console.log("**",imageUrl, file)
+      });
+
+    }
+  }, [initialData]);
 
   return (
     <section className=" w-full max-w-4xl mx-auto">
       <section className="flex flex-wrap justify-center gap-10">
         <div className="flex flex-col gap-5 mt-12">
-          {formik.values.img ? (
+          {!formik.values.img && initialData?.img ? (
+            <img
+              className="size-20 object-cover min-w-20"
+              src={import.meta.env.VITE_BASE_URL + "/" + initialData?.img}
+              alt=""
+            />
+          ) : formik.values.img ? (
             <img
               className="size-40 rounded-xl object-cover border border-gray-200"
               // src={formik.values.img ? URL.createObjectURL(formik.values.img as Blob) : ""}
@@ -118,12 +132,12 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
           </div> */}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
-          <TxtInput formik={formik} numberFormat name="" label="مالیات فروش" />
-          <TxtInput formik={formik} numberFormat name="" label="مالیات خرید" />
-          <SelectInput options={taxTypeList} formik={formik} name="" label="نوع مالیات" />
+          <TxtInput formik={formik} numberFormat name="sell_tax" label="مالیات فروش" />
+          <TxtInput formik={formik} numberFormat name="buy_tax" label="مالیات خرید" />
+          <SelectInput options={taxTypeList} formik={formik} name="tax_type" label="نوع مالیات" />
 
-          <TxtInput formik={formik} numberFormat name="" label="کد مالیاتی" />
-          <TxtInput formik={formik} name="" label="واحد مالیاتی" />
+          <TxtInput formik={formik} numberFormat name="tax_code" label="کد مالیاتی" />
+          <TxtInput formik={formik} name="tax_unit" label="واحد مالیاتی" />
         </div>
 
         <button

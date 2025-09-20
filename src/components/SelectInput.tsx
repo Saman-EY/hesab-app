@@ -6,12 +6,14 @@ const SelectInput = ({
   formik,
   options = testArray,
   className,
+  withId = false,
 }: {
   label: string;
-  formik: any
+  formik: any;
   name: string;
-  options?: { title: string; value: string }[];
+  options?: { title?: string; value?: string; _id?: string }[];
   className?: string;
+  withId?: boolean;
 }) => {
   return (
     <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
@@ -25,11 +27,20 @@ const SelectInput = ({
         <option value={""} disabled={true}>
           یک مورد انتخاب کنید
         </option>
-        {options.map((item, idx) => (
-          <option value={item.value} key={idx}>
-            {item.title}
-          </option>
-        ))}
+
+        {withId
+          ? options.map((item, idx) => (
+              <option value={item._id} key={idx}>
+                {item.title}
+              </option>
+            ))
+          : options.map((item, idx) => (
+              <option value={item.value} key={idx}>
+                {item.title}
+              </option>
+            ))}
+
+        {}
       </select>
       {formik.errors[name] && formik.touched[name] && (
         <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>

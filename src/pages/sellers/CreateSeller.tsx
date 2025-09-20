@@ -1,10 +1,10 @@
-import { useCreateReceive } from "../../hooks/mutation";
+import { useCreateSeller } from "../../hooks/mutation";
 
 import { useQueryClient } from "@tanstack/react-query";
 import SellerForm from "./SellerForm";
 
 function CreateSeller() {
-  const { mutate, isPending } = useCreateReceive();
+  const { mutate, isPending } = useCreateSeller();
 
   const queryClient = useQueryClient();
 
@@ -15,7 +15,7 @@ function CreateSeller() {
         onSubmit={(body) => {
           mutate(body, {
             onSuccess: () => {
-              queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+              queryClient.invalidateQueries({ queryKey: ["sellers-list"] });
             },
           });
         }}

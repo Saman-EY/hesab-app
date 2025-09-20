@@ -126,3 +126,23 @@ export const useGetAllStorageQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+export const useGetAllSellersQry = () => {
+  return useQuery({
+    queryKey: ["sellers-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/seller/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+export const useGetAllProjectsQry = () => {
+  return useQuery({
+    queryKey: ["projects-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/project/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};

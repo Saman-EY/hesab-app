@@ -207,7 +207,7 @@ export const useDeletePayment = () => {
 
 export const useCreateProduct = () => {
   return useMutation({
-    mutationFn: async (body: any) => {
+    mutationFn: async (body: FormData) => {
       const response = await api.post("/product", body, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -226,7 +226,9 @@ export const useCreateProduct = () => {
 };
 export const useUpdateProduct = () => {
   return useMutation({
-    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+    mutationFn: async ({ id, body }: { id: string; body: FormData }) => {
+      console.log(body);
+
       const response = await api.patch(`/product/update/${id}`, body, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -285,7 +287,9 @@ export const useCreateService = () => {
 export const useUpdateService = () => {
   return useMutation({
     mutationFn: async ({ id, body }: { id: string; body: any }) => {
-      const response = await api.patch(`/service/update/${id}`, body);
+      const response = await api.patch(`/service/update/${id}`, body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return response.data;
     },
     onSuccess: () => {
@@ -573,6 +577,114 @@ export const useDeleteStorage = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const response = await api.delete(`/storage/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
+export const useCreateSeller = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/seller/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useUpdateSeller = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/seller/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteSeller = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/seller/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
+export const useCreateProject = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/project/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useUpdateProject = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/project/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteProject = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/project/delete/${id}`);
       return response.data;
     },
     onSuccess: () => {

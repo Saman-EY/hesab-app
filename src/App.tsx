@@ -23,6 +23,9 @@ import AllStorage from "./pages/storage/AllStorage";
 import CreateStorage from "./pages/storage/CreateStorage";
 import CreateSeller from "./pages/sellers/CreateSeller";
 import AllSellers from "./pages/sellers/AllSellers";
+import CreateSale from "./pages/sales/CreateSale";
+import AllSales from "./pages/sales/AllSales";
+import AllProjects from "./pages/product-services/AllProjects";
 
 function App() {
   return (
@@ -51,6 +54,11 @@ function App() {
         <Route path="/new-storage" element={<CreateStorage />} />
         <Route path="/new-seller" element={<CreateSeller />} />
         <Route path="/sellers" element={<AllSellers />} />
+
+        <Route path="/new-sale" element={<CreateSale />} />
+        <Route path="/sales" element={<AllSales />} />
+        <Route path="/projects-list" element={<AllProjects />} />
+
       </Route>
     </Routes>
   );

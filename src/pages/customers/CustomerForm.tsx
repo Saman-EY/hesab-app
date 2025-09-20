@@ -1,10 +1,8 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useCreateCustomer } from "../../hooks/mutation";
 import TxtInput from "../../components/TxtInput";
 import SelectInput from "../../components/SelectInput";
 import { kindofbusinessList, priceList, taxTypeCustomerList } from "../../localDatas";
-import { useQueryClient } from "@tanstack/react-query";
 import type { ICustomer } from "../../allTypes";
 
 interface FormProps {
@@ -16,7 +14,7 @@ interface FormProps {
 const validationSchema = Yup.object({
   first_name: Yup.string().required("الزامی است"),
   last_name: Yup.string().required("الزامی است"),
-  // accountant_code: Yup.number().required("الزامی است"),
+  nickname: Yup.string().required("الزامی است"),
   title: Yup.string().required("الزامی است"),
   company: Yup.string().required("الزامی است"),
   kindofbusiness: Yup.string().required("الزامی است"),
@@ -30,6 +28,7 @@ function CustomerForm({ initialData, onSubmit, isPending }: FormProps) {
       title: initialData?.title || "",
       first_name: initialData?.first_name || "",
       last_name: initialData?.last_name || "",
+      nickname: initialData?.nickname || "",
       address: initialData?.address || "",
       kindofbusiness: initialData?.kindofbusiness || "",
       telphone: initialData?.telphone || "",
@@ -65,7 +64,7 @@ function CustomerForm({ initialData, onSubmit, isPending }: FormProps) {
       {/* <TxtInput formik={formik} type="number" numberFormat name="accountant_code" label="کد حسابداری" /> */}
       <TxtInput formik={formik} name="first_name" label="نام" />
       <TxtInput formik={formik} name="last_name" label="نام خانوادگی" />
-      <TxtInput formik={formik} name="" label="نام مستعار" />
+      <TxtInput formik={formik} name="nickname" label="نام مستعار" />
       <TxtInput formik={formik} name="title" label="عنوان" />
       <TxtInput formik={formik} name="company" label="شرکت" />
       <SelectInput options={kindofbusinessList} formik={formik} name="kindofbusiness" label="نوع" />

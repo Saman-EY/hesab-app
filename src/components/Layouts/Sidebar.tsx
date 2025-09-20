@@ -81,6 +81,11 @@ const Links = [
         title: "کالا ها و خدمات",
         path: "/product-service-list",
       },
+      {
+        key: "projects-list",
+        title: "پروژه ها",
+        path: "/projects-list",
+      },
     ],
   },
   {
@@ -156,11 +161,15 @@ const Links = [
     icon: <img className="size-7" src={"/income-Icon.png"} alt="" />,
     sublinks: [
       {
-        key: "create-sell",
+        key: "create-sale",
         title: "فروش جدید",
-        path: "/new-sell",
+        path: "/new-sale",
       },
-     
+      {
+        key: "all-sale",
+        title: "فاکتور های فروش",
+        path: "/sales",
+      },
     ],
   },
 ];

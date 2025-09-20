@@ -1,12 +1,13 @@
 import { useFormik } from "formik";
 import type { ITransaction } from "../../allTypes";
 import { convertToJalali, jalaliToGregorian, removeEmptyStrings } from "../../tools";
-import { useGetAllBanksQry, useGetAllFundsQry, useGetAllVaultsQry } from "../../hooks/queries";
+import { useGetAllBanksQry, useGetAllFundsQry, useGetAllProjectsQry, useGetAllVaultsQry } from "../../hooks/queries";
 import { useState } from "react";
 import * as Yup from "yup";
 import TxtInput from "../../components/TxtInput";
 import CustomDatePicker from "../../components/CustomDatePicker";
 import { SelectArray } from "./CreateTransfer";
+import SelectInput from "../../components/SelectInput";
 
 interface TransferFormProps {
   initialData?: ITransaction; // your type from earlier
@@ -37,6 +38,7 @@ const validationSchema = Yup.object({
 const TransferForm = ({ initialData, onSubmit, isPending }: TransferFormProps) => {
   const [activeFromKind, setActiveFromKind] = useState(initialData?.from_kind || "bank");
   const [activeToKind, setActiveToKind] = useState(initialData?.to_kind || "bank");
+  const { data: projectsList } = useGetAllProjectsQry();
 
   const { data: { banks: allBanks } = {} } = useGetAllBanksQry();
   const { data: { funds: allFunds } = {} } = useGetAllFundsQry();
@@ -49,6 +51,7 @@ const TransferForm = ({ initialData, onSubmit, isPending }: TransferFormProps) =
       description: initialData?.description || "",
       from_kind: initialData?.from_kind || "bank",
       to_kind: initialData?.to_kind || "bank",
+
       // from_bank: initialData?.from_bank || "",
       from_bank: "",
       // to_bank: initialData?.to_bank || "",
@@ -89,7 +92,9 @@ const TransferForm = ({ initialData, onSubmit, isPending }: TransferFormProps) =
 
   return (
     <section className="w-full max-w-6xl mx-auto grid grid-cols-2 gap-5">
-      <TxtInput className="" formik={formik} name="project" label="پروژه" />
+      <SelectInput withId options={projectsList} formik={formik} name="project" label="پروژه" />
+
+      {/* <TxtInput className="" formik={formik} name="project" label="پروژه" /> */}
       <CustomDatePicker name="date" formik={formik} label="تاریخ" />
       <TxtInput className="!col-span-2" formik={formik} name="description" label="شرح" />
       <section className="border-t border-gray-300 pt-5 col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5">

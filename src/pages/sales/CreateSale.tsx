@@ -1,0 +1,192 @@
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useQueryClient } from "@tanstack/react-query";
+import type { ISeller } from "../../allTypes";
+import TxtInput from "../../components/TxtInput";
+import SelectInput from "../../components/SelectInput";
+import { currencyList } from "../../localDatas";
+
+import {
+  useGetAllCustomersQry,
+  useGetAllProjectsQry,
+  useGetAllSellersQry,
+} from "../../hooks/queries";
+import CustomDatePicker from "../../components/CustomDatePicker";
+import { SelectUsers } from "../receive/ReceiveForm";
+import { useState } from "react";
+import CustomModal from "../../components/CustomModal";
+import CustomerForm from "../customers/CustomerForm";
+import { useCreateCustomer } from "../../hooks/mutation";
+import TableForm from "./TableForm";
+
+const validationSchema = Yup.object({
+  date: Yup.string().required("الزامی است"),
+  project: Yup.string().required("الزامی است"),
+  receipt_date: Yup.string().required("الزامی است"),
+  title: Yup.string().required("الزامی است"),
+  description: Yup.string(),
+  money: Yup.string().required("الزامی است"),
+  seller: Yup.string().required("الزامی است"),
+  products: Yup.array().of(
+    Yup.object({
+      product: Yup.string().required("الزامی است"),
+      description: Yup.string().required("الزامی است"),
+      price: Yup.number().required("الزامی است"),
+      tax: Yup.number().required("الزامی است"),
+      all_price: Yup.number().required("الزامی است"),
+      count: Yup.number().required("الزامی است"),
+      discount: Yup.number().required("الزامی است"),
+    })
+  ),
+});
+
+function CreateSale() {
+  const [ceateCusModal, setCeateCusModal] = useState(false);
+  const { mutate, isPending } = useCreateCustomer();
+  const { data } = useGetAllCustomersQry();
+  const { data: sellersData } = useGetAllSellersQry();
+  const { data: projectsList } = useGetAllProjectsQry();
+
+  const queryClient = useQueryClient();
+  const peopleList = data?.customers;
+  const sellersList = sellersData?.sellers;
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      money: "",
+      seller: "",
+      project: "",
+      date: "",
+      receipt_date: "",
+      products: [
+        {
+          name: "",
+          description: "",
+          count: 1,
+          price: 0,
+          tax: 0,
+          discount: 0,
+        },
+      ],
+    },
+    validationSchema,
+    onSubmit: (values, { resetForm }) => {
+      //   const body = {
+      //     ...values,
+      //     date: jalaliToGregorian(values.date),
+      //   };
+
+      //   mutate(body, {
+      //     onSuccess: () => {
+      //       // queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+      //     },
+      //   });
+      resetForm();
+    },
+  });
+
+  return (
+    <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
+      <section className="grid grid-cols-3 gap-5 mt-5 w-full max-w-[1500px] mx-auto">
+        <TxtInput className="!col-span-3 md:!col-span-1" formik={formik} name="description" label="شرح" />
+        <CustomDatePicker containerClass="!col-span-3 md:!col-span-1" name="date" formik={formik} label="تاریخ" />
+        <CustomDatePicker
+          containerClass="!col-span-3 md:!col-span-1"
+          name="receipt_date"
+          formik={formik}
+          label="تاریخ سررسید"
+        />
+        <SelectInput
+          className="!col-span-3 md:!col-span-1"
+          withId
+          options={projectsList}
+          formik={formik}
+          name="project"
+          label="پروژه"
+        />
+
+        <div className="flex gap-2 !col-span-3 md:!col-span-1">
+          <SelectUsers data={peopleList} formik={formik} name="" />
+          <button
+            onClick={() => setCeateCusModal(true)}
+            className="bg-green-600 text-white transition-all hover:bg-green-700 h-10 w-12 mt-auto flex items-center justify-center text-xl font-black rounded"
+          >
+            +
+          </button>
+        </div>
+        <TxtInput className="!col-span-3 md:!col-span-1" formik={formik} name="title" label="عنوان" />
+        <SelectInput
+          className="!col-span-3 md:!col-span-1"
+          options={currencyList}
+          formik={formik}
+          name="money"
+          label="واحد پول"
+        />
+        <SelectSellers className="!col-span-3 md:!col-span-1" data={sellersList} formik={formik} name="seller" />
+
+        <section className="col-span-3">
+          <TableForm formik={formik} />
+        </section>
+      </section>
+
+      <CustomModal
+        containerClass="!max-w-6xl md:!max-h-[90vh]"
+        title="ویرایش"
+        modal={ceateCusModal}
+        setModal={setCeateCusModal}
+      >
+        <CustomerForm
+          isPending={isPending}
+          onSubmit={(body) =>
+            mutate(body, {
+              onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ["customers-list"] });
+                setCeateCusModal(false);
+              },
+            })
+          }
+        />
+      </CustomModal>
+    </section>
+  );
+}
+
+export default CreateSale;
+
+const SelectSellers = ({
+  data,
+  formik,
+  name,
+  className,
+}: {
+  data: ISeller[];
+  formik: any;
+  name: string;
+  className?: string;
+}) => {
+  return (
+    <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
+      <span className="text-sm mb-2 text-gray-700">فروشنده</span>
+      <select
+        value={formik.values[name]}
+        onChange={formik.handleChange}
+        name={name}
+        className="select !outline-0 !border border-gray-300 w-full bg-gray-100 "
+      >
+        <option value={""} disabled={true}>
+          یک مورد انتخاب کنید
+        </option>
+        {data?.map((item, idx) => (
+          <option className="truncate" value={item._id} key={idx}>
+            {item.accountant_code} - {item.name}
+          </option>
+        ))}
+      </select>
+      {formik.errors[name] && formik.touched[name] && (
+        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
+      )}
+    </div>
+  );
+};

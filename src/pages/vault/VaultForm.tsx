@@ -16,9 +16,7 @@ interface FormProps {
 const validationSchema = Yup.object({
   title: Yup.string().required("الزامی است"),
   description: Yup.string(),
-  switch_number_payment: Yup.string().required("الزامی است"),
-  terrminal_number_payment: Yup.string().required("الزامی است"),
-  shop_number: Yup.string().required("الزامی است"),
+  money: Yup.string().required("الزامی است"),
 });
 
 function VaultForm({ initialData, onSubmit, isPending }: FormProps) {
@@ -26,9 +24,7 @@ function VaultForm({ initialData, onSubmit, isPending }: FormProps) {
     initialValues: {
       title: initialData?.title || "",
       description: initialData?.description || "",
-      switch_number_payment: initialData?.switch_number_payment || "",
-      terrminal_number_payment: initialData?.terrminal_number_payment || "",
-      shop_number: initialData?.shop_number || "",
+      money: initialData?.money || "", // number
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -43,11 +39,8 @@ function VaultForm({ initialData, onSubmit, isPending }: FormProps) {
       className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto"
     >
       <TxtInput className="!col-span-2" formik={formik} name="title" label="نام" />
-      <SelectInput className="!col-span-2" options={currencyList} formik={formik} name="" label="واحد پول" />
+      <SelectInput className="!col-span-2" options={currencyList} formik={formik} name="money" label="واحد پول" />
       <TxtArea className="!col-span-2" formik={formik} name="description" label="توضیحات" />
-      {/* <TxtInput type="number" formik={formik} name="switch_number_payment" label="شماره سوییچ پرداخت" /> */}
-      {/* <TxtInput formik={formik} name="terrminal_number_payment" label="شماره ترمینال پرداخت" /> */}
-      {/* <TxtInput formik={formik} name="shop_number" label="شماره پذیرنده فروشگاهی" /> */}
 
       <button
         disabled={isPending}
