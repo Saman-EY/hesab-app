@@ -3,6 +3,7 @@ import { FormikProvider } from "formik";
 
 import { useGetAllProAndServiceQry } from "../../hooks/queries";
 import type { IProductAndService } from "../../allTypes";
+import { addCama } from "../../tools";
 
 const TableForm = ({ formik }: { formik: any }) => {
   const { data: proAndServiceList } = useGetAllProAndServiceQry();
@@ -43,6 +44,16 @@ const TableForm = ({ formik }: { formik: any }) => {
     newProducts[index] = newProduct;
     formik.setFieldValue("products", newProducts);
   };
+
+  // Update product totals whenever products change
+  useEffect(() => {
+    const finalTotal = formik.values.products.reduce((acc: number, item: any) => {
+      const total = item.count * item.price + Number(item.tax || 0) - Number(item.discount || 0);
+      return acc + (isNaN(total) ? 0 : total);
+    }, 0);
+
+    formik.setFieldValue("final_price", finalTotal);
+  }, [formik.values.products]); // <-- only when products change
 
   return (
     <FormikProvider value={formik}>
@@ -118,51 +129,6 @@ const TableForm = ({ formik }: { formik: any }) => {
                     onChange={(e) => updateProductTotal(index, "discount", Math.max(0, +e.target.value || 0))}
                   />
 
-                  {/* <input
-                    type="number"
-                    name={`products.${index}.count`}
-                    value={item.count}
-                    onChange={(e) => {
-                      const value = e.target.value; // clamp at 0
-                      if (+value <= 0) return formik.setFieldValue(`products.${index}.count`, 1);
-                      formik.setFieldValue(`products.${index}.count`, +value);
-                    }}
-                    className="border border-t-0 border-l-0 min-w-30 p-2 outline-0"
-                  />
-                  <input
-                    type="number"
-                    name={`products.${index}.price`}
-                    value={item.price}
-                    onChange={(e) => {
-                      const value = e.target.value; // clamp at 0
-                      if (+value <= 0) return formik.setFieldValue(`products.${index}.price`, 0);
-                      formik.setFieldValue(`products.${index}.price`, +value);
-                    }}
-                    className="border border-t-0 border-l-0 min-w-60 p-2 outline-0"
-                  />
-                  <input
-                    type="number"
-                    name={`products.${index}.tax`}
-                    value={item.tax}
-                    onChange={(e) => {
-                      const value = e.target.value; // clamp at 0
-                      if (+value <= 0) return formik.setFieldValue(`products.${index}.tax`, 0);
-                      formik.setFieldValue(`products.${index}.tax`, +value);
-                    }}
-                    className="border border-t-0 border-l-0 min-w-60 p-2 outline-0"
-                  />
-                  <input
-                    type="number"
-                    name={`products.${index}.discount`}
-                    value={item.discount}
-                    onChange={(e) => {
-                      const value = e.target.value; // clamp at 0
-                      if (+value <= 0) return formik.setFieldValue(`products.${index}.discount`, 0);
-                      formik.setFieldValue(`products.${index}.discount`, +value);
-                    }}
-                    className="border border-t-0 border-l-0 min-w-60 p-2 outline-0"
-                  /> */}
-
                   <span className="border border-t-0 min-w-60 p-2 outline-0">{isNaN(total) ? 0 : total}</span>
 
                   <button
@@ -187,21 +153,25 @@ const TableForm = ({ formik }: { formik: any }) => {
             <div className="border px-5 py-1 rounded-lg border-gray-400 flex items-center justify-between gap-3">
               مجموع قیمت:
               <span className="font-bold">
-                {formik.values.products.reduce((acc, item) => acc + (item.count || 1) * item.price, 0)}
+                {addCama(formik.values.products.reduce((acc, item) => acc + (item.count || 1) * item.price, 0))}
               </span>
             </div>
 
             <div className="border px-5 py-1 rounded-lg border-gray-400 flex items-center justify-between gap-3">
               تخفیف کل:
-              <span className="font-bold">{formik.values.products.reduce((acc, item) => acc + item.discount, 0)}</span>
+              <span className="font-bold">
+                {addCama(formik.values.products.reduce((acc, item) => acc + item.discount, 0))}
+              </span>
             </div>
 
             <div className="border px-5 py-1 rounded-lg border-gray-400 flex items-center justify-between gap-3">
               مالیات کل:
-              <span className="font-bold">{formik.values.products.reduce((acc, item) => acc + item.tax, 0)}</span>
+              <span className="font-bold">
+                {addCama(formik.values.products.reduce((acc, item) => acc + item.tax, 0))}
+              </span>
             </div>
             <div className="border px-5 py-1 rounded-lg border-gray-400 flex items-center justify-between gap-3">
-              قیمت فاکتور: <span className="font-bold">{calculateAllTotal(formik.values.products)}</span>
+              قیمت فاکتور: <span className="font-bold">{addCama(calculateAllTotal(formik.values.products))}</span>
             </div>
           </div>
         </div>
@@ -224,6 +194,8 @@ const calculateAllTotal = (items: any[]) => {
     if (acc + itemTotal < 0) {
       return 0;
     }
+    // formik.setFieldValue("final_price", acc + itemTotal);
+
     return acc + itemTotal;
   }, 0);
 };

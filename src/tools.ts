@@ -70,3 +70,32 @@ export function translateCurrency(type: string) {
     }
   }
 }
+export function translateStatus(type: string) {
+  switch (type) {
+    case "pending": {
+      return "در انتظار";
+    }
+    case "accepted": {
+      return "تایید شده";
+    }
+    case "rejected": {
+      return "رد شده";
+    }
+    case "": {
+      return "-";
+    }
+
+    // Add more currency types as needed
+
+    default: {
+      return type;
+    }
+  }
+}
+
+export const addCama = (number: number) => {
+  if (!number) {
+    return "-";
+  }
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};

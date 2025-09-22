@@ -204,17 +204,19 @@ export interface IProductItem {
 export interface ISaleFactor {
   _id: string;
   code: string;
-  customer: string;
+  customer: string; // 
   date: string; // ISO date string
   receipt_date: string; // ISO date string
   project: IProject;
   seller: ISeller;
   title: string;
   money: string;
+  status?: string;
   description: string;
-  vault: string;
+  vault: string; //
   products: IProductItem[];
   transportation_cost: number;
-  transportation_guy: string;
+  transportation_guy: string; //
   __v: number;
+  final_price?: number;
 }

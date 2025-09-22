@@ -17,7 +17,7 @@ import { SelectUsers } from "../receive/ReceiveForm";
 import { useState } from "react";
 import CustomModal from "../../components/CustomModal";
 import CustomerForm from "../customers/CustomerForm";
-import { useCreateCustomer, useCreateSale } from "../../hooks/mutation";
+import { useCreateCustomer, useCreateSale, useCreateSaleReturn } from "../../hooks/mutation";
 import TableForm from "./TableForm";
 import { jalaliToGregorian } from "../../tools";
 
@@ -33,12 +33,12 @@ const validationSchema = Yup.object({
   products: Yup.array().of(
     Yup.object({
       product: Yup.string().required("الزامی است"),
-      description: Yup.string().required("الزامی است"),
+      description: Yup.string(),
       price: Yup.number().required("الزامی است"),
-      tax: Yup.number().required("الزامی است"),
+      tax: Yup.number(),
       // all_price: Yup.number().required("الزامی است"),
       count: Yup.number().required("الزامی است"),
-      discount: Yup.number().required("الزامی است"),
+      discount: Yup.number(),
     })
   ),
 });
@@ -46,7 +46,7 @@ const validationSchema = Yup.object({
 function CreateSalesReturn() {
   const [ceateCusModal, setCeateCusModal] = useState(false);
   const { mutate, isPending } = useCreateCustomer();
-  const { mutate: createSale, isPending: isSalePending } = useCreateSale();
+  const { mutate: createSale, isPending: isSalePending } = useCreateSaleReturn();
   const { data } = useGetAllCustomersQry();
   const { data: sellersData } = useGetAllSellersQry();
   const { data: projectsList } = useGetAllProjectsQry();
@@ -96,7 +96,7 @@ function CreateSalesReturn() {
 
       createSale(body, {
         onSuccess: () => {
-          // queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+          queryClient.invalidateQueries({ queryKey: ["sales-return-list"] });
         },
       });
 

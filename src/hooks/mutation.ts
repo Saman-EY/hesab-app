@@ -718,3 +718,123 @@ export const useCreateSale = () => {
     },
   });
 };
+export const useUpdateSale = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/factore/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+
+export const useCreateSaleReturn = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/saleback/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useUpdateSaleReturn = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/saleback/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateBuy = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/buyfactore/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useUpdateBuy = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/buyfactore/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useCreateBuyRetun = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/buyback/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useUpdateBuyReturn = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/buyback/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};

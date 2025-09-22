@@ -156,3 +156,33 @@ export const useGetAllSalesQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+export const useGetAllSalesReturnQry = () => {
+  return useQuery({
+    queryKey: ["sales-return-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/saleback/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+export const useGetAllBuyQry = () => {
+  return useQuery({
+    queryKey: ["buy-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/buyfactore/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+export const useGetAllBuyReturnQry = () => {
+  return useQuery({
+    queryKey: ["buy-return-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/buyback/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};

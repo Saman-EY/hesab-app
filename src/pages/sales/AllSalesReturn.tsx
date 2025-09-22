@@ -1,11 +1,11 @@
 import React from "react";
-import { useGetAllBuyReturnQry, useGetAllSalesReturnQry } from "../../hooks/queries";
+import { useGetAllSalesReturnQry } from "../../hooks/queries";
 import LoadingList from "../../components/LoadingList";
 import type { ISaleFactor } from "../../allTypes";
-import { FactoreDataTable } from "./AllBuyFactore";
+import { FactoreDataTable } from "./AllSales";
 
-function AllBuyReturnFactore() {
-  const { data, isPending } = useGetAllBuyReturnQry();
+function AllSalesReturn() {
+  const { data, isPending } = useGetAllSalesReturnQry();
   const finalData: ISaleFactor[] = data?.factores;
 
   if (isPending) {
@@ -19,4 +19,4 @@ function AllBuyReturnFactore() {
   );
 }
 
-export default AllBuyReturnFactore;
+export default AllSalesReturn;

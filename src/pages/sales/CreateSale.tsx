@@ -33,12 +33,12 @@ const validationSchema = Yup.object({
   products: Yup.array().of(
     Yup.object({
       product: Yup.string().required("الزامی است"),
-      description: Yup.string().required("الزامی است"),
+      description: Yup.string(),
       price: Yup.number().required("الزامی است"),
-      tax: Yup.number().required("الزامی است"),
+      tax: Yup.number(),
       // all_price: Yup.number().required("الزامی است"),
       count: Yup.number().required("الزامی است"),
-      discount: Yup.number().required("الزامی است"),
+      discount: Yup.number(),
     })
   ),
 });
@@ -71,7 +71,7 @@ function CreateSale() {
       transportation_cost: "",
       transportation_guy: "",
       vault: "",
-
+      final_price: "",
       products: [
         {
           product: "",
