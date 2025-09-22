@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
 
 function AllSales() {
   return (
-    <div>AllSales</div>
-  )
+    <section>
+      sales
+      <SectionData />
+    </section>
+  );
 }
 
-export default AllSales
+export default AllSales;
+
+export const SectionData = () => {
+  return null;
+};

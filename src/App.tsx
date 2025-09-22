@@ -26,6 +26,12 @@ import AllSellers from "./pages/sellers/AllSellers";
 import CreateSale from "./pages/sales/CreateSale";
 import AllSales from "./pages/sales/AllSales";
 import AllProjects from "./pages/product-services/AllProjects";
+import CreateSalesReturn from "./pages/sales/CreateSalesReturn";
+import AllSalesRetune from "./pages/sales/AllSalesRetune";
+import CreateBuyFactore from "./pages/buy/CreateBuyFactore";
+import CreateBuyReturnFactore from "./pages/buy/CreateBuyReturnFactore";
+import AllBuyFactore from "./pages/buy/AllBuyFactore";
+import AllBuyReturnFactore from "./pages/buy/AllBuyReturnFactore";
 
 function App() {
   return (
@@ -54,11 +60,17 @@ function App() {
         <Route path="/new-storage" element={<CreateStorage />} />
         <Route path="/new-seller" element={<CreateSeller />} />
         <Route path="/sellers" element={<AllSellers />} />
-
-        <Route path="/new-sale" element={<CreateSale />} />
-        <Route path="/sales" element={<AllSales />} />
         <Route path="/projects-list" element={<AllProjects />} />
 
+        <Route path="/new-sale" element={<CreateSale />} />
+        <Route path="/new-sale-return" element={<CreateSalesReturn />} />
+        <Route path="/sales" element={<AllSales />} />
+        <Route path="/sales-return" element={<AllSalesRetune />} />
+
+        <Route path="/new-buy" element={<CreateBuyFactore />} />
+        <Route path="/new-buy-return" element={<CreateBuyReturnFactore />} />
+        <Route path="/buys" element={<AllBuyFactore />} />
+        <Route path="/buys-return" element={<AllBuyReturnFactore />} />
       </Route>
     </Routes>
   );

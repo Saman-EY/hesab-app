@@ -170,6 +170,44 @@ const Links = [
         title: "فاکتور های فروش",
         path: "/sales",
       },
+      {
+        key: "create-sale-return",
+        title: "برگشت از فروش جدید",
+        path: "/new-sale-return",
+      },
+      {
+        key: "all-sale-return",
+        title: "فاکتور های برگشت از فروش",
+        path: "/sales-return",
+      },
+    ],
+  },
+  {
+    key: "PurchaseAndInvoice",
+    title: "خرید و هزینه",
+
+    icon: <img className="size-7" src={"/buy-icon.png"} alt="" />,
+    sublinks: [
+      {
+        key: "create-buy",
+        title: "خرید جدید",
+        path: "/new-buy",
+      },
+      {
+        key: "all-buy",
+        title: "فاکتور های خرید",
+        path: "/buys",
+      },
+      {
+        key: "create-buy-return",
+        title: "برگشت از خرید جدید",
+        path: "/new-buy-return",
+      },
+      {
+        key: "all-buy-return",
+        title: "فاکتور های برگشت از خرید",
+        path: "/buys-return",
+      },
     ],
   },
 ];

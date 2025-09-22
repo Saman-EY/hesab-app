@@ -9,7 +9,6 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { useGetAllCustomersQry, useGetAllProjectsQry } from "../../hooks/queries";
 import { jalaliToGregorian } from "../../tools";
-import { useQueryClient } from "@tanstack/react-query";
 import { SelectUsers } from "../receive/ReceiveForm";
 import type { IPayment } from "../../allTypes";
 
@@ -53,6 +52,8 @@ function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
       const body = {
         ...values,
         date: jalaliToGregorian(values.date),
+        price: Number(values.price),
+        fee: Number(values.fee),
       };
 
       onSubmit(body);

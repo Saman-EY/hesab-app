@@ -146,3 +146,13 @@ export const useGetAllProjectsQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+export const useGetAllSalesQry = () => {
+  return useQuery({
+    queryKey: ["projects-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/factore/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};

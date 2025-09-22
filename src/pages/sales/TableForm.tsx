@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormikProvider } from "formik";
 
 import { useGetAllProAndServiceQry } from "../../hooks/queries";
@@ -7,14 +7,13 @@ import type { IProductAndService } from "../../allTypes";
 const TableForm = ({ formik }: { formik: any }) => {
   const { data: proAndServiceList } = useGetAllProAndServiceQry();
   const productsAndServiceData = proAndServiceList?.data;
-  console.log("*", formik.values);
 
   // Add row
   const addRow = () => {
     formik.setFieldValue("products", [
       ...formik.values.products,
       {
-        name: "",
+        product: "",
         description: "",
         count: 1,
         price: 0,
@@ -28,6 +27,21 @@ const TableForm = ({ formik }: { formik: any }) => {
   const removeRow = (index: number) => {
     const newItems = formik.values.products.filter((_, i) => i !== index);
     formik.setFieldValue("products", newItems);
+  };
+
+  const updateProductTotal = (index: number, field: string, value: number) => {
+    const product = formik.values.products[index];
+    const newProduct = {
+      ...product,
+      [field]: value,
+    };
+    // calculate total
+    newProduct.all_price = newProduct.count * newProduct.price + Number(newProduct.tax) - Number(newProduct.discount);
+
+    // update the product in formik
+    const newProducts = [...formik.values.products];
+    newProducts[index] = newProduct;
+    formik.setFieldValue("products", newProducts);
   };
 
   return (
@@ -54,8 +68,8 @@ const TableForm = ({ formik }: { formik: any }) => {
               return (
                 <div key={index} className="flex items-center">
                   {/* <input
-                    name={`products.${index}.name`}
-                    value={item.name}
+                    name={`products.${index}.product`}
+                    value={item.product}
                     onChange={formik.handleChange}
                     className="border border-t-0 border-l-0 min-w-100 p-2 outline-0"
                     placeholder="نام کالا"
@@ -64,7 +78,7 @@ const TableForm = ({ formik }: { formik: any }) => {
                   <SelectProServices
                     item={item}
                     formik={formik}
-                    name={`products.${index}.name`}
+                    name={`products.${index}.product`}
                     data={productsAndServiceData}
                   />
 
@@ -75,7 +89,36 @@ const TableForm = ({ formik }: { formik: any }) => {
                     className="border border-t-0 border-l-0 min-w-120 p-2 outline-0"
                     placeholder="شرح"
                   />
+
                   <input
+                    type="number"
+                    className="border border-t-0 border-l-0 min-w-30 p-2 outline-0"
+                    value={item.count}
+                    onChange={(e) => updateProductTotal(index, "count", Math.max(1, +e.target.value || 1))}
+                  />
+
+                  <input
+                    type="number"
+                    className="border border-t-0 border-l-0 min-w-60 p-2 outline-0"
+                    value={item.price}
+                    onChange={(e) => updateProductTotal(index, "price", Math.max(0, +e.target.value || 0))}
+                  />
+
+                  <input
+                    type="number"
+                    className="border border-t-0 border-l-0 min-w-60 p-2 outline-0"
+                    value={item.tax}
+                    onChange={(e) => updateProductTotal(index, "tax", Math.max(0, +e.target.value || 0))}
+                  />
+
+                  <input
+                    type="number"
+                    className="border border-t-0 border-l-0 min-w-60 p-2 outline-0"
+                    value={item.discount}
+                    onChange={(e) => updateProductTotal(index, "discount", Math.max(0, +e.target.value || 0))}
+                  />
+
+                  {/* <input
                     type="number"
                     name={`products.${index}.count`}
                     value={item.count}
@@ -118,9 +161,9 @@ const TableForm = ({ formik }: { formik: any }) => {
                       formik.setFieldValue(`products.${index}.discount`, +value);
                     }}
                     className="border border-t-0 border-l-0 min-w-60 p-2 outline-0"
-                  />
+                  /> */}
+
                   <span className="border border-t-0 min-w-60 p-2 outline-0">{isNaN(total) ? 0 : total}</span>
-                  {/* <span className="border border-t-0 min-w-60 p-2 outline-0">{item.total}</span> */}
 
                   <button
                     type="button"
@@ -198,12 +241,10 @@ const SelectProServices = ({
   name: string;
   className?: string;
 }) => {
-  console.log("**", item.name);
-
   return (
     <div className={`border border-t-0 border-l-0 min-w-100  outline-0 ${className}`}>
       <select
-        value={item.name}
+        value={item.product}
         onChange={formik.handleChange}
         name={name}
         className="select !outline-0 !border border-gray-300 w-full bg-white "
@@ -213,7 +254,15 @@ const SelectProServices = ({
         </option>
         {data?.map((item, idx) => (
           <option className="truncate" value={item._id} key={idx}>
-            <img className="size-10 object-cover" src={`${import.meta.env.VITE_BASE_URL}/${item.img}`} alt="" />
+            {item.img ? (
+              <img
+                className="size-10 rounded object-cover"
+                src={`${import.meta.env.VITE_BASE_URL}/${item.img}`}
+                alt=""
+              />
+            ) : (
+              <img className="size-10 rounded object-cover" src={`/product-form.png`} alt="" />
+            )}
             {item.category === "product" ? "محصول" : "خدمت"}: {item.title}
           </option>
         ))}

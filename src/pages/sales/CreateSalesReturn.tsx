@@ -43,7 +43,7 @@ const validationSchema = Yup.object({
   ),
 });
 
-function CreateSale() {
+function CreateSalesReturn() {
   const [ceateCusModal, setCeateCusModal] = useState(false);
   const { mutate, isPending } = useCreateCustomer();
   const { mutate: createSale, isPending: isSalePending } = useCreateSale();
@@ -198,7 +198,7 @@ function CreateSale() {
   );
 }
 
-export default CreateSale;
+export default CreateSalesReturn;
 
 const SelectSellers = ({
   data,
