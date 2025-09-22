@@ -96,12 +96,12 @@ function CreateSale() {
 
       createSale(body, {
         onSuccess: () => {
-          // queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+          queryClient.invalidateQueries({ queryKey: ["sales-list"] });
         },
       });
 
       console.log(body);
-      // resetForm();
+      resetForm();
     },
   });
 

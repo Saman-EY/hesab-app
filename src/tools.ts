@@ -42,3 +42,31 @@ export async function urlToFile(url: string, filename: string, mimeType: string)
   const blob = await response.blob();
   return new File([blob], filename, { type: mimeType });
 }
+
+export function translateCurrency(type: string) {
+  switch (type) {
+    case "IRR": {
+      return "ریال";
+    }
+    case "USD": {
+      return "آمریکا دلار";
+    }
+    case "EUR": {
+      return "یورو";
+    }
+    case "OMR": {
+      return "ریال عمان";
+    }
+    case "CAD": {
+      return "دلار کانادا";
+    }
+    case "AED": {
+      return "درهم امارات متحده عربی";
+    }
+    // Add more currency types as needed
+
+    default: {
+      return type;
+    }
+  }
+}

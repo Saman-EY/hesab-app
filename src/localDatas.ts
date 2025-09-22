@@ -83,27 +83,27 @@ export const testArray = [
 export const receiveTypeList = [
   {
     title: "صندوق",
-    value: "صندوق",
+    value: "vault",
   },
   {
     title: "تنخواه گردان",
-    value: "تنخواه گردان",
+    value: "fund",
   },
   {
     title: "بانک",
-    value: "بانک",
+    value: "bank",
   },
   {
     title: "چک",
-    value: "چک",
+    value: "bank_check",
   },
   {
     title: "شخص",
-    value: "شخص",
+    value: "person",
   },
   {
     title: "حساب",
-    value: "حساب",
+    value: "account",
   },
 ];
 

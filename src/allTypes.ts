@@ -173,3 +173,48 @@ export interface IProject {
   title: string;
   __v: number;
 }
+
+export interface IProduct {
+  _id: string;
+  accountant_code: string;
+  title: string;
+  product_code: string;
+  barcode: string;
+  stock: number;
+  category: string;
+  sell_tax: string;
+  buy_tax: string;
+  tax_type: string;
+  tax_code: number;
+  tax_unit: string;
+  __v: number;
+}
+
+export interface IProductItem {
+  _id: string;
+  product: IProduct;
+  price: number;
+  tax: number;
+  all_price: number;
+  count: number;
+  description: string;
+  discount: number;
+}
+
+export interface ISaleFactor {
+  _id: string;
+  code: string;
+  customer: string;
+  date: string; // ISO date string
+  receipt_date: string; // ISO date string
+  project: IProject;
+  seller: ISeller;
+  title: string;
+  money: string;
+  description: string;
+  vault: string;
+  products: IProductItem[];
+  transportation_cost: number;
+  transportation_guy: string;
+  __v: number;
+}

@@ -148,7 +148,7 @@ export const useGetAllProjectsQry = () => {
 };
 export const useGetAllSalesQry = () => {
   return useQuery({
-    queryKey: ["projects-list"],
+    queryKey: ["sales-list"],
     queryFn: async () => {
       const { data } = await api.get(`/factore/all`);
       return data;
