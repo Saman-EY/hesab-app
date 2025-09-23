@@ -131,7 +131,7 @@ export const SelectUsers = ({
 }) => {
   return (
     <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
-      <span className="text-sm mb-2 text-gray-700"> {label ? label : "مشتری"} مشتری</span>
+      <span className="text-sm mb-2 text-gray-700"> {label ? label : "مشتری"} </span>
       <select
         value={formik.values[name]}
         onChange={formik.handleChange}

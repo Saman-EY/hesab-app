@@ -15,9 +15,7 @@ import {
 import CustomDatePicker from "../../components/CustomDatePicker";
 import { SelectUsers } from "../receive/ReceiveForm";
 import { useState } from "react";
-import CustomModal from "../../components/CustomModal";
-import CustomerForm from "../customers/CustomerForm";
-import { useCreateBuy, useCreateCustomer, useCreateSale } from "../../hooks/mutation";
+import { useCreateBuy, useCreateCustomer} from "../../hooks/mutation";
 
 import { jalaliToGregorian } from "../../tools";
 import TableForm from "../sales/TableForm";
@@ -27,10 +25,9 @@ const validationSchema = Yup.object({
   project: Yup.string().required("الزامی است"),
   receipt_date: Yup.string().required("الزامی است"),
   title: Yup.string().required("الزامی است"),
-  customer: Yup.string().required("الزامی است"),
+  sponser: Yup.string().required("الزامی است"),
   description: Yup.string(),
   money: Yup.string().required("الزامی است"),
-  seller: Yup.string().required("الزامی است"),
   products: Yup.array().of(
     Yup.object({
       product: Yup.string().required("الزامی است"),
@@ -45,7 +42,6 @@ const validationSchema = Yup.object({
 });
 
 function CreateBuyFactore() {
-  const [ceateCusModal, setCeateCusModal] = useState(false);
   const { mutate, isPending } = useCreateCustomer();
   const { mutate: createSale, isPending: isSalePending } = useCreateBuy();
   const { data } = useGetAllCustomersQry();
@@ -61,10 +57,9 @@ function CreateBuyFactore() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      customer: "",
       description: "",
       money: "",
-      seller: "",
+      sponser: "",
       project: "",
       date: "",
       receipt_date: "",
@@ -128,15 +123,6 @@ function CreateBuyFactore() {
           label="پروژه"
         />
 
-        <div className="flex gap-2 !col-span-3 md:!col-span-1">
-          <SelectUsers data={peopleList} formik={formik} name="customer" />
-          <button
-            onClick={() => setCeateCusModal(true)}
-            className="bg-green-600 text-white transition-all hover:bg-green-700 h-10 w-12 mt-auto flex items-center justify-center text-xl font-black rounded"
-          >
-            +
-          </button>
-        </div>
         <TxtInput className="!col-span-3 md:!col-span-1" formik={formik} name="title" label="عنوان" />
         <SelectInput
           className="!col-span-3 md:!col-span-1"
@@ -145,7 +131,13 @@ function CreateBuyFactore() {
           name="money"
           label="واحد پول"
         />
-        <SelectSellers className="!col-span-3 md:!col-span-1" data={sellersList} formik={formik} name="seller" />
+        <SelectSellers
+          label="تامین کننده"
+          className="!col-span-3 md:!col-span-1"
+          data={sellersList}
+          formik={formik}
+          name="sponser"
+        />
 
         <SelectUsers data={peopleList} formik={formik} name="transportation_guy" label="مسئول حمل و نقل" />
 
@@ -176,45 +168,28 @@ function CreateBuyFactore() {
           </button>
         </section>
       </section>
-
-      <CustomModal
-        containerClass="!max-w-6xl md:!max-h-[90vh]"
-        title="ویرایش"
-        modal={ceateCusModal}
-        setModal={setCeateCusModal}
-      >
-        <CustomerForm
-          isPending={isPending}
-          onSubmit={(body) =>
-            mutate(body, {
-              onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ["customers-list"] });
-                setCeateCusModal(false);
-              },
-            })
-          }
-        />
-      </CustomModal>
     </section>
   );
 }
 
 export default CreateBuyFactore;
 
-const SelectSellers = ({
+export const SelectSellers = ({
   data,
   formik,
   name,
   className,
+  label,
 }: {
   data: ISeller[];
   formik: any;
   name: string;
+  label?: string;
   className?: string;
 }) => {
   return (
     <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
-      <span className="text-sm mb-2 text-gray-700">فروشنده</span>
+      <span className="text-sm mb-2 text-gray-700">{label ? label : "فروشنده"}</span>
       <select
         value={formik.values[name]}
         onChange={formik.handleChange}

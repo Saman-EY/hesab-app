@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useGetAllBuyQry } from "../../hooks/queries";
 import LoadingList from "../../components/LoadingList";
-import type { ISaleFactor } from "../../allTypes";
+import type { IBuyFactor, ISaleFactor } from "../../allTypes";
 import { useQueryClient } from "@tanstack/react-query";
 import CustomModal from "../../components/CustomModal";
 import { addCama, convertToJalali, translateCurrency, translateStatus } from "../../tools";
@@ -10,7 +10,7 @@ import { useUpdateBuy, useUpdateBuyReturn } from "../../hooks/mutation";
 function AllBuyFactore() {
   const { data, isPending } = useGetAllBuyQry();
 
-  const finalData: ISaleFactor[] = data?.factores;
+  const finalData: IBuyFactor[] = data?.factores;
 
   if (isPending) {
     return <LoadingList />;
@@ -38,7 +38,7 @@ export const FactoreDataTable = ({ data, type }) => {
               <th>تاریخ</th>
               <th>تاریخ سررسید</th>
               <th>پروژه</th>
-              <th>فروشنده</th>
+              <th>تامین کننده</th>
               <th>واحد پول</th>
               <th>قیمت فاکتور</th>
               <th>وضعیت</th>
@@ -58,7 +58,7 @@ export const FactoreDataTable = ({ data, type }) => {
   );
 };
 
-const Row = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
+const Row = ({ item, idx }: { item: IBuyFactor; idx: number }) => {
   const [detailModal, setDetailModal] = useState(false);
   const { mutate } = useUpdateBuy();
   // const { mutate: deleteReceive } = useDeleteReceive();
@@ -89,7 +89,7 @@ const Row = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
         <td>{item?.date ? convertToJalali(item?.date) : "-"}</td>
         <td>{item?.receipt_date ? convertToJalali(item?.receipt_date) : "-"}</td>
         <td>{item?.project.title}</td>
-        <td>{item?.seller.name}</td>
+        <td>{item?.sponser?.name}</td>
         <td>{item?.money + " - " + translateCurrency(item?.money)}</td>
         <td>{item?.final_price ? addCama(item?.final_price) : "-"}</td>
         <td
@@ -120,10 +120,13 @@ const Row = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
           <span>تاریخ سررسید : {item?.receipt_date ? convertToJalali(item?.receipt_date) : "-"}</span>
           <span>عنوان : {item?.title || "-"}</span>
           <span>پروژه : {item?.project?.title || "-"}</span>
-          <span>فروشنده : {item?.seller?.name || "-"}</span>
+          <span>تامین کننده : {item?.sponser?.name || "-"}</span>
           <span>واحد پول : {item?.money ? translateCurrency(item?.money) : "-"}</span>
-          <span>انبار : {item?.vault || "-"}</span>
-          <span>مسئول حمل و نقل : {item?.transportation_guy || "-"}</span>
+          <span>انبار : {item?.vault.title || "-"}</span>
+          <span>
+            مسئول حمل و نقل : {item?.transportation_guy?.first_name || "-"} {item?.transportation_guy?.last_name || "-"}
+          </span>
+
           <span>هزینه حمل و نقل : {item?.transportation_cost || "-"}</span>
           <span className="font-semibold">قیمت نهایی : {item?.final_price ? addCama(item?.final_price) : "-"}</span>
           <p className=" w-full">توضیحات : {item?.description || "-"}</p>
@@ -180,7 +183,7 @@ const Row = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
   );
 };
 
-const RowReturn = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
+const RowReturn = ({ item, idx }: { item: IBuyFactor; idx: number }) => {
   const [detailModal, setDetailModal] = useState(false);
   const { mutate } = useUpdateBuyReturn();
   // const { mutate: deleteReceive } = useDeleteReceive();
@@ -211,7 +214,7 @@ const RowReturn = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
         <td>{item?.date ? convertToJalali(item?.date) : "-"}</td>
         <td>{item?.receipt_date ? convertToJalali(item?.receipt_date) : "-"}</td>
         <td>{item?.project.title}</td>
-        <td>{item?.seller.name}</td>
+        <td>{item?.sponser.name}</td>
         <td>{item?.money + " - " + translateCurrency(item?.money)}</td>
         <td>{item?.final_price ? addCama(item?.final_price) : "-"}</td>
         <td
@@ -242,10 +245,13 @@ const RowReturn = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
           <span>تاریخ سررسید : {item?.receipt_date ? convertToJalali(item?.receipt_date) : "-"}</span>
           <span>عنوان : {item?.title || "-"}</span>
           <span>پروژه : {item?.project?.title || "-"}</span>
-          <span>فروشنده : {item?.seller?.name || "-"}</span>
+          <span>تامین کننده : {item?.sponser?.name || "-"}</span>
           <span>واحد پول : {item?.money ? translateCurrency(item?.money) : "-"}</span>
-          <span>انبار : {item?.vault || "-"}</span>
-          <span>مسئول حمل و نقل : {item?.transportation_guy || "-"}</span>
+          <span>انبار : {item?.vault.title || "-"}</span>
+          <span>
+            مسئول حمل و نقل : {item?.transportation_guy.first_name || "-"} {item?.transportation_guy.last_name || "-"}
+          </span>
+
           <span>هزینه حمل و نقل : {item?.transportation_cost || "-"}</span>
           <span className="font-semibold">قیمت نهایی : {item?.final_price ? addCama(item?.final_price) : "-"}</span>
           <p className=" w-full">توضیحات : {item?.description || "-"}</p>

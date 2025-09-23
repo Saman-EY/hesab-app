@@ -122,8 +122,10 @@ const Row = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
           <span>پروژه : {item?.project?.title || "-"}</span>
           <span>فروشنده : {item?.seller?.name || "-"}</span>
           <span>واحد پول : {item?.money ? translateCurrency(item?.money) : "-"}</span>
-          <span>انبار : {item?.vault || "-"}</span>
-          <span>مسئول حمل و نقل : {item?.transportation_guy || "-"}</span>
+          <span>انبار : {item?.vault.title || "-"}</span>
+          <span>
+            مسئول حمل و نقل : {item?.transportation_guy.first_name || "-"} {item?.transportation_guy.last_name || "-"}
+          </span>
           <span>هزینه حمل و نقل : {item?.transportation_cost || "-"}</span>
           <span className="font-semibold">قیمت نهایی : {item?.final_price ? addCama(item?.final_price) : "-"}</span>
           <p className=" w-full">توضیحات : {item?.description || "-"}</p>
@@ -244,8 +246,12 @@ const RowReturn = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
           <span>پروژه : {item?.project?.title || "-"}</span>
           <span>فروشنده : {item?.seller?.name || "-"}</span>
           <span>واحد پول : {item?.money ? translateCurrency(item?.money) : "-"}</span>
-          <span>انبار : {item?.vault || "-"}</span>
-          <span>مسئول حمل و نقل : {item?.transportation_guy || "-"}</span>
+          <span>انبار : {item?.vault.title || "-"}</span>
+
+          <span>
+            مسئول حمل و نقل : {item?.transportation_guy.first_name || "-"} {item?.transportation_guy.last_name || "-"}
+          </span>
+
           <span>هزینه حمل و نقل : {item?.transportation_cost || "-"}</span>
           <span className="font-semibold">قیمت نهایی : {item?.final_price ? addCama(item?.final_price) : "-"}</span>
           <p className=" w-full">توضیحات : {item?.description || "-"}</p>

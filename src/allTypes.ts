@@ -204,7 +204,7 @@ export interface IProductItem {
 export interface ISaleFactor {
   _id: string;
   code: string;
-  customer: string; // 
+  customer: ICustomer; //
   date: string; // ISO date string
   receipt_date: string; // ISO date string
   project: IProject;
@@ -213,10 +213,28 @@ export interface ISaleFactor {
   money: string;
   status?: string;
   description: string;
-  vault: string; //
+  vault: IStorage; //
   products: IProductItem[];
   transportation_cost: number;
-  transportation_guy: string; //
+  transportation_guy: ICustomer; //
+  __v: number;
+  final_price?: number;
+}
+export interface IBuyFactor {
+  _id: string;
+  code: string;
+  date: string; // ISO date string
+  receipt_date: string; // ISO date string
+  project: IProject;
+  sponser: ISeller;
+  title: string;
+  money: string;
+  status?: string;
+  description: string;
+  vault: IStorage; //
+  products: IProductItem[];
+  transportation_cost: number;
+  transportation_guy: ICustomer; //
   __v: number;
   final_price?: number;
 }

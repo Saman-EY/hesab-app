@@ -1,8 +1,6 @@
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
-import type { ISeller } from "../../allTypes";
 import TxtInput from "../../components/TxtInput";
 import SelectInput from "../../components/SelectInput";
 import { currencyList } from "../../localDatas";
@@ -18,20 +16,20 @@ import { SelectUsers } from "../receive/ReceiveForm";
 import { useState } from "react";
 import CustomModal from "../../components/CustomModal";
 import CustomerForm from "../customers/CustomerForm";
-import { useCreateBuy, useCreateBuyRetun, useCreateCustomer, useCreateSale } from "../../hooks/mutation";
+import { useCreateBuyRetun, useCreateCustomer } from "../../hooks/mutation";
 
 import { jalaliToGregorian } from "../../tools";
 import TableForm from "../sales/TableForm";
+import { SelectSellers } from "./CreateBuyFactore";
 
 const validationSchema = Yup.object({
   date: Yup.string().required("الزامی است"),
   project: Yup.string().required("الزامی است"),
   receipt_date: Yup.string().required("الزامی است"),
   title: Yup.string().required("الزامی است"),
-  customer: Yup.string().required("الزامی است"),
   description: Yup.string(),
   money: Yup.string().required("الزامی است"),
-  seller: Yup.string().required("الزامی است"),
+  sponser: Yup.string().required("الزامی است"),
   products: Yup.array().of(
     Yup.object({
       product: Yup.string().required("الزامی است"),
@@ -62,13 +60,13 @@ function CreateBuyReturnFactore() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      customer: "",
       description: "",
       money: "",
-      seller: "",
       project: "",
       date: "",
       receipt_date: "",
+
+      sponser: "",
 
       transportation_cost: "",
       transportation_guy: "",
@@ -129,15 +127,6 @@ function CreateBuyReturnFactore() {
           label="پروژه"
         />
 
-        <div className="flex gap-2 !col-span-3 md:!col-span-1">
-          <SelectUsers data={peopleList} formik={formik} name="customer" />
-          <button
-            onClick={() => setCeateCusModal(true)}
-            className="bg-green-600 text-white transition-all hover:bg-green-700 h-10 w-12 mt-auto flex items-center justify-center text-xl font-black rounded"
-          >
-            +
-          </button>
-        </div>
         <TxtInput className="!col-span-3 md:!col-span-1" formik={formik} name="title" label="عنوان" />
         <SelectInput
           className="!col-span-3 md:!col-span-1"
@@ -146,7 +135,13 @@ function CreateBuyReturnFactore() {
           name="money"
           label="واحد پول"
         />
-        <SelectSellers className="!col-span-3 md:!col-span-1" data={sellersList} formik={formik} name="seller" />
+        <SelectSellers
+          label="تامین کننده"
+          className="!col-span-3 md:!col-span-1"
+          data={sellersList}
+          formik={formik}
+          name="sponser"
+        />
 
         <SelectUsers data={peopleList} formik={formik} name="transportation_guy" label="مسئول حمل و نقل" />
 
@@ -201,39 +196,3 @@ function CreateBuyReturnFactore() {
 }
 
 export default CreateBuyReturnFactore;
-
-const SelectSellers = ({
-  data,
-  formik,
-  name,
-  className,
-}: {
-  data: ISeller[];
-  formik: any;
-  name: string;
-  className?: string;
-}) => {
-  return (
-    <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
-      <span className="text-sm mb-2 text-gray-700">فروشنده</span>
-      <select
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        name={name}
-        className="select !outline-0 !border border-gray-300 w-full bg-gray-100 "
-      >
-        <option value={""} disabled={true}>
-          یک مورد انتخاب کنید
-        </option>
-        {data?.map((item, idx) => (
-          <option className="truncate" value={item._id} key={idx}>
-            {item.accountant_code} - {item.name}
-          </option>
-        ))}
-      </select>
-      {formik.errors[name] && formik.touched[name] && (
-        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
-      )}
-    </div>
-  );
-};

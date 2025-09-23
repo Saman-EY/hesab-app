@@ -20,16 +20,17 @@ import CustomerForm from "../customers/CustomerForm";
 import { useCreateCustomer, useCreateSale, useCreateSaleReturn } from "../../hooks/mutation";
 import TableForm from "./TableForm";
 import { jalaliToGregorian } from "../../tools";
+import { SelectSellers } from "../buy/CreateBuyFactore";
 
 const validationSchema = Yup.object({
   date: Yup.string().required("الزامی است"),
   project: Yup.string().required("الزامی است"),
   receipt_date: Yup.string().required("الزامی است"),
   title: Yup.string().required("الزامی است"),
+  seller: Yup.string().required("الزامی است"),
   customer: Yup.string().required("الزامی است"),
   description: Yup.string(),
   money: Yup.string().required("الزامی است"),
-  seller: Yup.string().required("الزامی است"),
   products: Yup.array().of(
     Yup.object({
       product: Yup.string().required("الزامی است"),
@@ -42,7 +43,6 @@ const validationSchema = Yup.object({
     })
   ),
 });
-
 function CreateSalesReturn() {
   const [ceateCusModal, setCeateCusModal] = useState(false);
   const { mutate, isPending } = useCreateCustomer();
@@ -60,9 +60,9 @@ function CreateSalesReturn() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      customer: "",
       description: "",
       money: "",
+      customer: "",
       seller: "",
       project: "",
       date: "",
@@ -71,7 +71,7 @@ function CreateSalesReturn() {
       transportation_cost: "",
       transportation_guy: "",
       vault: "",
-
+      final_price: "",
       products: [
         {
           product: "",
@@ -144,7 +144,13 @@ function CreateSalesReturn() {
           name="money"
           label="واحد پول"
         />
-        <SelectSellers className="!col-span-3 md:!col-span-1" data={sellersList} formik={formik} name="seller" />
+        <SelectSellers
+          label="فروشنده"
+          className="!col-span-3 md:!col-span-1"
+          data={sellersList}
+          formik={formik}
+          name="seller"
+        />
 
         <SelectUsers data={peopleList} formik={formik} name="transportation_guy" label="مسئول حمل و نقل" />
 
@@ -199,39 +205,3 @@ function CreateSalesReturn() {
 }
 
 export default CreateSalesReturn;
-
-const SelectSellers = ({
-  data,
-  formik,
-  name,
-  className,
-}: {
-  data: ISeller[];
-  formik: any;
-  name: string;
-  className?: string;
-}) => {
-  return (
-    <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
-      <span className="text-sm mb-2 text-gray-700">فروشنده</span>
-      <select
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        name={name}
-        className="select !outline-0 !border border-gray-300 w-full bg-gray-100 "
-      >
-        <option value={""} disabled={true}>
-          یک مورد انتخاب کنید
-        </option>
-        {data?.map((item, idx) => (
-          <option className="truncate" value={item._id} key={idx}>
-            {item.accountant_code} - {item.name}
-          </option>
-        ))}
-      </select>
-      {formik.errors[name] && formik.touched[name] && (
-        <span className="text-red-500 text-sm mt-2">{formik.errors[name]}</span>
-      )}
-    </div>
-  );
-};
