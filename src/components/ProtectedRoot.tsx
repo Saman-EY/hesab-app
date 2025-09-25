@@ -6,18 +6,17 @@ interface IProtectedRouteProps {
   children: React.ReactNode;
 }
 const ProtectedRoute: React.FC<IProtectedRouteProps> = ({ children }) => {
-  const { data, isPending, isError } = useGetUser();
+  const { isPending, isError } = useGetUser();
   const { pathname } = useLocation();
   const { logout } = useLogout();
 
+  useEffect(() => {
+    if (isPending) return;
 
-  // useEffect(() => {
-  //   if (isPending) return;
-
-  //   if (isError) {
-  //     logout();
-  //   }
-  // }, [pathname, isPending, isError, logout]);
+    if (isError) {
+      logout();
+    }
+  }, [pathname, isPending, isError, logout]);
 
   return <>{children}</>;
 };

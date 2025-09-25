@@ -36,6 +36,44 @@ export const useCreateUser = () => {
   });
 };
 
+export const useUpdateUser = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/user/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+
+export const useDeleteUser = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/user/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
+      }
+    },
+  });
+};
+
 export const useCreateCustomer = () => {
   return useMutation({
     mutationFn: async (body: any) => {

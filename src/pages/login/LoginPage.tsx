@@ -25,8 +25,7 @@ function LoginPage() {
     initialValues: {
       username: "",
       password: "",
-      role: "admin",
-      // department: "IT",
+      role: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -110,7 +109,7 @@ function LoginPage() {
             </option>
             <option value={"admin"}>مدیر کل</option>
             <option value={"accountant"}>حسابدار</option>
-            <option value={"Seller"}>فروشنده</option>
+            <option value={"seller"}>فروشنده</option>
             <option value={"user"}>کاربر</option>
           </select>
           {formik.touched.role && formik.errors.role && (

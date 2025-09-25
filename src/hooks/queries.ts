@@ -197,3 +197,15 @@ export const useGetExchangesQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+
+export const useGetUsersQry = () => {
+  return useQuery({
+    queryKey: ["users-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/user/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
+

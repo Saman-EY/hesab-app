@@ -238,3 +238,16 @@ export interface IBuyFactor {
   __v: number;
   final_price?: number;
 }
+export interface IUser {
+  _id: string;
+  username: string;
+  password: string;
+  department: string;
+  token: string;
+  tokenExpires: string; // ISO date string
+  role: "admin" | "user" | "manager" | string; // restrict if you know all roles
+  isOk: boolean;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+}
