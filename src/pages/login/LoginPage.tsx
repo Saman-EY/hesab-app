@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
     .matches(/[a-z]/, "حداقل یک حرف کوچک داشته باشد")
     // .matches(/[A-Z]/, "حداقل یک حرف بزرگ داشته باشد")
     .matches(/\d/, "حداقل یک عدد داشته باشد"),
-  // department: Yup.string().required("انتخاب دپارتمان الزامی است"),
+  role: Yup.string().required("انتخاب دپارتمان الزامی است"),
 });
 
 function LoginPage() {
@@ -25,8 +25,8 @@ function LoginPage() {
     initialValues: {
       username: "",
       password: "",
-      department: "IT",
       role: "admin",
+      // department: "IT",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -97,25 +97,26 @@ function LoginPage() {
           )}
         </div>
 
-        {/* <div className="w-full flex flex-col">
-          <span className="text-sm mb-2 text-gray-700">دپارتمان</span>
+        <div className="w-full flex flex-col">
+          <span className="text-sm mb-2 text-gray-700">نقش</span>
           <select
-            value={formik.values.department}
+            value={formik.values.role}
             onChange={formik.handleChange}
-            name="department"
+            name="role"
             className="select w-full !outline-0 !border border-gray-300"
           >
             <option value={""} disabled={true}>
               یک مورد انتخاب کنید
             </option>
-            <option value={"اداری"}>اداری</option>
-            <option value={"فروش"}>فروش</option>
-            <option value={"حسابداری"}>حسابداری</option>
+            <option value={"admin"}>مدیر کل</option>
+            <option value={"accountant"}>حسابدار</option>
+            <option value={"Seller"}>فروشنده</option>
+            <option value={"user"}>کاربر</option>
           </select>
-          {formik.touched.department && formik.errors.department && (
-            <p className="text-red-500 text-xs mt-1">{formik.errors.department}</p>
+          {formik.touched.role && formik.errors.role && (
+            <p className="text-red-500 text-xs mt-1">{formik.errors.role}</p>
           )}
-        </div> */}
+        </div>
 
         <button
           disabled={isPending}

@@ -8,7 +8,7 @@ export const useCreateUser = () => {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: async (body: { username: string; password: string; department: string }) => {
+    mutationFn: async (body: { username: string; password: string; role: string }) => {
       const response = await api.post("/user/login", body);
       return response.data;
     },

@@ -210,6 +210,24 @@ const Links = [
       },
     ],
   },
+  {
+    key: "setting",
+    title: "تنظیمات",
+
+    icon: <img className="size-7" src={"/setting-icon.png"} alt="" />,
+    sublinks: [
+      {
+        key: "users-managmnet",
+        title: "مدیریت کاربران",
+        path: "/users-managment",
+      },
+      {
+        key: "Exchange-rate",
+        title: "جدول نرخ ارز",
+        path: "/exchange-rate",
+      },
+    ],
+  },
 ];
 
 const Sidebar = ({ DashDrawer }: { DashDrawer: boolean }) => {

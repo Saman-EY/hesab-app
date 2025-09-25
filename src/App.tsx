@@ -32,6 +32,8 @@ import CreateBuyReturnFactore from "./pages/buy/CreateBuyReturnFactore";
 import AllBuyFactore from "./pages/buy/AllBuyFactore";
 import AllBuyReturnFactore from "./pages/buy/AllBuyReturnFactore";
 import AllSalesReturn from "./pages/sales/AllSalesReturn";
+import AllUsers from "./pages/user-managment/AllUsers";
+import ExchangeRate from "./pages/exchange-rate/ExchangeRate";
 
 function App() {
   return (
@@ -61,16 +63,17 @@ function App() {
         <Route path="/new-seller" element={<CreateSeller />} />
         <Route path="/sellers" element={<AllSellers />} />
         <Route path="/projects-list" element={<AllProjects />} />
-
         <Route path="/new-sale" element={<CreateSale />} />
         <Route path="/new-sale-return" element={<CreateSalesReturn />} />
         <Route path="/sales" element={<AllSales />} />
         <Route path="/sales-return" element={<AllSalesReturn />} />
-
         <Route path="/new-buy" element={<CreateBuyFactore />} />
         <Route path="/new-buy-return" element={<CreateBuyReturnFactore />} />
         <Route path="/buys" element={<AllBuyFactore />} />
         <Route path="/buys-return" element={<AllBuyReturnFactore />} />
+
+        <Route path="/users-managment" element={<AllUsers />} />
+        <Route path="/exchange-rate" element={<ExchangeRate />} />
       </Route>
     </Routes>
   );
