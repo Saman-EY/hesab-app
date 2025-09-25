@@ -700,7 +700,6 @@ export const useDeleteProject = () => {
     },
   });
 };
-
 export const useCreateSale = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -825,6 +824,42 @@ export const useUpdateBuyReturn = () => {
   return useMutation({
     mutationFn: async ({ id, body }: { id: string; body: any }) => {
       const response = await api.patch(`/buyback/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+
+export const useCreateExchange = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/currency/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+
+export const useUpdateExchange = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.patch(`/currency/update/`, body);
       return response.data;
     },
     onSuccess: () => {

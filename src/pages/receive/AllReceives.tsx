@@ -60,7 +60,7 @@ const Row = ({ item, idx }: { item: IReceive; idx: number }) => {
         <th>{idx + 1}</th>
         <td>{item?.code}</td>
         <td>{item.date ? convertToJalali(item.date) : ""}</td>
-        <td>{item?.project}</td>
+        <td>{item?.project?.title}</td>
         <td>{item?.receipt_kind}</td>
         <td>{item?.price}</td>
         <td>{item?.fee}</td>

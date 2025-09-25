@@ -186,3 +186,14 @@ export const useGetAllBuyReturnQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
+
+export const useGetExchangesQry = () => {
+  return useQuery({
+    queryKey: ["exchanges-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/currency/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1, // 1 minute
+  });
+};
