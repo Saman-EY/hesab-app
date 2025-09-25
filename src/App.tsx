@@ -34,6 +34,8 @@ import AllBuyReturnFactore from "./pages/buy/AllBuyReturnFactore";
 import AllSalesReturn from "./pages/sales/AllSalesReturn";
 import AllUsers from "./pages/user-managment/AllUsers";
 import ExchangeRate from "./pages/exchange-rate/ExchangeRate";
+import CreateWarehouseReceipt from "./pages/storage/CreateWarehouseReceipt";
+import AllWarehouseReceipt from "./pages/storage/AllWarehouseReceipt";
 
 function App() {
   return (
@@ -71,9 +73,14 @@ function App() {
         <Route path="/new-buy-return" element={<CreateBuyReturnFactore />} />
         <Route path="/buys" element={<AllBuyFactore />} />
         <Route path="/buys-return" element={<AllBuyReturnFactore />} />
-
         <Route path="/users-managment" element={<AllUsers />} />
         <Route path="/exchange-rate" element={<ExchangeRate />} />
+
+        <Route path="/new-storage-receipt" element={<CreateWarehouseReceipt />} />
+        <Route path="/all-storage-receipt" element={<AllWarehouseReceipt />} />
+
+
+
       </Route>
     </Routes>
   );

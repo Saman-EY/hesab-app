@@ -152,6 +152,16 @@ const Links = [
         title: "لیست انبار",
         path: "/storages",
       },
+      {
+        key: "create-storage-receipt",
+        title: "حواله جدید",
+        path: "/new-storage-receipt",
+      },
+      {
+        key: "all-storage-receipt",
+        title: "لیست حواله",
+        path: "/all-storage-receipt",
+      },
     ],
   },
   {
