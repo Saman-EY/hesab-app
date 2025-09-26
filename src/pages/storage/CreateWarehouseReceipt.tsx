@@ -28,7 +28,7 @@ function CreateWarehouseReceipt() {
 
   const { mutate, isPending } = useCreateDraft();
 
-  const [currentFactoreData, setCurrentFactoreData] = useState({});
+  const [currentFactoreData, setCurrentFactoreData] = useState<any>({});
 
   const queryClient = useQueryClient();
 
@@ -75,6 +75,7 @@ function CreateWarehouseReceipt() {
     formik.setFieldValue("saleback", "");
     formik.setFieldValue("buyfactore", "");
     formik.setFieldValue("buyback", "");
+    setCurrentFactoreData({});
     if (formik.values.factore_type == "factore") {
       setIsEnable({
         sales: true,
@@ -106,7 +107,30 @@ function CreateWarehouseReceipt() {
     }
   }, [formik.values.factore_type]);
 
-  console.log("*", isEnable);
+  useEffect(() => {
+    if (formik.values.factore) {
+      const finalData = salesData?.factores.find((item: any) => item._id == formik.values.factore);
+      setCurrentFactoreData(finalData);
+      console.log("**", finalData);
+    }
+    if (formik.values.saleback) {
+      const finalData = salesReturnData?.factores.find((item: any) => item._id == formik.values.saleback);
+      setCurrentFactoreData(finalData);
+      console.log("**", salesReturnData?.factores);
+    }
+    if (formik.values.buyfactore) {
+      const finalData = buyData?.factores.find((item: any) => item._id == formik.values.buyfactore);
+      setCurrentFactoreData(finalData);
+      console.log("**", finalData);
+    }
+    if (formik.values.buyback) {
+      const finalData = buyReturnData?.factores.find((item: any) => item._id == formik.values.buyback);
+      setCurrentFactoreData(finalData);
+      console.log("**", finalData);
+    }
+  }, [formik.values.buyback, formik.values.buyfactore, formik.values.saleback, formik.values.factore]);
+
+  console.log("*", currentFactoreData);
 
   return (
     <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
@@ -177,43 +201,51 @@ function CreateWarehouseReceipt() {
           label="انتخاب فاکتور"
         /> */}
 
-        {tempFac && (
+        {currentFactoreData && (
           <section className="col-span-2">
             <div className="flex items-center flex-wrap gap-10 mb-10 text-sm">
-              <div className="flex items-center gap-2">
-                <span>تاریخ</span>
-                <span>{convertToJalali(tempFac?.date)}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span>تاریخ سررسید</span>
-                <span>{convertToJalali(tempFac?.receipt_date)}</span>
-              </div>
-              {tempFac?.transportation_guy && (
+              {currentFactoreData?.date && (
+                <div className="flex items-center gap-2">
+                  <span>تاریخ</span>
+                  <span>{convertToJalali(currentFactoreData?.date)}</span>
+                </div>
+              )}
+              {currentFactoreData?.receipt_date && (
+                <div className="flex items-center gap-2">
+                  <span>تاریخ</span>
+                  <span>{convertToJalali(currentFactoreData?.receipt_date)}</span>
+                </div>
+              )}
+              {currentFactoreData?.transportation_guy && (
                 <div className="flex items-center gap-2">
                   <span>مسئول حمل و نقل</span>
                   <span>
-                    {tempFac?.transportation_guy?.first_name} {tempFac?.transportation_guy?.last_name}
+                    {currentFactoreData?.transportation_guy?.first_name}{" "}
+                    {currentFactoreData?.transportation_guy?.last_name}
                   </span>
                 </div>
               )}
             </div>
-
-            <h6 className="font-semibold">محصولات</h6>
-            <section className="flex flex-col gap-3 mt-3 overflow-auto max-h-55">
-              {tempFac?.products?.map((product, idx) => (
-                <div
-                  key={idx}
-                  className="border rounded-lg border-gray-300 p-5 text-sm flex flex-wrap items-center gap-5 justify-between"
-                >
-                  <span>نام : {product.product.title}</span>
-                  <span>تعداد : {product?.count}</span>
-                  <span>قیمت واحد : {addCama(product?.price)}</span>
-                  <span>مالیات : {addCama(product?.tax)}</span>
-                  <span>تخفیف : {addCama(product?.discount)}</span>
-                  <span>قیمت کل : {addCama(product?.all_price)}</span>
-                </div>
-              ))}
-            </section>
+            {currentFactoreData?.products && (
+              <>
+                <h6 className="font-semibold">محصولات</h6>
+                <section className="flex flex-col gap-3 mt-3 overflow-auto max-h-55">
+                  {currentFactoreData?.products?.map((product, idx) => (
+                    <div
+                      key={idx}
+                      className="border rounded-lg border-gray-300 p-5 text-sm flex flex-wrap items-center gap-5 justify-between"
+                    >
+                      <span>نام : {product.product.title}</span>
+                      <span>تعداد : {product?.count}</span>
+                      <span>قیمت واحد : {addCama(product?.price)}</span>
+                      <span>مالیات : {addCama(product?.tax)}</span>
+                      <span>تخفیف : {addCama(product?.discount)}</span>
+                      <span>قیمت کل : {addCama(product?.all_price)}</span>
+                    </div>
+                  ))}
+                </section>
+              </>
+            )}
           </section>
         )}
 
