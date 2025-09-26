@@ -251,3 +251,13 @@ export interface IUser {
   updatedAt: string; // ISO date string
   __v: number;
 }
+
+
+export interface IDraft {
+  _id: string;
+  storage: IStorage;
+  factore: IBuyFactor | ISaleFactor;
+  status: string; // "pending" | "completed" | etc.
+  factore_type: string; // maybe "factore" | "saleback" | etc.
+  __v: number;
+}

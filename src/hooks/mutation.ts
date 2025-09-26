@@ -928,6 +928,24 @@ export const useCreateDraft = () => {
     },
   });
 };
+
+export const useUpdateDraft = () => {
+  return useMutation({
+    mutationFn: async ({ id, body }: { id: string; body: any }) => {
+      const response = await api.patch(`/draft/update/${id}`, body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ویرایش شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
 export const useDeleteDraft = () => {
   return useMutation({
     mutationFn: async (id: string) => {
