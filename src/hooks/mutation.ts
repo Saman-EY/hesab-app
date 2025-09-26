@@ -893,7 +893,6 @@ export const useCreateExchange = () => {
     },
   });
 };
-
 export const useUpdateExchange = () => {
   return useMutation({
     mutationFn: async (body: any) => {
@@ -907,6 +906,43 @@ export const useUpdateExchange = () => {
       console.error("Error creating user:", error);
       if (error.response.data.message) {
         toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+
+export const useCreateDraft = () => {
+  return useMutation({
+    mutationFn: async (body: any) => {
+      const response = await api.post("/draft/create", body);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("ثبت شد");
+    },
+    onError: (error: any) => {
+      console.error("Error creating user:", error);
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
+};
+export const useDeleteDraft = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/draft/delete/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("حذف شد");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting transfer:", error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("خطایی رخ داد");
       }
     },
   });

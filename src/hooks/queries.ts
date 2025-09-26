@@ -146,7 +146,7 @@ export const useGetAllProjectsQry = () => {
     staleTime: 1000 * 60 * 1, // 1 minute
   });
 };
-export const useGetAllSalesQry = () => {
+export const useGetAllSalesQry = (isEnable: boolean = true) => {
   return useQuery({
     queryKey: ["sales-list"],
     queryFn: async () => {
@@ -154,9 +154,10 @@ export const useGetAllSalesQry = () => {
       return data;
     },
     staleTime: 1000 * 60 * 1, // 1 minute
+    enabled: isEnable,
   });
 };
-export const useGetAllSalesReturnQry = () => {
+export const useGetAllSalesReturnQry = (isEnable: boolean = true) => {
   return useQuery({
     queryKey: ["sales-return-list"],
     queryFn: async () => {
@@ -164,9 +165,10 @@ export const useGetAllSalesReturnQry = () => {
       return data;
     },
     staleTime: 1000 * 60 * 1, // 1 minute
+    enabled: isEnable,
   });
 };
-export const useGetAllBuyQry = () => {
+export const useGetAllBuyQry = (isEnable: boolean = true) => {
   return useQuery({
     queryKey: ["buy-list"],
     queryFn: async () => {
@@ -174,9 +176,10 @@ export const useGetAllBuyQry = () => {
       return data;
     },
     staleTime: 1000 * 60 * 1, // 1 minute
+    enabled: isEnable,
   });
 };
-export const useGetAllBuyReturnQry = () => {
+export const useGetAllBuyReturnQry = (isEnable: boolean = true) => {
   return useQuery({
     queryKey: ["buy-return-list"],
     queryFn: async () => {
@@ -184,6 +187,7 @@ export const useGetAllBuyReturnQry = () => {
       return data;
     },
     staleTime: 1000 * 60 * 1, // 1 minute
+    enabled: isEnable,
   });
 };
 
@@ -205,7 +209,17 @@ export const useGetUsersQry = () => {
       const { data } = await api.get(`/user/all`);
       return data;
     },
-    staleTime: 1000 * 60 * 1, // 1 minute
+    staleTime: 1000 * 60 * 1,
   });
 };
 
+export const useGetDraftsQry = () => {
+  return useQuery({
+    queryKey: ["draft-list"],
+    queryFn: async () => {
+      const { data } = await api.get(`/draft/all`);
+      return data;
+    },
+    staleTime: 1000 * 60 * 1,
+  });
+};
