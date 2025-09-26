@@ -36,6 +36,7 @@ import AllUsers from "./pages/user-managment/AllUsers";
 import ExchangeRate from "./pages/exchange-rate/ExchangeRate";
 import CreateWarehouseReceipt from "./pages/storage/CreateWarehouseReceipt";
 import AllWarehouseReceipt from "./pages/storage/AllWarehouseReceipt";
+import ReportsPage from "./pages/reports/ReportsPage";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
         <Route path="/new-storage-receipt" element={<CreateWarehouseReceipt />} />
         <Route path="/all-storage-receipt" element={<AllWarehouseReceipt />} />
 
+        <Route path="/reports" element={<ReportsPage />} />
 
 
       </Route>

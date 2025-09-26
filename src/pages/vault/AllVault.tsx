@@ -27,9 +27,9 @@ function AllVault() {
               <th className="px-8 truncate">کد</th>
               <th className="px-8 truncate">اسم صندوق</th>
               <th className="px-8 truncate">توضیحات</th>
-              <th className="px-8 truncate">شماره سوییچ پرداخت</th>
-              <th className="px-8 truncate">شماره ترمینال پرداخت</th>
-              <th className="px-8 truncate">شماره پذیرنده فروشگاهی</th>
+              {/* <th className="px-8 truncate">شماره سوییچ پرداخت</th> */}
+              {/* <th className="px-8 truncate">شماره ترمینال پرداخت</th> */}
+              {/* <th className="px-8 truncate">شماره پذیرنده فروشگاهی</th> */}
             </tr>
           </thead>
           <tbody>
@@ -60,9 +60,9 @@ const Row = ({ item, idx }: { item: IVault; idx: number }) => {
         <td className="px-8 truncate">{item?.title || "-"}</td>
         <td className="px-8 truncate">{item?.description || "-"}</td>
 
-        <td className="px-8 truncate">{item?.switch_number_payment || "-"}</td>
-        <td className="px-8 truncate">{item?.terrminal_number_payment || "-"}</td>
-        <td className="px-8 truncate">{item?.shop_number || "-"}</td>
+        {/* <td className="px-8 truncate">{item?.switch_number_payment || "-"}</td> */}
+        {/* <td className="px-8 truncate">{item?.terrminal_number_payment || "-"}</td> */}
+        {/* <td className="px-8 truncate">{item?.shop_number || "-"}</td> */}
         <td className="flex flex-wrap gap-2 justify-center md:justify-start">
           <button
             onClick={() => setEditModal(true)}

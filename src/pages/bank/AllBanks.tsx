@@ -30,11 +30,11 @@ function AllBanks() {
               <th className="px-8 truncate">شماره حساب</th>
               <th className="px-8 truncate">شماره کارت</th>
               <th className="px-8 truncate">نام صاحب حساب</th>
-              <th className="px-8 truncate">شماره POS</th>
+              {/* <th className="px-8 truncate">شماره POS</th> */}
 
-              <th className="px-8 truncate">شماره سوییچ پرداخت</th>
-              <th className="px-8 truncate">شماره ترمینال پرداخت</th>
-              <th className="px-8 truncate">شماره پذیرنده فروشگاهی</th>
+              {/* <th className="px-8 truncate">شماره سوییچ پرداخت</th> */}
+              {/* <th className="px-8 truncate">شماره ترمینال پرداخت</th> */}
+              {/* <th className="px-8 truncate">شماره پذیرنده فروشگاهی</th> */}
             </tr>
           </thead>
           <tbody>
@@ -67,11 +67,11 @@ const Row = ({ item, idx }: { item: IBank; idx: number }) => {
         <td className="px-8 truncate">{item?.account_number || "-"}</td>
         <td className="px-8 truncate">{item?.cart_number || "-"}</td>
         <td className="px-8 truncate">{item?.account_user_name || "-"}</td>
-        <td className="px-8 truncate">{item?.pos_number || "-"}</td>
+        {/* <td className="px-8 truncate">{item?.pos_number || "-"}</td> */}
 
-        <td className="px-8 truncate">{item?.switch_number_payment || "-"}</td>
-        <td className="px-8 truncate">{item?.terrminal_number_payment || "-"}</td>
-        <td className="px-8 truncate">{item?.shop_number || "-"}</td>
+        {/* <td className="px-8 truncate">{item?.switch_number_payment || "-"}</td> */}
+        {/* <td className="px-8 truncate">{item?.terrminal_number_payment || "-"}</td> */}
+        {/* <td className="px-8 truncate">{item?.shop_number || "-"}</td> */}
         <td className="flex flex-wrap gap-2 justify-center md:justify-start">
           <button
             onClick={() => setEditModal(true)}
