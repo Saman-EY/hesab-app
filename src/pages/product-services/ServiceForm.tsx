@@ -7,125 +7,131 @@ import SelectInput from "../../components/SelectInput";
 import { taxTypeList } from "../../localDatas";
 
 interface FormProps {
-  initialData?: IProductAndService; // your type from earlier
-  onSubmit: (values: any) => void; // callback for create or update
-  isPending?: boolean;
+    initialData?: IProductAndService; // your type from earlier
+    onSubmit: (values: any) => void; // callback for create or update
+    isPending?: boolean;
 }
 
 const validationSchema = Yup.object({
-  title: Yup.string().required("الزامی است"),
-  product_code: Yup.string().required("الزامی است"),
-  sell_price: Yup.string().required("الزامی است"),
-  sell_description: Yup.string(),
-  // buy_price: Yup.string().required("الزامی است"),
-  // buy_description: Yup.string(),
-  // img: Yup.mixed().required("تصویر الزامی است"),
+    title: Yup.string().required("الزامی است"),
+    product_code: Yup.string().required("الزامی است"),
+    sell_price: Yup.string().required("الزامی است"),
+    sell_description: Yup.string(),
+    // buy_price: Yup.string().required("الزامی است"),
+    // buy_description: Yup.string(),
+    // img: Yup.mixed().required("تصویر الزامی است"),
 });
 
 function ServiceForm({ initialData, onSubmit, isPending }: FormProps) {
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      formik.setFieldValue("img", file); // <-- put file into formik
-    }
-  };
-
-  const handleRemoveImage = () => {
-    formik.setFieldValue("img", null);
-  };
-
-  const formik = useFormik({
-    initialValues: {
-      title: initialData?.title || "",
-      product_code: initialData?.product_code || "",
-      sell_price: initialData?.sell_price || "", //number
-      sell_description: initialData?.sell_description || "",
-      buy_price: initialData?.buy_price || "", //number
-      buy_description: initialData?.buy_description || "",
-      img: initialData?.img || null,
-    },
-    validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      const formData = new FormData();
-
-      Object.entries(values).forEach(([key, value]) => {
-        if (value !== null) {
-          formData.append(key, value as Blob | string);
+    const handleSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            formik.setFieldValue("img", file); // <-- put file into formik
         }
-      });
+    };
 
-      onSubmit(formData);
-      resetForm();
+    const handleRemoveImage = () => {
+        formik.setFieldValue("img", null);
+    };
 
-      // Log all formData entries for debugging
-      // for (const [key, value] of formData.entries()) {
-      //   console.log(key, value);
-      // }
-    },
-  });
+    const formik = useFormik({
+        initialValues: {
+            title: initialData?.title || "",
+            product_code: initialData?.product_code || "",
+            sell_price: initialData?.sell_price || "", //number
+            sell_description: initialData?.sell_description || "",
+            buy_price: initialData?.buy_price || "", //number
+            buy_description: initialData?.buy_description || "",
+            img: initialData?.img || null,
+        },
+        validationSchema,
+        onSubmit: (values, { resetForm }) => {
+            const formData = new FormData();
 
-  return (
-    <section className=" w-full max-w-4xl mx-auto">
-      <section className="flex flex-wrap justify-center items-start gap-10">
-        <div className="flex flex-col gap-5 mt-8">
-          {formik.values.img ? (
-            <img
-              className="size-40 rounded-xl object-cover border border-gray-200"
-              src={
-                formik.values.img && typeof formik.values.img !== "string"
-                  ? URL.createObjectURL(formik.values.img as Blob)
-                  : ""
-              }
-              alt=""
-            />
-          ) : (
-            <img className="size-40 rounded-xl object-cover" src="/service-form.png" alt="" />
-          )}
-          <div className="flex items-center gap-5 justify-center">
-            <button onClick={() => fileInputRef.current?.click()} className="text-xs text-sky-600">
-              انتخاب
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleSelectImage} className="hidden" />
-            </button>
-            <button onClick={handleRemoveImage} className="text-xs text-red-600">
-              حذف
-            </button>
-          </div>
-        </div>
+            Object.entries(values).forEach(([key, value]) => {
+                if (value !== null) {
+                    formData.append(key, value as Blob | string);
+                }
+            });
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto">
-          <TxtInput className="!col-span-2" formik={formik} name="title" label="عنوان خدمات" />
-          <TxtInput formik={formik} name="product_code" type="number" label="کد خدمات" />
-        </div>
+            onSubmit(formData);
+            resetForm();
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
-          <TxtInput formik={formik} name="sell_price" numberFormat placeholder="تومان" label="قیمت فروش" />
-          <TxtInput className="!col-span-2" formik={formik} name="sell_description" label="توضیحات فروش" />
-          {/* <TxtInput formik={formik} name="buy_price" numberFormat placeholder="تومان" label="قیمت خرید" /> */}
-          {/* <TxtInput className="!col-span-2" formik={formik} name="buy_description" label="توضیحات خرید" /> */}
-        </div>
+            // Log all formData entries for debugging
+            // for (const [key, value] of formData.entries()) {
+            //   console.log(key, value);
+            // }
+        },
+    });
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
-          <TxtInput formik={formik} numberFormat name="" label="مالیات فروش" />
-          <TxtInput formik={formik} numberFormat name="" label="مالیات خرید" />
-          <SelectInput options={taxTypeList} formik={formik} name="" label="نوع مالیات" />
+    return (
+        <section className=" w-full max-w-4xl mx-auto">
+            <section className="flex flex-wrap justify-center items-start gap-10">
+                <div className="flex flex-col gap-5 mt-8">
+                    {formik.values.img ? (
+                        <img
+                            className="size-40 rounded-xl object-cover border border-gray-200"
+                            src={
+                                formik.values.img && typeof formik.values.img !== "string"
+                                    ? URL.createObjectURL(formik.values.img as Blob)
+                                    : ""
+                            }
+                            alt=""
+                        />
+                    ) : (
+                        <img className="size-40 rounded-xl object-cover" src="/service-form.png" alt="" />
+                    )}
+                    <div className="flex items-center gap-5 justify-center">
+                        <button onClick={() => fileInputRef.current?.click()} className="text-xs text-sky-600">
+                            انتخاب
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleSelectImage}
+                                className="hidden"
+                            />
+                        </button>
+                        <button onClick={handleRemoveImage} className="text-xs text-red-600">
+                            حذف
+                        </button>
+                    </div>
+                </div>
 
-          <TxtInput formik={formik} numberFormat name="" label="کد مالیاتی" />
-          <TxtInput formik={formik} name="" label="واحد مالیاتی" />
-        </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto">
+                    <TxtInput className="!col-span-2" formik={formik} name="title" label="عنوان خدمات" />
+                    <TxtInput formik={formik} name="product_code" type="number" label="کد خدمات" />
+                </div>
 
-        <button
-          disabled={isPending}
-          onClick={() => formik.handleSubmit()}
-          type="submit"
-          className="btn md:col-span-2 bg-sky-600 text-white w-full max-w-80 md:max-w-none mx-auto"
-        >
-          ثبت
-        </button>
-      </section>
-    </section>
-  );
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
+                    <TxtInput formik={formik} name="sell_price" numberFormat placeholder="تومان" label="قیمت فروش" />
+                    <TxtInput className="!col-span-2" formik={formik} name="sell_description" label="توضیحات فروش" />
+                    {/* <TxtInput formik={formik} name="buy_price" numberFormat placeholder="تومان" label="قیمت خرید" /> */}
+                    {/* <TxtInput className="!col-span-2" formik={formik} name="buy_description" label="توضیحات خرید" /> */}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
+                    <TxtInput formik={formik} numberFormat name="" label="مالیات فروش" />
+                    <TxtInput formik={formik} numberFormat name="" label="مالیات خرید" />
+                    <SelectInput options={taxTypeList} formik={formik} name="" label="نوع مالیات" />
+
+                    <TxtInput formik={formik} numberFormat name="" label="کد مالیاتی" />
+                    <TxtInput formik={formik} name="" label="واحد مالیاتی" />
+                </div>
+
+                <button
+                    disabled={isPending}
+                    onClick={() => formik.handleSubmit()}
+                    type="submit"
+                    className="btn md:col-span-2 bg-sky-600 text-white w-full max-w-80 md:max-w-none mx-auto"
+                >
+                    ثبت
+                </button>
+            </section>
+        </section>
+    );
 }
 
 export default ServiceForm;

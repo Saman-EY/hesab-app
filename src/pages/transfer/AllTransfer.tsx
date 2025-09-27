@@ -82,7 +82,7 @@ const Row = ({ item, idx }: { item: ITransaction; idx: number }) => {
                     <button
                         onClick={() => setEditModal(true)}
                         className="size-8 flex items-center justify-center rounded bg-blue-100 hover:bg-blue-200"
-                    >d
+                    >
                         <img src="/edit-icon.png" alt="ویرایش" className="size-5" />
                     </button>
 
