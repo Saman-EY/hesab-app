@@ -16,13 +16,7 @@ interface FormProps {
 const validationSchema = Yup.object({
   title: Yup.string().required("الزامی است"),
   product_code: Yup.string().required("الزامی است"),
-  barcode: Yup.string().required("الزامی است"),
-  // sell_price: Yup.string().required("الزامی است"),
-  // sell_description: Yup.string().required("الزامی است"),
-  // buy_price: Yup.string().required("الزامی است"),
-  // buy_description: Yup.string().required("الزامی است"),
   stock: Yup.string().required("الزامی است"),
-  // img: Yup.mixed().required("تصویر الزامی است"),
 });
 
 function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
@@ -44,7 +38,6 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
     initialValues: {
       title: initialData?.title || "",
       product_code: initialData?.product_code || "",
-      barcode: initialData?.barcode || "",
       stock: initialData?.stock || "", // number
       sell_tax: initialData?.sell_tax || "", // number
       buy_tax: initialData?.buy_tax || "", // number
@@ -83,7 +76,7 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
   return (
     <section className=" w-full max-w-4xl mx-auto">
       <section className="flex flex-wrap justify-center gap-10">
-        <div className="flex flex-col gap-5 mt-12">
+        <div className="flex flex-col gap-5 mt-9">
           {!formik.values.img && initialData?.img ? (
             <img
               className="size-20 object-cover min-w-20"
@@ -116,12 +109,11 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto h-fit my-auto">
           {/* <TxtInput formik={formik} type="number" name="" label="کد حسابداری" /> */}
           <TxtInput formik={formik} name="stock" numberFormat label="موجودی کالا" />
-          <TxtInput className="!col-span-2" formik={formik} name="title" label="نام کالا" />
           <TxtInput formik={formik} name="product_code" label="کد کالا" />
-          <TxtInput formik={formik} placeholder="بارکدهای مختلف را با ; از هم جدا کنید." name="barcode" label="بارکد" />
+          <TxtInput className="!col-span-2" formik={formik} name="title" label="نام کالا" />
         </div>
 
         {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">

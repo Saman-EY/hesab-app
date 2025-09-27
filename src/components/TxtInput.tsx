@@ -85,7 +85,7 @@ const TxtInput = ({
             }
             formik.setFieldValue(name, value); // store clean digits/string
           }}
-          type={numberFormat ? "text" : type} // force text if formatting
+          type={numberFormat ? "number" : "text"} // force text if formatting
         />
       </label>
       {formik.errors[name] && formik.touched[name] && (

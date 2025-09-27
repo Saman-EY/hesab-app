@@ -15,7 +15,6 @@ interface FormProps {
 const validationSchema = Yup.object({
   title: Yup.string().required("الزامی است"),
   product_code: Yup.string().required("الزامی است"),
-  barcode: Yup.string().required("الزامی است"),
   sell_price: Yup.string().required("الزامی است"),
   sell_description: Yup.string(),
   // buy_price: Yup.string().required("الزامی است"),
@@ -41,7 +40,6 @@ function ServiceForm({ initialData, onSubmit, isPending }: FormProps) {
     initialValues: {
       title: initialData?.title || "",
       product_code: initialData?.product_code || "",
-      barcode: initialData?.barcode || "",
       sell_price: initialData?.sell_price || "", //number
       sell_description: initialData?.sell_description || "",
       buy_price: initialData?.buy_price || "", //number
@@ -99,7 +97,6 @@ function ServiceForm({ initialData, onSubmit, isPending }: FormProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5 w-full max-w-2xl mx-auto">
           <TxtInput className="!col-span-2" formik={formik} name="title" label="عنوان خدمات" />
           <TxtInput formik={formik} name="product_code" type="number" label="کد خدمات" />
-          <TxtInput formik={formik} placeholder="بارکدهای مختلف را با ; از هم جدا کنید." name="barcode" label="بارکد" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
