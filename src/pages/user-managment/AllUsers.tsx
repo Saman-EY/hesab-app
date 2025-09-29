@@ -13,7 +13,7 @@ function AllUsers() {
     // local states
     const [searchValue, setSearchValue] = useState("");
     const [page, setPage] = useState(1);
-    const pageSize = 1; // how many per page
+    const pageSize = 12; // how many per page
 
     const finalData: IUser[] = data?.users;
 
