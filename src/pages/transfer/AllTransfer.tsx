@@ -1,4 +1,4 @@
-import React, { useState, type SetStateAction } from "react";
+import React, { useMemo, useState, type SetStateAction } from "react";
 import LoadingList from "../../components/LoadingList";
 import { useGetAllTransfersQry } from "../../hooks/queries";
 import type { ITransaction } from "../../allTypes";
@@ -12,7 +12,27 @@ import { useCreateTransfer, useDeleteTransfer, useUpdateTransfer } from "../../h
 function AllTransfer() {
     const { data, isPending } = useGetAllTransfersQry();
 
+    // local states
+    const [searchValue, setSearchValue] = useState("");
+    const [page, setPage] = useState(1);
+    const pageSize = 12; // how many per page
+
     const finalData: ITransaction[] = data?.transfers;
+
+    // derived: filter by search
+    const filtered = useMemo(() => {
+        if (!searchValue) return finalData;
+        return finalData?.filter((c) =>
+            [c.price, c.project.title, c.number].join(" ").toLowerCase().includes(searchValue.toLowerCase())
+        );
+    }, [finalData, searchValue]);
+
+    // derived: paginate
+    const totalPages = Math.ceil(filtered?.length / pageSize);
+    const paginated = useMemo(() => {
+        const start = (page - 1) * pageSize;
+        return filtered?.slice(start, start + pageSize);
+    }, [filtered, page, pageSize]);
 
     if (isPending) {
         return <LoadingList />;
@@ -20,6 +40,18 @@ function AllTransfer() {
 
     return (
         <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
+            <div>
+                <input
+                    value={searchValue}
+                    onChange={(e) => {
+                        setSearchValue(e.target.value);
+                        setPage(1); // reset to first page when searching
+                    }}
+                    type="text"
+                    placeholder="جستجو..."
+                    className="border outline-0 text-sm border-gray-300 shadow mb-3 rounded px-2 py-1"
+                />
+            </div>
             <div className="overflow-x-auto min-w-[800px] border rounded-lg border-gray-300 p-4">
                 <table className="table table-xs ">
                     <thead>
@@ -36,12 +68,33 @@ function AllTransfer() {
                         </tr>
                     </thead>
                     <tbody>
-                        {finalData?.map((item, idx) => (
+                        {paginated?.map((item, idx) => (
                             <Row key={idx} idx={idx} item={item} />
                         ))}
                     </tbody>
                 </table>
             </div>
+            {/* paginate */}
+            <section className="flex items-center justify-center mt-5 gap-2 text-xs">
+                <button
+                    className="btn text-xs !py-2 h-fit text-white bg-blue-600 hover:bg-blue-400 "
+                    disabled={page === 1}
+                    onClick={() => setPage((p) => p - 1)}
+                >
+                    قبلی
+                </button>
+                <span className="text-sm">
+                    {page} از {totalPages}
+                </span>
+                <button
+                    className="btn text-white bg-blue-600 hover:bg-blue-400 px-3 text-xs !py-2 h-fit "
+                    disabled={page >= totalPages}
+                    // disabled={page === totalPages}
+                    onClick={() => setPage((p) => p + 1)}
+                >
+                    بعدی
+                </button>
+            </section>
         </section>
     );
 }

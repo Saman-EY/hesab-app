@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { IProductAndService } from "../../allTypes";
 import CustomModal from "../../components/CustomModal";
 import LoadingList from "../../components/LoadingList";
@@ -11,10 +11,29 @@ import { useQueryClient } from "@tanstack/react-query";
 import { noSpaces } from "../../tools";
 
 function AllProAndService() {
-    const [finalSearchValue, setFinalSearchValue] = useState("");
-    const { data, isPending } = useGetAllProAndServiceQry(finalSearchValue);
+    const { data, isPending } = useGetAllProAndServiceQry();
+
+    // local states
+    const [searchValue, setSearchValue] = useState("");
+    const [page, setPage] = useState(1);
+    const pageSize = 12; // how many per page
 
     const finalData: IProductAndService[] = data?.data;
+
+    // derived: filter by search
+    const filtered = useMemo(() => {
+        if (!searchValue) return finalData;
+        return finalData?.filter((c) =>
+            [c.barcode, c.buy_price, c.buy_tax, c.title].join(" ").toLowerCase().includes(searchValue.toLowerCase())
+        );
+    }, [finalData, searchValue]);
+
+    // derived: paginate
+    const totalPages = Math.ceil(filtered?.length / pageSize);
+    const paginated = useMemo(() => {
+        const start = (page - 1) * pageSize;
+        return filtered?.slice(start, start + pageSize);
+    }, [filtered, page, pageSize]);
 
     if (isPending) {
         return <LoadingList />;
@@ -22,7 +41,18 @@ function AllProAndService() {
 
     return (
         <section className="h-[86dvh] my-auto md:my-0 w-full border border-gray-300 rounded-lg shadow p-5 overflow-auto">
-            <SearchSec setFinalSearchValue={setFinalSearchValue} />
+            <div>
+                <input
+                    value={searchValue}
+                    onChange={(e) => {
+                        setSearchValue(e.target.value);
+                        setPage(1); // reset to first page when searching
+                    }}
+                    type="text"
+                    placeholder="جستجو..."
+                    className="border outline-0 text-sm border-gray-300 shadow mb-3 rounded px-2 py-1"
+                />
+            </div>
 
             <div className="overflow-x-auto min-w-[800px] border rounded-lg border-gray-300 p-4">
                 <table className="table table-xs ">
@@ -42,12 +72,33 @@ function AllProAndService() {
                         </tr>
                     </thead>
                     <tbody>
-                        {finalData?.map((item, idx) => (
+                        {paginated?.map((item, idx) => (
                             <Row idx={idx} item={item} key={idx} />
                         ))}
                     </tbody>
                 </table>
             </div>
+            {/* paginate */}
+            <section className="flex items-center justify-center mt-5 gap-2 text-xs">
+                <button
+                    className="btn text-xs !py-2 h-fit text-white bg-blue-600 hover:bg-blue-400 "
+                    disabled={page === 1}
+                    onClick={() => setPage((p) => p - 1)}
+                >
+                    قبلی
+                </button>
+                <span className="text-sm">
+                    {page} از {totalPages}
+                </span>
+                <button
+                    className="btn text-white bg-blue-600 hover:bg-blue-400 px-3 text-xs !py-2 h-fit "
+                    disabled={page >= totalPages}
+                    // disabled={page === totalPages}
+                    onClick={() => setPage((p) => p + 1)}
+                >
+                    بعدی
+                </button>
+            </section>
         </section>
     );
 }
@@ -170,42 +221,4 @@ const translate = (item: string) => {
         return "خدمات";
     }
     return item;
-};
-
-const SearchSec = ({ setFinalSearchValue }) => {
-    const [searchValue, setSearchValue] = useState("");
-
-    return (
-        <div className={`border mb-5 flex items-center gap-4 rounded-lg border-gray-300 py-2 px-2 w-full max-w-md`}>
-            <input
-                value={searchValue}
-                placeholder={"جستجو با بارکد محصول/خدمات"}
-                onInput={noSpaces}
-                onChange={(e) => {
-                    setSearchValue(e.target.value);
-                }}
-                className="w-[90%] outline-0 text-sm"
-                type={"text"} // force text if formatting
-            />
-            <button
-                onClick={() => setFinalSearchValue(searchValue)}
-                className="bg-blue-600 btn rounded px-2 py-2 text-white"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-5"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                    />
-                </svg>
-            </button>
-        </div>
-    );
 };

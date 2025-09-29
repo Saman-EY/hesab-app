@@ -14,7 +14,7 @@ function CustomersPage() {
     // local states
     const [searchValue, setSearchValue] = useState("");
     const [page, setPage] = useState(1);
-    const pageSize = 1; // how many per page
+    const pageSize = 12; // how many per page
 
     const finalData: ICustomer[] = data?.customers ?? [];
 
@@ -66,16 +66,12 @@ function CustomersPage() {
                     </thead>
                     <tbody>
                         {paginated.map((item, idx) => (
-                            <Row idx={idx + 1 + (page - 1) * pageSize} item={item} key={item.id} />
+                            <Row idx={idx + 1 + (page - 1) * pageSize} item={item} key={idx} />
                         ))}
                     </tbody>
-                    {/* <tbody>
-                        {finalData?.map((item, idx) => (
-                            <Row idx={idx} item={item} key={idx} />
-                        ))}
-                    </tbody> */}
                 </table>
             </div>
+            {/* paginate */}
             <section className="flex items-center justify-center mt-5 gap-2 text-xs">
                 <button
                     className="btn text-xs !py-2 h-fit text-white bg-blue-600 hover:bg-blue-400 "
@@ -89,7 +85,8 @@ function CustomersPage() {
                 </span>
                 <button
                     className="btn text-white bg-blue-600 hover:bg-blue-400 px-3 text-xs !py-2 h-fit "
-                    disabled={page === totalPages}
+                    disabled={page >= totalPages}
+                    
                     onClick={() => setPage((p) => p + 1)}
                 >
                     بعدی
