@@ -86,6 +86,11 @@ const Links = [
                 title: "پروژه ها",
                 path: "/projects-list",
             },
+            {
+                key: "categories",
+                title: "ثبت دسته بندی",
+                path: "/categories",
+            },
         ],
     },
     {

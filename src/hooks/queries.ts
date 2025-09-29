@@ -227,3 +227,23 @@ export const useGetDraftsQry = () => {
         staleTime: 1000 * 60 * 1,
     });
 };
+export const useGetCategoriesQry = () => {
+    return useQuery({
+        queryKey: ["categories-list"],
+        queryFn: async () => {
+            const { data } = await api.get(`/categories/category`);
+            return data;
+        },
+        staleTime: 1000 * 60 * 1,
+    });
+};
+// export const useGetSubCategoriesQry = () => {
+//     return useQuery({
+//         queryKey: ["categories-list"],
+//         queryFn: async () => {
+//             const { data } = await api.get(`/categories/subcategory`);
+//             return data;
+//         },
+//         staleTime: 1000 * 60 * 1,
+//     });
+// };
