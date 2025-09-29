@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
-import { useGetAllBuyReturnQry, useGetAllSalesReturnQry } from "../../hooks/queries";
+import { useGetAllBuyReturnQry } from "../../hooks/queries";
 import LoadingList from "../../components/LoadingList";
-import type { IBuyFactor, ISaleFactor } from "../../allTypes";
+import type { IBuyFactor } from "../../allTypes";
 import { FactoreDataTable } from "./AllBuyFactore";
 
 function AllBuyReturnFactore() {

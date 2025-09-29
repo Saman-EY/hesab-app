@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useGetAllBuyQry } from "../../hooks/queries";
 import LoadingList from "../../components/LoadingList";
-import type { IBuyFactor, ISaleFactor } from "../../allTypes";
+import type { IBuyFactor } from "../../allTypes";
 import { useQueryClient } from "@tanstack/react-query";
 import CustomModal from "../../components/CustomModal";
 import { addCama, convertToJalali, translateCurrency, translateStatus } from "../../tools";
