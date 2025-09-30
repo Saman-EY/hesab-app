@@ -118,12 +118,12 @@ const Row = ({ item, idx }: { item: IReceive; idx: number }) => {
                 <td>{item?.fee}</td>
                 <td>{item?.reference}</td>
                 <td className="flex flex-wrap gap-2 justify-center md:justify-start">
-                    {/* <button
+                    <button
                         onClick={() => setEditModal(true)}
                         className="size-8 flex items-center justify-center rounded bg-blue-100 hover:bg-blue-200"
                     >
                         <img src="/edit-icon.png" alt="ویرایش" className="size-5" />
-                    </button> */}
+                    </button>
 
                     <button
                         onClick={() => setDeleteModal(true)}
@@ -134,7 +134,7 @@ const Row = ({ item, idx }: { item: IReceive; idx: number }) => {
                 </td>
             </tr>
 
-            <CustomModal containerClass="!max-w-6xl" title="ویرایش" modal={editModal} setModal={setEditModal}>
+            <CustomModal containerClass="!max-w-6xl !max-h-[600px]" title="ویرایش" modal={editModal} setModal={setEditModal}>
                 <ReceiveForm
                     initialData={item}
                     onSubmit={(body) =>

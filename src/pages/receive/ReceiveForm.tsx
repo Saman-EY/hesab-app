@@ -34,13 +34,16 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
 
     const peopleList = data?.customers;
 
+    
+    const initialCustomers = initialData?.customers.map((item) => ({ customer: item.customer, price: item.price }));
+
     const formik = useFormik({
         initialValues: {
             date: initialData?.date || "",
             project: initialData?.project || "",
             receipt_kind: initialData?.receipt_kind || "",
             reference: initialData?.reference || "",
-            customers: [],
+            customers: initialCustomers || [],
             description: initialData?.description || "",
             fee: initialData?.fee || "", // number
             money: initialData?.money || "", // number
@@ -61,6 +64,9 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
         },
     });
 
+    console.log("**",  initialCustomers, formik.values);
+
+
     // Add row
     const addRow = () => {
         formik.setFieldValue("customers", [
@@ -77,8 +83,6 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
         const newItems = formik.values.customers.filter((_, i) => i !== index);
         formik.setFieldValue("customers", newItems);
     };
-
-    console.log(formik.values.customers);
 
     return (
         <form
@@ -144,6 +148,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                             className="mt-4"
                             name={`customers.${idx}.price`}
                             label="مبلغ"
+                            item={item.price}
                         />
                         <button
                             onClick={(e) => {

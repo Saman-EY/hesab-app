@@ -131,7 +131,9 @@ const Row = ({ item, idx }: { item: IProductAndService; idx: number }) => {
                     )}
                 </td>
                 <td>{item?.title || "-"}</td>
-                <td className="font-bold">{item?.category ? translate(item?.category) : "-"}</td>
+                <td className="font-bold">
+                    {typeof item.category === "string" ? translate(item.category) : item.category?.title}
+                </td>
                 <td>{item?.barcode || "-"}</td>
                 <td>{item?.sell_price || "-"}</td>
                 <td>{item?.sell_description || "-"}</td>
@@ -156,22 +158,7 @@ const Row = ({ item, idx }: { item: IProductAndService; idx: number }) => {
             </tr>
 
             <CustomModal containerClass="!max-w-6xl" title="ویرایش" modal={editModal} setModal={setEditModal}>
-                {item?.category === "product" ? (
-                    <ProductForm
-                        initialData={item}
-                        onSubmit={(body) =>
-                            updateProduct(
-                                { id: item._id, body },
-                                {
-                                    onSuccess: () => {
-                                        queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
-                                        setEditModal(false);
-                                    },
-                                }
-                            )
-                        }
-                    />
-                ) : (
+                {item?.category === "service" ? (
                     <ServiceForm
                         initialData={item}
                         onSubmit={(body) =>
@@ -186,19 +173,34 @@ const Row = ({ item, idx }: { item: IProductAndService; idx: number }) => {
                             )
                         }
                     />
+                ) : (
+                    <ProductForm
+                        initialData={item}
+                        onSubmit={(body) =>
+                            updateProduct(
+                                { id: item._id, body },
+                                {
+                                    onSuccess: () => {
+                                        queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
+                                        setEditModal(false);
+                                    },
+                                }
+                            )
+                        }
+                    />
                 )}
             </CustomModal>
             <CustomDeleteModal
                 onSubmit={() => {
-                    if (item?.category === "product") {
-                        deleteProduct(item._id, {
+                    if (item?.category === "service") {
+                        deleteService(item._id, {
                             onSuccess: () => {
                                 queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
                                 setDeleteModal(false);
                             },
                         });
                     } else {
-                        deleteService(item._id, {
+                        deleteProduct(item._id, {
                             onSuccess: () => {
                                 queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
                                 setDeleteModal(false);

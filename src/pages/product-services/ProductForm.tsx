@@ -30,7 +30,6 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
 
     const handleSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        console.log(e.target.files);
         if (file) {
             formik.setFieldValue("img", file); // <-- put file into formik
         }
@@ -75,7 +74,6 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
             const imageUrl = `${import.meta.env.VITE_BASE_URL}/${initialData.img}`;
             urlToFile(imageUrl, "current-image.jpg", "image/jpeg").then((file) => {
                 formik.setFieldValue("img", file); // now it's a File, same as user upload
-                console.log("**", imageUrl, file);
             });
         }
     }, [initialData]);
@@ -161,8 +159,6 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
 
                     <TxtInput className="!col-span-2" formik={formik} name="title" label="نام کالا" />
                 </div>
-
-              
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
                     <TxtInput formik={formik} numberFormat name="sell_tax" label="مالیات فروش" />

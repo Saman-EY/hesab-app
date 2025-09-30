@@ -235,7 +235,7 @@ const SelectProServices = ({
             ) : (
               <img className="size-10 rounded object-cover" src={`/product-form.png`} alt="" />
             )}
-            {item.category === "product" ? "محصول" : "خدمت"}: {item.title}
+            {item.title}
           </option>
         ))}
       </select>
