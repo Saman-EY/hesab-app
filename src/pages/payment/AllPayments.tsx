@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { IPayment, IReceive } from "../../allTypes";
+import type { IPayment } from "../../allTypes";
 import CustomDeleteModal from "../../components/CustomDeleteModal";
 import CustomModal from "../../components/CustomModal";
 import LoadingList from "../../components/LoadingList";

@@ -2,10 +2,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { IUser } from "../../allTypes";
 import LoadingList from "../../components/LoadingList";
 import { useGetUsersQry } from "../../hooks/queries";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { convertToJalali } from "../../tools";
 import CustomDeleteModal from "../../components/CustomDeleteModal";
 import { useDeleteUser, useUpdateUser } from "../../hooks/mutation";
+import CustomModal from "../../components/CustomModal";
+import { useFormik } from "formik";
+import SelectInput from "../../components/SelectInput";
 
 function AllUsers() {
     const { data, isPending } = useGetUsersQry();
@@ -96,11 +99,17 @@ function AllUsers() {
 export default AllUsers;
 
 const Row = ({ item, idx }: { item: IUser; idx: number }) => {
-    const { mutate } = useUpdateUser();
     const { mutate: deleteUser } = useDeleteUser();
     const queryClient = useQueryClient();
-    // const [currentStatus, setCurrentStatus] = useState(item?.status);
+    const [currentUser, setCurrentUser] = useState<any>("");
+    const [editModal, setEditModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+
+    useEffect(() => {
+        if (!editModal) {
+            setCurrentUser("");
+        }
+    }, [editModal]);
 
     return (
         <>
@@ -114,36 +123,20 @@ const Row = ({ item, idx }: { item: IUser; idx: number }) => {
                 </td>
 
                 <td className="flex flex-wrap gap-2 justify-center md:justify-end">
-                    {!item?.isOk && (
-                        <button
-                            onClick={() => {
-                                const body = {
-                                    isOk: true,
-                                };
+                    <button
+                        onClick={() => {
+                            setCurrentUser(item);
 
-                                mutate(
-                                    { id: item._id, body },
-                                    {
-                                        onSuccess: () => {
-                                            queryClient.invalidateQueries({ queryKey: ["users-list"] });
-                                        },
-                                    }
-                                );
-                            }}
-                            className="px-3 flex items-center justify-center rounded bg-blue-100 hover:bg-blue-200"
-                        >
-                            تایید کاربر
-                        </button>
-                    )}
+                            setEditModal(true);
+                        }}
+                        className="size-8 flex items-center justify-center rounded bg-blue-100 hover:bg-blue-200"
+                    >
+                        <img src="/edit-icon.png" alt="ویرایش" className="size-5" />
+                    </button>
 
                     <button
                         onClick={() => {
-                            deleteUser(item._id, {
-                                onSuccess: () => {
-                                    queryClient.invalidateQueries({ queryKey: ["users-list"] });
-                                    setDeleteModal(false);
-                                },
-                            });
+                            setDeleteModal(true);
                         }}
                         className="size-8 flex items-center justify-center rounded bg-red-100 hover:bg-red-200"
                     >
@@ -152,11 +145,15 @@ const Row = ({ item, idx }: { item: IUser; idx: number }) => {
                 </td>
             </tr>
 
+            <CustomModal containerClass="!max-w-lg" title="ویرایش" modal={editModal} setModal={setEditModal}>
+                <EditUser setEditModal={setEditModal} currentUser={currentUser} />
+            </CustomModal>
+
             <CustomDeleteModal
                 onSubmit={() =>
                     deleteUser(item._id, {
                         onSuccess: () => {
-                            queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+                            queryClient.invalidateQueries({ queryKey: ["users-list"] });
                             setDeleteModal(false);
                         },
                     })
@@ -165,6 +162,50 @@ const Row = ({ item, idx }: { item: IUser; idx: number }) => {
                 setModal={setDeleteModal}
             />
         </>
+    );
+};
+
+const EditUser = ({ currentUser, setEditModal }) => {
+    const { mutate } = useUpdateUser();
+    const queryClient = useQueryClient();
+
+    const formik = useFormik({
+        initialValues: {
+            isOk: currentUser?.isOk ? "true" : "false",
+            role: currentUser?.role,
+        },
+        onSubmit: (values, { resetForm }) => {
+            const body = {
+                ...values,
+                isOk: values.isOk === "true" ? true : false,
+            };
+
+            mutate(
+                { id: currentUser._id, body },
+                {
+                    onSuccess: () => {
+                        queryClient.invalidateQueries({ queryKey: ["users-list"] });
+                        setEditModal(false);
+                    },
+                }
+            );
+
+            resetForm();
+        },
+    });
+
+    return (
+        <section className="flex flex-col gap-5">
+            <SelectInput formik={formik} label="نقش کاربر" name="role" options={roles} />
+            <SelectInput formik={formik} label="وضعیت کاربر" name="isOk" options={status} />
+
+            <button
+                onClick={() => formik.handleSubmit()}
+                className="btn md:col-span-2 bg-sky-600 text-white w-full max-w-80 md:max-w-none mx-auto"
+            >
+                ثبت
+            </button>
+        </section>
     );
 };
 
@@ -182,3 +223,14 @@ const transaletRole = (role: string) => {
             return "کاربر";
     }
 };
+
+const roles = [
+    { title: "مدیر", value: "admin" },
+    { title: "حسابدار", value: "accountant" },
+    { title: "فروشنده", value: "Seller" },
+    { title: "کاربر", value: "user" },
+];
+const status = [
+    { title: "تایید شده", value: "true" },
+    { title: "رد شده", value: "false" },
+];

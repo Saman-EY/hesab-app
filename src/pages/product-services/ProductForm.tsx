@@ -162,12 +162,7 @@ function ProductForm({ initialData, onSubmit, isPending }: FormProps) {
                     <TxtInput className="!col-span-2" formik={formik} name="title" label="نام کالا" />
                 </div>
 
-                {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
-          <TxtInput formik={formik} numberFormat name="sell_price" placeholder="تومان" label="قیمت فروش" />
-          <TxtInput className="!col-span-2" formik={formik} name="sell_description" label="توضیحات فروش" />
-          <TxtInput formik={formik} name="buy_price" numberFormat placeholder="تومان" label="قیمت خرید" />
-          <TxtInput className="!col-span-2" formik={formik} name="buy_description" label="توضیحات خرید" />
-          </div> */}
+              
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5 w-full  mx-auto ">
                     <TxtInput formik={formik} numberFormat name="sell_tax" label="مالیات فروش" />
