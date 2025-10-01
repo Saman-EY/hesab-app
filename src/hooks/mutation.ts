@@ -20,7 +20,8 @@ export const useCreateUser = () => {
                 secure: true, // only https
                 sameSite: "strict", // CSRF protection
             });
-            navigate("/dashboard");
+            console.log("**", data.token)
+            window.location.replace("/dashboard");
         },
         onError: (error: any) => {
             console.error("Error creating user:", error);

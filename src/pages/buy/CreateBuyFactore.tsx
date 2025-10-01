@@ -94,6 +94,7 @@ function CreateBuyFactore() {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ["buy-list"] });
                     queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
+                    queryClient.invalidateQueries({ queryKey: ["customers-list"] });
                 },
             });
 

@@ -29,7 +29,6 @@ export const useGetUser = () => {
     return useQuery({
         queryKey: ["user"],
         queryFn: async () => {
-           
             const { data } = await api.get("/user");
             return data;
         },

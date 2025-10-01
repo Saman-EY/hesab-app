@@ -98,6 +98,7 @@ function CreateBuyReturnFactore() {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ["buy-return-list"] });
                     queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
+                    queryClient.invalidateQueries({ queryKey: ["customers-list"] });
                 },
             });
 

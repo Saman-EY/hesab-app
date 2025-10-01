@@ -98,6 +98,7 @@ function CreateSale() {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ["sales-list"] });
                     queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
+                    queryClient.invalidateQueries({ queryKey: ["customers-list"] });
                 },
             });
 

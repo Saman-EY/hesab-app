@@ -98,6 +98,7 @@ function CreateSalesReturn() {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ["sales-return-list"] });
                     queryClient.invalidateQueries({ queryKey: ["product-service-list"] });
+                    queryClient.invalidateQueries({ queryKey: ["customers-list"] });
                 },
             });
         },
