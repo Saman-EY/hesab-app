@@ -3,22 +3,27 @@ import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from "chart.js";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+export const BarChart1 = ({ reports }) => {
+    const buyFactoresCount = reports?.buy_factores?.length || 0;
+    const buyBackFactoresCount = reports?.buyback_factores?.length || 0;
+    const saleFactoresCount = reports?.sale_factores?.length || 0;
+    const saleBackFactoresCount = reports?.saleback_factores?.length || 0;
+    
 
+    console.log("ma reps", buyFactoresCount, buyBackFactoresCount);
 
-
-export const BarChart1 = () => {
     // Example data for factors
     const data = {
-        labels: ["فاکتور 1", "فاکتور 2", "فاکتور 3", "فاکتور 4"],
+        labels: ["فاکتور خرید", "فاکتور فروش"],
         datasets: [
             {
-                label: "فروش",
-                data: [120, 190, 30, 50],
+                label: "ارسال",
+                data: [buyFactoresCount, saleFactoresCount],
                 backgroundColor: "#36A2EB",
             },
             {
-                label: "برگشت فروش",
-                data: [20, 50, 10, 15],
+                label: "برگشت",
+                data: [buyBackFactoresCount, saleBackFactoresCount],
                 backgroundColor: "#FF6384",
             },
         ],
@@ -33,7 +38,7 @@ export const BarChart1 = () => {
             },
             title: {
                 display: true,
-                text: "Factors Overview",
+                text: "",
             },
         },
     };

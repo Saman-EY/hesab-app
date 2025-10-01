@@ -34,7 +34,6 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
 
     const peopleList = data?.customers;
 
-    
     const initialCustomers = initialData?.customers.map((item) => ({ customer: item.customer, price: item.price }));
 
     const formik = useFormik({
@@ -64,8 +63,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
         },
     });
 
-    console.log("**",  initialCustomers, formik.values);
-
+    console.log("**", initialCustomers, formik.values);
 
     // Add row
     const addRow = () => {
@@ -126,7 +124,6 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
             <TxtInput placeholder="تومان" type="number" formik={formik} name="fee" label="کارمزد خدمات بانکی" />
 
             {/* customer list */}
-
             <section className="flex flex-col col-span-full gap-3">
                 {formik.values.customers.map((item, idx) => (
                     <div key={idx} className="border relative pt-12 flex flex-col rounded-lg border-gray-300 p-5">
@@ -168,10 +165,67 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                         addRow();
                     }}
                     type="button"
-                    className="bg-green-600 text-white w-fit font-semibold text-sm px-4 py-2 rounded-md"
+                    className="bg-green-600 text-white w-fit font-semibold text-sm px-4 py-2 rounded-md mr-auto"
                 >
                     اضافه کردن شخص
                 </button>
+            </section>
+
+            {/* accounts list */}
+            <section className="flex flex-col col-span-full gap-3">
+                <div className="flex items-end gap-4 ">
+                    <SelectInput formik={formik} label="نوع حساب" name="" options={[]} />
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            // addRow();
+                        }}
+                        type="button"
+                        className="bg-yellow-500 text-white w-fit whitespace-nowrap font-semibold text-sm px-4 py-2 rounded-md"
+                    >
+                        اضافه کردن حساب
+                    </button>
+                </div>
+
+                {/* list */}
+                <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
+                    <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
+                        1
+                    </span>
+                    <SelectInput formik={formik} label="حساب" name="" className="" options={[]} />
+
+                    <TxtInput
+                        placeholder="تومان"
+                        type="number"
+                        formik={formik}
+                        className=""
+                        name={``}
+                        label="مبلغ"
+                    />
+                    <TxtInput
+                        type="text"
+                        formik={formik}
+                        className=""
+                        name={``}
+                        label="ارجاع"
+                    />
+                    <TxtInput
+                        type="number"
+                        formik={formik}
+                        className=""
+                        name={``}
+                        label="کارمزد"
+                    />
+                    {/* <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            removeRow(idx);
+                        }}
+                        className="btn bg-red-600 text-white text-xs px-2 py-2 h-fit mt-2 w-fit mr-auto"
+                    >
+                        حذف
+                    </button> */}
+                </div>
             </section>
 
             <button

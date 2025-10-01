@@ -237,13 +237,33 @@ export const useGetCategoriesQry = () => {
         staleTime: 1000 * 60 * 1,
     });
 };
-// export const useGetSubCategoriesQry = () => {
-//     return useQuery({
-//         queryKey: ["categories-list"],
-//         queryFn: async () => {
-//             const { data } = await api.get(`/categories/subcategory`);
-//             return data;
-//         },
-//         staleTime: 1000 * 60 * 1,
-//     });
-// };
+export const useGetReportsFactore = () => {
+    return useQuery({
+        queryKey: ["rep1-list"],
+        queryFn: async () => {
+            const { data } = await api.get(`/reports/factores`);
+            return data;
+        },
+        staleTime: 1000 * 60 * 1,
+    });
+};
+export const useGetReportsProducts = () => {
+    return useQuery({
+        queryKey: ["rep2-list"],
+        queryFn: async () => {
+            const { data } = await api.get(`/reports/product`);
+            return data;
+        },
+        staleTime: 1000 * 60 * 1,
+    });
+};
+export const useGetReportsCategory = () => {
+    return useQuery({
+        queryKey: ["rep3-list"],
+        queryFn: async () => {
+            const { data } = await api.get(`/reports/category`);
+            return data;
+        },
+        staleTime: 1000 * 60 * 1,
+    });
+};

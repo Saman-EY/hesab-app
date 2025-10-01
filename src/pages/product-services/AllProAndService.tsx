@@ -8,7 +8,6 @@ import ServiceForm from "./ServiceForm";
 import CustomDeleteModal from "../../components/CustomDeleteModal";
 import { useDeleteProduct, useDeleteService, useUpdateProduct, useUpdateService } from "../../hooks/mutation";
 import { useQueryClient } from "@tanstack/react-query";
-import { noSpaces } from "../../tools";
 
 function AllProAndService() {
     const { data, isPending } = useGetAllProAndServiceQry();
