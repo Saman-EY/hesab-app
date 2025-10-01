@@ -69,7 +69,6 @@ const ProductsTable = ({ data }) => {
 };
 
 const CategoryTable = ({ data }) => {
-    console.log(data);
 
     return (
         <section className="bg-white border border-gray-300  mt-4 rounded-lg p-5">

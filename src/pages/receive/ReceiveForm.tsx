@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
-import { jalaliToGregorian } from "../../tools";
+import { convertToJalali, jalaliToGregorian } from "../../tools";
 import type { ICustomer, IReceive } from "../../allTypes";
 import TxtInput from "../../components/TxtInput";
 import SelectInput from "../../components/SelectInput";
@@ -17,6 +17,7 @@ import {
     useGetAllProjectsQry,
     useGetAllVaultsQry,
 } from "../../hooks/queries";
+import moment from "moment-jalaali";
 
 interface FormProps {
     initialData?: IReceive; // your type from earlier
@@ -32,6 +33,11 @@ const validationSchema = Yup.object({
     description: Yup.string().required("الزامی است"),
     money: Yup.string().required("الزامی است"),
 });
+
+const customLocale = {
+    ...persian_fa,
+    digits: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], // force EN digits
+};
 
 function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
     const { data } = useGetAllCustomersQry();
@@ -49,8 +55,8 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
 
     const formik = useFormik({
         initialValues: {
-            date: initialData?.date || "",
-            project: initialData?.project || "",
+            date: moment(initialData?.date).format("jYYYY/jMM/jDD") || "",
+            project: initialData?.project._id || "",
             reference: initialData?.reference || "",
             customers: initialCustomers || [],
 
@@ -100,13 +106,15 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                 delete body.vaults;
             }
 
+            // console.log("*sub", body.date);
             onSubmit(body);
             resetForm();
         },
     });
 
+    // console.log("*", formik.values.date, moment(formik.values.date).format("jYYYY/jMM/jDD"));
+
     const currentAccountType = formik.values.accountType;
-    console.log("**", initialCustomers, formik.values);
 
     // Generic Add Row
     const addRow = <T extends object>(field: keyof typeof formik.values, defaultItem: T) => {
@@ -144,7 +152,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                         height: "38px",
                     }}
                     calendar={persian}
-                    locale={persian_fa}
+                    locale={customLocale}
                     calendarPosition="bottom-right"
                 />
                 {formik.errors.date && formik.touched.date && (

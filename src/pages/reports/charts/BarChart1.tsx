@@ -8,9 +8,6 @@ export const BarChart1 = ({ reports }) => {
     const buyBackFactoresCount = reports?.buyback_factores?.length || 0;
     const saleFactoresCount = reports?.sale_factores?.length || 0;
     const saleBackFactoresCount = reports?.saleback_factores?.length || 0;
-    
-
-    console.log("ma reps", buyFactoresCount, buyBackFactoresCount);
 
     // Example data for factors
     const data = {

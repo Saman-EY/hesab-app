@@ -17,6 +17,7 @@ import {
 import { jalaliToGregorian } from "../../tools";
 import { SelectUsers } from "../receive/ReceiveForm";
 import type { IPayment } from "../../allTypes";
+import moment from "moment-jalaali";
 
 interface FormProps {
     initialData?: IPayment; // your type from earlier
@@ -32,6 +33,11 @@ const validationSchema = Yup.object({
     description: Yup.string().required("الزامی است"),
     money: Yup.string().required("الزامی است"),
 });
+
+const customLocale = {
+    ...persian_fa,
+    digits: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], // force EN digits
+};
 
 function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
     const { data } = useGetAllCustomersQry();
@@ -49,7 +55,7 @@ function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
 
     const formik = useFormik({
         initialValues: {
-            date: initialData?.date || "",
+            date: moment(initialData?.date).format("jYYYY/jMM/jDD") || "",
             project: initialData?.project._id || "",
             reference: initialData?.reference || "",
             fee: initialData?.fee || null, // number
@@ -105,7 +111,6 @@ function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
     });
 
     const currentAccountType = formik.values.accountType;
-    console.log("**", initialCustomers, formik.values);
 
     // Generic Add Row
     const addRow = <T extends object>(field: keyof typeof formik.values, defaultItem: T) => {
@@ -143,7 +148,7 @@ function PaymentForm({ initialData, onSubmit, isPending }: FormProps) {
                         height: "38px",
                     }}
                     calendar={persian}
-                    locale={persian_fa}
+                    locale={customLocale}
                     calendarPosition="bottom-right"
                 />
                 {formik.errors.date && formik.touched.date && (

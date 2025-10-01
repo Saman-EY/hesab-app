@@ -3,22 +3,34 @@ import { api } from "../api";
 import Cookies from "js-cookie";
 
 // validate token
+// export const useGetUser = () => {
+//     return useQuery({
+//         queryKey: ["user"],
+//         queryFn: async () => {
+//             const token = Cookies.get("token");
+
+//             if (!token) {
+//                 throw new Error("No token found");
+//             }
+
+//             const { data } = await api.get("/user", {
+//                 headers: {
+//                     Authorization: `Bearer ${token}`,
+//                 },
+//             });
+
+//             return data;
+//         },
+//         retry: false,
+//     });
+// };
+// validate token
 export const useGetUser = () => {
     return useQuery({
         queryKey: ["user"],
         queryFn: async () => {
-            const token = Cookies.get("token");
-
-            if (!token) {
-                throw new Error("No token found");
-            }
-
-            const { data } = await api.get("/user", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
+           
+            const { data } = await api.get("/user");
             return data;
         },
         retry: false,

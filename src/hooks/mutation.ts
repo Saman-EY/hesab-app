@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../api";
+import { api, publicApi } from "../api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -9,7 +9,7 @@ export const useCreateUser = () => {
 
     return useMutation({
         mutationFn: async (body: { username: string; password: string; role: string }) => {
-            const response = await api.post("/user/login", body);
+            const response = await publicApi.post("/user/login", body);
             return response.data;
         },
         onSuccess: (data) => {
