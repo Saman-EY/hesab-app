@@ -222,17 +222,17 @@ const Row = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
                     {/* products */}
                     <h6 className="font-bold text-lg w-full mt-4">محصولات/خدمات</h6>
                     <section className="flex flex-col gap-4">
-                        {item?.products?.map((product, idx) => (
+                        {item?.products?.map((item, idx) => (
                             <div
                                 key={idx}
                                 className="border rounded-lg border-gray-300 p-5 flex items-center gap-5 justify-between"
                             >
-                                <span>نام : {product.product.title}</span>
-                                <span>تعداد : {product?.count}</span>
-                                <span>قیمت واحد : {addCama(product?.price)}</span>
-                                <span>مالیات : {addCama(product?.tax)}</span>
-                                <span>تخفیف : {addCama(product?.discount)}</span>
-                                <span>قیمت کل : {addCama(product?.all_price)}</span>
+                                <span>نام : {item.product?.title || item.service?.title}</span>
+                                <span>تعداد : {item?.count}</span>
+                                <span>قیمت واحد : {addCama(item?.price)}</span>
+                                <span>مالیات : {addCama(item?.tax)}</span>
+                                <span>تخفیف : {addCama(item?.discount)}</span>
+                                <span>قیمت کل : {addCama(item?.all_price)}</span>
                             </div>
                         ))}
                     </section>
@@ -357,17 +357,17 @@ const RowReturn = ({ item, idx }: { item: ISaleFactor; idx: number }) => {
                     {/* products */}
                     <h6 className="font-bold text-lg w-full mt-4">محصولات/خدمات</h6>
                     <section className="flex flex-col gap-4">
-                        {item?.products?.map((product, idx) => (
+                        {item?.products?.map((item, idx) => (
                             <div
                                 key={idx}
                                 className="border rounded-lg border-gray-300 p-5 flex items-center gap-5 justify-between"
                             >
-                                <span>نام : {product.product.title}</span>
-                                <span>تعداد : {product?.count}</span>
-                                <span>قیمت واحد : {addCama(product?.price)}</span>
-                                <span>مالیات : {addCama(product?.tax)}</span>
-                                <span>تخفیف : {addCama(product?.discount)}</span>
-                                <span>قیمت کل : {addCama(product?.all_price)}</span>
+                                <span>نام : {item.product?.title || item.service?.title}</span>
+                                <span>تعداد : {item?.count}</span>
+                                <span>قیمت واحد : {addCama(item?.price)}</span>
+                                <span>مالیات : {addCama(item?.tax)}</span>
+                                <span>تخفیف : {addCama(item?.discount)}</span>
+                                <span>قیمت کل : {addCama(item?.all_price)}</span>
                             </div>
                         ))}
                     </section>

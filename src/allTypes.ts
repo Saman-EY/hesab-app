@@ -198,7 +198,8 @@ export interface IProduct {
 
 export interface IProductItem {
     _id: string;
-    product: IProduct;
+    product?: IProduct;
+    service?: any;
     price: number;
     tax: number;
     all_price: number;
