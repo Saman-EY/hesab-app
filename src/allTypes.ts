@@ -58,12 +58,15 @@ export interface IPayment {
     price: number;
     reference: string;
     fee: number;
-    customer?: any;
+    customers?: any;
     description?: string;
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string
     __v: number;
     money?: string;
+    vaults?: any;
+    banks?: any;
+    funds?: any;
 }
 
 export interface IBank {

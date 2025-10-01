@@ -59,8 +59,6 @@ function AllReceives() {
                             <th>شماره</th>
                             <th>تاریخ</th>
                             <th>پروژه</th>
-                            <th>نوع دریافت</th>
-                            <th>قیمت</th>
                             <th>کارمزد بانک</th>
                             <th>ارجاع</th>
                         </tr>
@@ -113,8 +111,6 @@ const Row = ({ item, idx }: { item: IReceive; idx: number }) => {
                 <td>{item?.code}</td>
                 <td>{item.date ? convertToJalali(item.date) : ""}</td>
                 <td>{item?.project?.title}</td>
-                <td>{item?.receipt_kind}</td>
-                <td>{item?.price}</td>
                 <td>{item?.fee}</td>
                 <td>{item?.reference}</td>
                 <td className="flex flex-wrap gap-2 justify-center md:justify-start">

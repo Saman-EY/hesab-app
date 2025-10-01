@@ -59,8 +59,6 @@ function AllPayments() {
                             <th>شماره</th>
                             <th>تاریخ</th>
                             <th>پروژه</th>
-                            <th>نوع پرداخت</th>
-                            <th>قیمت</th>
                             <th>کارمزد بانک</th>
                             <th>ارجاع</th>
                         </tr>
@@ -113,8 +111,6 @@ const Row = ({ item, idx }: { item: IPayment; idx: number }) => {
                 <td>{item?.code}</td>
                 <td>{item.date ? convertToJalali(item.date) : ""}</td>
                 <td>{item?.project?.title}</td>
-                <td>{item?.payment_kind}</td>
-                <td>{item?.price}</td>
                 <td>{item?.fee}</td>
                 <td>{item?.reference}</td>
                 <td className="flex flex-wrap gap-2 justify-center md:justify-start">
@@ -134,7 +130,7 @@ const Row = ({ item, idx }: { item: IPayment; idx: number }) => {
                 </td>
             </tr>
 
-            <CustomModal containerClass="!max-w-6xl" title="ویرایش" modal={editModal} setModal={setEditModal}>
+            <CustomModal containerClass="!max-w-6xl !max-h-[600px]" title="ویرایش" modal={editModal} setModal={setEditModal}>
                 <PaymentForm
                     initialData={item}
                     onSubmit={(body) =>
@@ -142,7 +138,7 @@ const Row = ({ item, idx }: { item: IPayment; idx: number }) => {
                             { id: item._id, body },
                             {
                                 onSuccess: () => {
-                                    queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+                                    queryClient.invalidateQueries({ queryKey: ["payments-list"] });
                                     setEditModal(false);
                                 },
                             }
@@ -154,7 +150,7 @@ const Row = ({ item, idx }: { item: IPayment; idx: number }) => {
                 onSubmit={() =>
                     deleteReceive(item._id, {
                         onSuccess: () => {
-                            queryClient.invalidateQueries({ queryKey: ["receives-list"] });
+                            queryClient.invalidateQueries({ queryKey: ["payments-list"] });
                             setDeleteModal(false);
                         },
                     })

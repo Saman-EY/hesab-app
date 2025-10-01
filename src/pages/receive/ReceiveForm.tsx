@@ -27,7 +27,6 @@ interface FormProps {
 const validationSchema = Yup.object({
     date: Yup.string().required("الزامی است"),
     project: Yup.string().required("الزامی است"),
-    // receipt_kind: Yup.string().required("الزامی است"),
     reference: Yup.string().required("الزامی است"),
     fee: Yup.number().required("الزامی است"),
     description: Yup.string().required("الزامی است"),
@@ -52,7 +51,6 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
         initialValues: {
             date: initialData?.date || "",
             project: initialData?.project || "",
-            // receipt_kind: initialData?.receipt_kind || "",
             reference: initialData?.reference || "",
             customers: initialCustomers || [],
 
