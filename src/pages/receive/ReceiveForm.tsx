@@ -17,7 +17,6 @@ import {
     useGetAllProjectsQry,
     useGetAllVaultsQry,
 } from "../../hooks/queries";
-import { useEffect } from "react";
 
 interface FormProps {
     initialData?: IReceive; // your type from earlier
@@ -28,7 +27,7 @@ interface FormProps {
 const validationSchema = Yup.object({
     date: Yup.string().required("الزامی است"),
     project: Yup.string().required("الزامی است"),
-    receipt_kind: Yup.string().required("الزامی است"),
+    // receipt_kind: Yup.string().required("الزامی است"),
     reference: Yup.string().required("الزامی است"),
     fee: Yup.number().required("الزامی است"),
     description: Yup.string().required("الزامی است"),
@@ -53,7 +52,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
         initialValues: {
             date: initialData?.date || "",
             project: initialData?.project || "",
-            receipt_kind: initialData?.receipt_kind || "",
+            // receipt_kind: initialData?.receipt_kind || "",
             reference: initialData?.reference || "",
             customers: initialCustomers || [],
 
@@ -68,16 +67,41 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
         },
         validationSchema,
         onSubmit: (values, { resetForm }) => {
-            const { ...restValues } = values; // removes "type"
             const body = {
-                ...restValues,
+                ...values,
                 date: jalaliToGregorian(values.date),
                 fee: Number(values.fee),
                 customers: values.customers.map((c: any) => ({
                     ...c,
                     price: Number(c.price),
                 })),
+                banks: values.banks.map((c: any) => ({
+                    ...c,
+                    price: Number(c.price),
+                })),
+                vaults: values.vaults.map((c: any) => ({
+                    ...c,
+                    price: Number(c.price),
+                })),
+                funds: values.funds.map((c: any) => ({
+                    ...c,
+                    price: Number(c.price),
+                })),
             };
+
+            //@ts-expect-error any
+            delete body.accountType;
+
+            if (body.customers.length === 0) {
+                delete body.customers;
+            }
+            if (body.banks.length === 0) {
+                delete body.banks;
+            }
+            if (body.vaults.length === 0) {
+                delete body.vaults;
+            }
+
             onSubmit(body);
             resetForm();
         },
@@ -85,15 +109,6 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
 
     const currentAccountType = formik.values.accountType;
     console.log("**", initialCustomers, formik.values);
-
-    useEffect(() => {
-        if (!currentAccountType) return;
-
-        // Example: clear specific arrays when account type changes
-        formik.setFieldValue("banks", []);
-        formik.setFieldValue("funds", []);
-        formik.setFieldValue("vaults", []);
-    }, [currentAccountType]);
 
     // Generic Add Row
     const addRow = <T extends object>(field: keyof typeof formik.values, defaultItem: T) => {
@@ -141,9 +156,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
             <SelectInput withId options={projectsList} formik={formik} name="project" label="پروژه" />
             <TxtInput className="!col-span-2" formik={formik} name="description" label="شرح" />
 
-            <SelectInput options={receiveTypeList} formik={formik} name="receipt_kind" label="نوع دریافت" />
             <SelectInput options={currencyList} formik={formik} name="money" label="واحد پول" />
-            {/* <TxtInput placeholder="تومان" type="number" formik={formik} name="price" label="مبلغ" /> */}
             <TxtInput formik={formik} name="reference" label="ارجاع" />
             <TxtInput placeholder="تومان" type="number" formik={formik} name="fee" label="کارمزد خدمات بانکی" />
 
@@ -151,9 +164,6 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
             <section className="flex flex-col col-span-full gap-3">
                 {formik.values.customers.map((item, idx) => (
                     <div key={idx} className="border relative pt-12 flex flex-col rounded-lg border-gray-300 p-5">
-                        <span className="bg-green-600 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
-                            {idx + 1}
-                        </span>
                         <SelectUsers
                             item={item}
                             label=""
@@ -221,24 +231,20 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
 
                 {/* FUNDS LIST */}
                 {formik.values.funds.map((item, idx) => (
-                    <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
-                        <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
-                            {idx + 1}
-                        </span>
+                    <div className="border relative  grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
                         <SelectInput
-                            item={item}
+                            withId
                             name={`funds.${idx}.fund`}
                             formik={formik}
                             label="تنخواه گردان"
                             className=""
-                            options={[]}
+                            options={fundsList?.funds}
                         />
 
                         <TxtInput
                             placeholder="تومان"
                             type="number"
                             formik={formik}
-                            className=""
                             name={`funds.${idx}.price`}
                             item={item.price}
                             label="مبلغ"
@@ -256,17 +262,14 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                 ))}
                 {/* BANKS LIST */}
                 {formik.values.banks.map((item, idx) => (
-                    <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
-                        <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
-                            {idx + 1}
-                        </span>
+                    <div className="border relative grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
                         <SelectInput
-                            item={item}
                             name={`banks.${idx}.bank`}
                             formik={formik}
                             label="بانک"
                             className=""
-                            options={[]}
+                            options={banksList?.banks}
+                            withId
                         />
 
                         <TxtInput
@@ -291,16 +294,11 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                 ))}
                 {/* VAULTS LIST */}
                 {formik.values.vaults.map((item, idx) => (
-                    <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
-                        <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
-                            {idx + 1}
-                        </span>
+                    <div className="border relative  grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
                         <SelectInput
-                            item={item?.vault}
                             name={`vaults.${idx}.vault`}
                             formik={formik}
                             label="صندوق"
-                            className=""
                             options={vaultsList?.vaults}
                             withId
                         />

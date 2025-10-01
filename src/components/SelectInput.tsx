@@ -1,3 +1,4 @@
+import { getIn } from "formik";
 import { testArray } from "../localDatas";
 
 const SelectInput = ({
@@ -17,11 +18,13 @@ const SelectInput = ({
     withId?: boolean;
     item?: boolean;
 }) => {
+    const fieldValue = getIn(formik.values, name);
+
     return (
         <div className={`w-full mx-auto flex flex-col col-span-2 md:col-span-1 ${className}`}>
             <span className="text-sm mb-2 text-gray-700">{label}</span>
             <select
-                value={item ? item : formik.values[name]}
+                value={fieldValue || ""}
                 onChange={formik.handleChange}
                 name={name}
                 className="select !outline-0 !border border-gray-300 w-full bg-gray-100"
