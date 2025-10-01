@@ -45,6 +45,9 @@ export interface IReceive {
     __v: number;
     description?: string;
     customers?: any;
+    vaults?: any;
+    banks?: any;
+    funds?: any;
 }
 export interface IPayment {
     _id: string;

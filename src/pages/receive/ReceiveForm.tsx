@@ -10,7 +10,14 @@ import { currencyList, receiveTypeList } from "../../localDatas";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { useGetAllCustomersQry, useGetAllProjectsQry } from "../../hooks/queries";
+import {
+    useGetAllBanksQry,
+    useGetAllCustomersQry,
+    useGetAllFundsQry,
+    useGetAllProjectsQry,
+    useGetAllVaultsQry,
+} from "../../hooks/queries";
+import { useEffect } from "react";
 
 interface FormProps {
     initialData?: IReceive; // your type from earlier
@@ -31,10 +38,16 @@ const validationSchema = Yup.object({
 function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
     const { data } = useGetAllCustomersQry();
     const { data: projectsList } = useGetAllProjectsQry();
+    const { data: banksList } = useGetAllBanksQry();
+    const { data: fundsList } = useGetAllFundsQry();
+    const { data: vaultsList } = useGetAllVaultsQry();
 
     const peopleList = data?.customers;
 
     const initialCustomers = initialData?.customers.map((item) => ({ customer: item.customer, price: item.price }));
+    const initialVaults = initialData?.vaults.map((item) => ({ vault: item.vault, price: item.price }));
+    const initialBanks = initialData?.banks.map((item) => ({ bank: item.bank, price: item.price }));
+    const initialFunds = initialData?.funds.map((item) => ({ fund: item.fund, price: item.price }));
 
     const formik = useFormik({
         initialValues: {
@@ -43,14 +56,21 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
             receipt_kind: initialData?.receipt_kind || "",
             reference: initialData?.reference || "",
             customers: initialCustomers || [],
+
+            vaults: initialVaults || [],
+            banks: initialBanks || [],
+            funds: initialFunds || [],
+            accountType: "",
+
             description: initialData?.description || "",
             fee: initialData?.fee || "", // number
             money: initialData?.money || "", // number
         },
         validationSchema,
         onSubmit: (values, { resetForm }) => {
+            const { ...restValues } = values; // removes "type"
             const body = {
-                ...values,
+                ...restValues,
                 date: jalaliToGregorian(values.date),
                 fee: Number(values.fee),
                 customers: values.customers.map((c: any) => ({
@@ -63,23 +83,27 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
         },
     });
 
+    const currentAccountType = formik.values.accountType;
     console.log("**", initialCustomers, formik.values);
 
-    // Add row
-    const addRow = () => {
-        formik.setFieldValue("customers", [
-            ...formik.values.customers,
-            {
-                customer: "",
-                price: "",
-            },
-        ]);
+    useEffect(() => {
+        if (!currentAccountType) return;
+
+        // Example: clear specific arrays when account type changes
+        formik.setFieldValue("banks", []);
+        formik.setFieldValue("funds", []);
+        formik.setFieldValue("vaults", []);
+    }, [currentAccountType]);
+
+    // Generic Add Row
+    const addRow = <T extends object>(field: keyof typeof formik.values, defaultItem: T) => {
+        formik.setFieldValue(field, [...(formik.values[field] as T[]), defaultItem]);
     };
 
-    // Remove row
-    const removeRow = (index: number) => {
-        const newItems = formik.values.customers.filter((_, i) => i !== index);
-        formik.setFieldValue("customers", newItems);
+    // Generic Remove Row
+    const removeRow = (field: keyof typeof formik.values, index: number) => {
+        const newItems = (formik.values[field] as unknown[]).filter((_, i) => i !== index);
+        formik.setFieldValue(field, newItems);
     };
 
     return (
@@ -150,7 +174,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
-                                removeRow(idx);
+                                removeRow("customers", idx);
                             }}
                             className="btn bg-red-600 text-white text-xs px-2 py-2 h-fit mt-2 w-fit mr-auto"
                         >
@@ -162,7 +186,7 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
                 <button
                     onClick={(e) => {
                         e.preventDefault();
-                        addRow();
+                        addRow("customers", { customer: "", price: "" });
                     }}
                     type="button"
                     className="bg-green-600 text-white w-fit font-semibold text-sm px-4 py-2 rounded-md mr-auto"
@@ -174,58 +198,133 @@ function ReceiveForm({ initialData, onSubmit, isPending }: FormProps) {
             {/* accounts list */}
             <section className="flex flex-col col-span-full gap-3">
                 <div className="flex items-end gap-4 ">
-                    <SelectInput formik={formik} label="نوع حساب" name="" options={[]} />
+                    <SelectInput formik={formik} label="نوع حساب" name="accountType" options={accountsOption} />
                     <button
                         onClick={(e) => {
                             e.preventDefault();
-                            // addRow();
+                            if (currentAccountType === "fund") {
+                                addRow("funds", { fund: "", price: "" });
+                            } else if (currentAccountType === "bank") {
+                                addRow("banks", { bank: "", price: "" });
+                            } else if (currentAccountType === "vault") {
+                                addRow("vaults", { vault: "", price: "" });
+                            }
                         }}
                         type="button"
-                        className="bg-yellow-500 text-white w-fit whitespace-nowrap font-semibold text-sm px-4 py-2 rounded-md"
+                        className={` ${
+                            !currentAccountType ? "opacity-50 pointer-events-none" : ""
+                        }  bg-yellow-500 text-white w-fit whitespace-nowrap font-semibold text-sm px-4 py-2 rounded-md`}
                     >
                         اضافه کردن حساب
                     </button>
                 </div>
 
-                {/* list */}
-                <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
-                    <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
-                        1
-                    </span>
-                    <SelectInput formik={formik} label="حساب" name="" className="" options={[]} />
+                {/* FUNDS LIST */}
+                {formik.values.funds.map((item, idx) => (
+                    <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
+                        <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
+                            {idx + 1}
+                        </span>
+                        <SelectInput
+                            item={item}
+                            name={`funds.${idx}.fund`}
+                            formik={formik}
+                            label="تنخواه گردان"
+                            className=""
+                            options={[]}
+                        />
 
-                    <TxtInput
-                        placeholder="تومان"
-                        type="number"
-                        formik={formik}
-                        className=""
-                        name={``}
-                        label="مبلغ"
-                    />
-                    <TxtInput
-                        type="text"
-                        formik={formik}
-                        className=""
-                        name={``}
-                        label="ارجاع"
-                    />
-                    <TxtInput
-                        type="number"
-                        formik={formik}
-                        className=""
-                        name={``}
-                        label="کارمزد"
-                    />
-                    {/* <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            removeRow(idx);
-                        }}
-                        className="btn bg-red-600 text-white text-xs px-2 py-2 h-fit mt-2 w-fit mr-auto"
-                    >
-                        حذف
-                    </button> */}
-                </div>
+                        <TxtInput
+                            placeholder="تومان"
+                            type="number"
+                            formik={formik}
+                            className=""
+                            name={`funds.${idx}.price`}
+                            item={item.price}
+                            label="مبلغ"
+                        />
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                removeRow("funds", idx);
+                            }}
+                            className="btn bg-red-600 text-white text-xs px-2 py-2 h-fit mt-2 w-fit col-span-full mr-auto"
+                        >
+                            حذف
+                        </button>
+                    </div>
+                ))}
+                {/* BANKS LIST */}
+                {formik.values.banks.map((item, idx) => (
+                    <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
+                        <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
+                            {idx + 1}
+                        </span>
+                        <SelectInput
+                            item={item}
+                            name={`banks.${idx}.bank`}
+                            formik={formik}
+                            label="بانک"
+                            className=""
+                            options={[]}
+                        />
+
+                        <TxtInput
+                            placeholder="تومان"
+                            type="number"
+                            formik={formik}
+                            className=""
+                            name={`banks.${idx}.price`}
+                            item={item.price}
+                            label="مبلغ"
+                        />
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                removeRow("banks", idx);
+                            }}
+                            className="btn bg-red-600 text-white text-xs px-2 py-2 h-fit mt-2 w-fit col-span-full mr-auto"
+                        >
+                            حذف
+                        </button>
+                    </div>
+                ))}
+                {/* VAULTS LIST */}
+                {formik.values.vaults.map((item, idx) => (
+                    <div className="border relative pt-12 grid grid-cols-2 gap-4 rounded-lg border-gray-300 p-5">
+                        <span className="bg-yellow-500 absolute right-2 top-2 text-sm flex items-center justify-center text-white size-8 rounded-full">
+                            {idx + 1}
+                        </span>
+                        <SelectInput
+                            item={item?.vault}
+                            name={`vaults.${idx}.vault`}
+                            formik={formik}
+                            label="صندوق"
+                            className=""
+                            options={vaultsList?.vaults}
+                            withId
+                        />
+
+                        <TxtInput
+                            placeholder="تومان"
+                            type="number"
+                            formik={formik}
+                            className=""
+                            name={`vaults.${idx}.price`}
+                            item={item.price}
+                            label="مبلغ"
+                        />
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                removeRow("vaults", idx);
+                            }}
+                            className="btn bg-red-600 text-white text-xs px-2 py-2 h-fit mt-2 w-fit col-span-full mr-auto"
+                        >
+                            حذف
+                        </button>
+                    </div>
+                ))}
             </section>
 
             <button
@@ -280,3 +379,18 @@ export const SelectUsers = ({
         </div>
     );
 };
+
+const accountsOption = [
+    {
+        value: "fund",
+        title: "تنخواه گردان",
+    },
+    {
+        value: "bank",
+        title: "بانک",
+    },
+    {
+        value: "vault",
+        title: "صندوق",
+    },
+];
